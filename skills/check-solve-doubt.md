@@ -14,7 +14,6 @@ Closure workflow: [skills/product-owner.md](product-owner.md) Phase 2.
 
 - After PO approves closure and propagation work is done, **before** `git add` / `git commit`.
 - When the human wants confirmation that a doubt closure is complete.
-- After a `COD-PROPAGATION-STALE` failure from [skills/solid.md](solid.md), to verify remediation.
 
 **Example invocation:**
 
@@ -43,7 +42,7 @@ Doubt: D-008
    - Owning-block `doubts_and_resolutions/index.md` (dashboard row for this doubt — owning block only).
 5. Do **not** traverse week `history/` or load `superseded/` unless the human explicitly requests forensic traceability.
 
-## Vigente doubt resolution (checks 7–9)
+## Vigente doubt resolution (checks 6–8)
 
 Apply when reading a `Vigente doubt` cell or validating matrix consistency:
 
@@ -71,20 +70,19 @@ Run every check below. Record pass/fail per item.
 | 3 | `## Propagated to` exists and lists at least one SSOT or `decision-matrix.md` path when the decision is normative | `PROPAGATED-MISSING` |
 | 4 | Every path under `Propagated to` exists on disk | `PROPAGATED-INVALID-PATH` |
 | 5 | Staged or working-tree SSOT targets contain normative text, not pointer-only stubs or `see D-` / `Ver D-` delegation | `SSOT-POINTER` |
-| 6 | Each listed SSOT path modification time is **at or after** the doubt file modification time; each `Matrix` link target under `## Matrix impact` likewise | `PROPAGATION-STALE` |
-| 7 | For each `Vigente` row in this doubt's `## Matrix impact`, the linked block's `decision-matrix.md` has a matching `(element, event)` row pointing at this doubt (`D-XXX` local or `[owning-block/D-XXX](…)` cross-block) | `MATRIX-MISSING` |
-| 8 | No duplicate vigente row for the same `(element, event)` in any referenced matrix section | `MATRIX-COLLISION` |
-| 9 | Cross-block cells use qualified `[block/D-XXX](…)` links to `solved/` only, not bare `D-XXX`; acta exists in owning block `solved/` | `MATRIX-CROSS-BLOCK-FORMAT` |
-| 10 | `## Matrix impact` exists with correct columns when this closure updated any matrix row | `MATRIX-IMPACT-MISSING` |
-| 11 | Owning-block `index.md` dashboard lists this doubt under **Solved Issues** when file is in `solved/`; **no** dashboard row when file is in `superseded/` | `DASHBOARD-SYNC` |
-| 12 | **Supersede closure:** `history/` records supersede; superseded acta has `**Superseded by:**` or all-`Superseded by` `Matrix impact`; superseded rows appear as `Vigente` in successor `Matrix impact` where required by §2.1 | `SUPERSEDE-INCOMPLETE` |
-| 13 | **Archive (same session):** when D-XXX has no `Vigente` rows left in `Matrix impact`, file is in `superseded/`, removed from Solved dashboard, and **vigente inverse** holds: for every row, that block's `decision-matrix.md` cell resolves to a doubt **≠ D-XXX** | `ARCHIVE-INCOMPLETE` |
+| 6 | For each `Vigente` row in this doubt's `## Matrix impact`, the linked block's `decision-matrix.md` has a matching `(element, event)` row pointing at this doubt (`D-XXX` local or `[owning-block/D-XXX](…)` cross-block) | `MATRIX-MISSING` |
+| 7 | No duplicate vigente row for the same `(element, event)` in any referenced matrix section | `MATRIX-COLLISION` |
+| 8 | Cross-block cells use qualified `[block/D-XXX](…)` links to `solved/` only, not bare `D-XXX`; acta exists in owning block `solved/` | `MATRIX-CROSS-BLOCK-FORMAT` |
+| 9 | `## Matrix impact` exists with correct columns when this closure updated any matrix row | `MATRIX-IMPACT-MISSING` |
+| 10 | Owning-block `index.md` dashboard lists this doubt under **Solved Issues** when file is in `solved/`; **no** dashboard row when file is in `superseded/` | `DASHBOARD-SYNC` |
+| 11 | **Supersede closure:** `history/` records supersede; superseded acta has `**Superseded by:**` or all-`Superseded by` `Matrix impact`; superseded rows appear as `Vigente` in successor `Matrix impact` where required by §2.1 | `SUPERSEDE-INCOMPLETE` |
+| 12 | **Archive (same session):** when D-XXX has no `Vigente` rows left in `Matrix impact`, file is in `superseded/`, removed from Solved dashboard, and **vigente inverse** holds: for every row, that block's `decision-matrix.md` cell resolves to a doubt **≠ D-XXX** | `ARCHIVE-INCOMPLETE` |
 
 **Check 5 (normative content):** Verify the propagated files contain implementable rule text aligned with the doubt resolution — not only headings or links. This is a **semantic** check allowed here because the human requested closure verification.
 
-**Check 12:** Apply when closing a doubt that supersedes another.
+**Check 11:** Apply when closing a doubt that supersedes another.
 
-**Check 13:** Apply when the target doubt D-XXX was fully superseded in this session (all `Matrix impact` rows `Superseded by …`). Vigente inverse uses **decision-matrix.md** only — do not require the matrix cell to match the `Superseded by` doubt named in the acta.
+**Check 12:** Apply when the target doubt D-XXX was fully superseded in this session (all `Matrix impact` rows `Superseded by …`). Vigente inverse uses **decision-matrix.md** only — do not require the matrix cell to match the `Superseded by` doubt named in the acta.
 
 ## Response format
 
@@ -105,7 +103,7 @@ Report **only** in chat. Do **not** write `solid-principles-review-report.md` or
 
 ### Findings
 
-<empty or list with tags: DOUBT-CONTEXT-CHAIN, PROPAGATION-STALE, etc.>
+<empty or list with tags: DOUBT-CONTEXT-CHAIN, MATRIX-MISSING, etc.>
 
 ### Human action
 

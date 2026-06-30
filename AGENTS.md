@@ -155,7 +155,7 @@ Before any commit:
 
 1. Invoke [solid](skills/solid.md), which loads and executes **all** criteria in `pre-commit-validation-rules.md` (COD, SOLID, L4 ZC pseudocode mirror when applicable) **and** the skill-only propagation coherence check in that skill.
 2. Regenerate `## Current audit` in [solid-principles-review-report.md](5-governance/solid-principles-review-report.md) per that document.
-3. Abort the commit on `**STATUS:** KO` or any unresolved violation (including `COD-PROPAGATION-STALE` when declared propagation does not match updated SSOT/matrix artifacts).
+3. Abort the commit on `**STATUS:** KO` or any unresolved violation.
 
 Hook enforcement for the **audit report artifact** is documented in §8. L4 pseudocode mirror validation has **no automated hook** in this template — see §9.
 
