@@ -110,7 +110,7 @@ Apply when staged paths include any of:
 
 - Semantic verification that SSOT files actually contain complete normative text.
 - Verification that a vigente doubt file is fully self-contained.
-- Full supersede coherence and vigente inverse on archive — use [check-solve-doubt.md](../skills/check-solve-doubt.md) checks 12–13 before commit.
+- Full supersede coherence and vigente inverse on archive — use [check-solve-doubt.md](../skills/check-solve-doubt.md) checks 11–12 before commit.
 - Automated traversal of `history/` for traceability.
 
 Record violations under **Findings** with tag `COD-SSOT` or `COD-MATRIX` and affected paths.

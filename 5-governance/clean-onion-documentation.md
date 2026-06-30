@@ -207,7 +207,7 @@ A doubt is **not fully closed** until all of the following complete in the **sam
 |------|--------|
 | 1 | Record resolution and debate log in `solved/doubt-XXX.md` (historical acta). |
 | 2 | **Propagate** each normative decision to SSOT artifacts (entities, business-rules, use-cases as applicable). |
-| 3 | Add a **`## Propagated to`** section in the solved doubt (SSOT paths only — no duplicate normative tables). |
+| 3 | Add a **`## Propagated to`** section in the solved doubt (SSOT paths only — no duplicate normative tables). Navigational index for humans/agents; **not** a machine-verifiable propagation contract (closure gates: SSOT content, `Matrix impact`, and `decision-matrix.md`). |
 | 4 | Add **`## Matrix impact`** when any `decision-matrix.md` row is created or updated (see **Matrix impact** above). |
 | 5 | Update `decision-matrix.md` in every affected block (vigente row per `(element, event)` — use qualified links in non-owning blocks). |
 | 6 | Append a brief entry to `doubts_and_resolutions/history/` when a doubt supersedes or merges another (**mandatory** on supersede). |
