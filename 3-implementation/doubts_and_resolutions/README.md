@@ -20,3 +20,18 @@ Consult [index.md](index.md) in this folder to view the current status of all do
 **Solving:** Once resolved, move the file to `/solved/`, update the status in `index.md`, and move the row to the "Solved Issues" table.
 
 **Keep it clean:** Do not move files across these folders manually without updating the `index.md` dashboard.
+
+## Decision matrix
+
+This block maintains [decision-matrix.md](decision-matrix.md): vigente doubts indexed by **this block's elements only**.
+
+| Folder | Role |
+|--------|------|
+| `open/` | Active debate — one self-contained file per doubt |
+| `solved/` | Closed acta — not the sole copy of normative rules |
+| `decision-matrix.md` | Which `D-XXX` is vigente per `(element, event)` |
+| `history/` | Supersede/merge chain — forensic only; not loaded by default |
+
+On solve: propagate to SSOT + update matrix per [clean-onion-documentation.md](../../5-governance/clean-onion-documentation.md) §2.1.
+
+**Forbidden:** `see D-XXX` to expand doubt context. Use `superseded by D-XXX` when replacing a prior decision.
