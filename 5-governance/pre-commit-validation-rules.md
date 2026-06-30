@@ -42,7 +42,7 @@ For **non-commit** audits (ad-hoc review), respond in chat with:
 ## 3. Regeneration Workflow
 
 1. Review **staged** changes (`git diff --cached`).
-2. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4 (see §4, §4.1, and §4.2 below).
+2. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4 (see §4, §4.1, §4.2, and §4.3 below).
 3. Validate **SOLID** — at minimum **S** and **D** on staged changes (see §5 below).
 4. Validate **L4 ZC pseudocode mirror** when staged changes touch Critical Zones or their Layer 3 projections (see §6 below).
 5. Run `Get-Date -Format "yyyy-MM-ddTHH:mm:ss"` **once**, immediately before writing report headers.
@@ -60,8 +60,26 @@ Normative rules: [clean-onion-documentation.md](clean-onion-documentation.md) §
 | **Inward-only** | Layer N references only inner layers per the dependency matrix in §4 |
 | **No stack leakage** | Only Layer 3 may name concrete stacks; forbidden in Layers 1, 2, 4, and 5 |
 | **Fractal index** | Every `index.md` uses the same-level file catalog table per `clean-onion-documentation.md` §2 |
+| **Catalog bijection** | Each `index.md` file catalog row maps to exactly one **git-tracked** same-level `.md` (excluding `index.md`); no row without a tracked file; no tracked same-level `.md` omitted; no subdirectory paths in the catalog table |
 
-Record violations under **Findings** with `COD` and affected paths.
+Record violations under **Findings** with `COD`, `COD-INDEX`, or affected paths.
+
+### §4.3 File catalog bijection (hard gate)
+
+Normative rules: [clean-onion-documentation.md](clean-onion-documentation.md) §2 (catalog bijection bullet).
+
+Apply when staged paths include any `**/index.md` **or** when a same-level `.md` is added, removed, or renamed in a directory that has an `index.md`.
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **Row exists on disk** | Every file name in the `## File Catalog` table resolves to a `.md` file at the same path | `COD-INDEX` |
+| **Tracked in git** | Every cataloged `.md` is listed by `git ls-files` for that directory (not gitignored or deleted) | `COD-INDEX` |
+| **No omissions** | Every git-tracked same-level `.md` except `index.md` has exactly one catalog row | `COD-INDEX` |
+| **No directories** | No catalog row names a subdirectory (trailing `/` or path segment without `.md` extension) | `COD-INDEX` |
+
+**Auditor algorithm:** For each affected `index.md`, parse rows between `## File Catalog` and the next `##` heading; compare against `git ls-files --directory <dir>` filtered to `*.md` excluding `index.md`.
+
+Record violations under **Findings** with tag `COD-INDEX` and affected paths.
 
 ### §4.1 Intra-layer self-containment and decision matrix (hard gate)
 
@@ -211,7 +229,7 @@ Update [solid-principles-review-report.md](solid-principles-review-report.md) pe
 
 ### COD cross-check
 
-<inward-only + stack leakage + fractal index + §4.1 self-containment/matrix + §4.2 dashboard/README profiles when applicable per clean-onion-documentation.md §4>
+<inward-only + stack leakage + fractal index + catalog bijection §4.3 + §4.1 self-containment/matrix + §4.2 dashboard/README profiles when applicable per clean-onion-documentation.md §4>
 
 ### SOLID cross-check
 
