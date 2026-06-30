@@ -59,6 +59,8 @@ Maintain this table when adding agents or skills. Stubs are **redirect-only** â€
 | `skills/document.md` | `.cursor/skills/document/SKILL.md` | Documentation-only turns |
 | `skills/implement.md` | `.cursor/skills/implement/SKILL.md` | Atomic code changes |
 | `skills/product-owner.md` | `.cursor/skills/product-owner/SKILL.md` | PO debate and resolution |
+| `skills/refactor-doubts.md` | `.cursor/skills/refactor-doubts/SKILL.md` | Doubt overlap audit before closure |
+| `skills/check-solve-doubt.md` | `.cursor/skills/check-solve-doubt/SKILL.md` | Human closure audit for one doubt |
 | `skills/solid.md` | `.cursor/skills/solid/SKILL.md` | SOLID and coupling audit |
 
 When a new agent requires its own stub format, **update this table first**, then create stubs.

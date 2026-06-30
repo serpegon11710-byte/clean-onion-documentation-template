@@ -1,6 +1,6 @@
 # Doubts & Resolutions
 
-Manages questions and decisions for `diagrams-c4/`.
+Manages questions and decisions for `business-rules/`.
 
 ## Navigation
 
@@ -8,7 +8,7 @@ Use [index.md](index.md) as the dashboard for open and solved doubts.
 
 ## Decision matrix
 
-This block maintains [decision-matrix.md](decision-matrix.md): vigente doubts indexed by **this block's elements only**.
+This block maintains [decision-matrix.md](decision-matrix.md): vigente doubts indexed by **this block's elements only** (BR IDs).
 
 | Folder | Role |
 |--------|------|

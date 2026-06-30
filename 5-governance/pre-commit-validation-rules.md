@@ -1,6 +1,6 @@
 # Pre-Commit Validation Rules
 
-**Last updated:** 2026-06-29
+**Last updated:** 2026-06-30
 
 **Source of truth** for the pre-commit integrity contract (`AGENTS.md` §9), auditor behavior ([skills/solid.md](../skills/solid.md)), and all validation criteria executed before `git commit`.
 
@@ -42,7 +42,7 @@ For **non-commit** audits (ad-hoc review), respond in chat with:
 ## 3. Regeneration Workflow
 
 1. Review **staged** changes (`git diff --cached`).
-2. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4 (see §4 below).
+2. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4 and §2.1 (see §4 and §4.1 below).
 3. Validate **SOLID** — at minimum **S** and **D** on staged changes (see §5 below).
 4. Validate **L4 ZC pseudocode mirror** when staged changes touch Critical Zones or their Layer 3 projections (see §6 below).
 5. Run `Get-Date -Format "yyyy-MM-ddTHH:mm:ss"` **once**, immediately before writing report headers.
@@ -62,6 +62,34 @@ Normative rules: [clean-onion-documentation.md](clean-onion-documentation.md) §
 | **Fractal index** | Every `index.md` uses the same-level file catalog table per `clean-onion-documentation.md` §2 |
 
 Record violations under **Findings** with `COD` and affected paths.
+
+### §4.1 Intra-layer self-containment and decision matrix (hard gate)
+
+Normative rules: [clean-onion-documentation.md](clean-onion-documentation.md) §2.1.
+
+Apply when staged paths include any of:
+
+- `**/doubts_and_resolutions/**`
+- `**/logical-domain/entities/**`
+- `**/logical-domain/business-rules/**`
+- `**/use-cases/**`
+- `**/decision-matrix.md`
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **SSOT doubt pointers** | Staged SSOT files (`entities/**`, `business-rules/**`, `use-cases/**/README.md`) **must not** contain doubt-delegation patterns (`see D-`, `See doubt-`, `Ver D-`, case-insensitive) | `**STATUS:** KO` |
+| **Propagated to on solve** | Staged new or modified `doubts_and_resolutions/solved/doubt-*.md` with normative resolution content **must** include a `## Propagated to` section listing at least one SSOT or matrix path | `**STATUS:** KO` |
+| **Matrix on solve** | When a solved doubt is staged, staged changes **must** include the corresponding `decision-matrix.md` update in the owning block(s), or the matrix must already list the doubt as vigente for each impacted `(element, event)` | `**STATUS:** KO` |
+| **Matrix uniqueness** | Within each `## {element}` section of a staged `decision-matrix.md`, no duplicate `Event (brief)` row and no duplicate `Vigente doubt` claiming the same event | `**STATUS:** KO` |
+| **Doubt context chains** | Staged doubt files **must not** add `see D-` / `Ver D-` patterns for context expansion (supersede declarations are allowed) | `**STATUS:** KO` |
+
+**Out of scope for this gate (by design):**
+
+- Semantic verification that SSOT files actually contain complete normative text.
+- Verification that a vigente doubt file is fully self-contained.
+- Automated traversal of `history/` for traceability.
+
+Record violations under **Findings** with tag `COD-SSOT` or `COD-MATRIX` and affected paths.
 
 ---
 
@@ -160,7 +188,7 @@ Update [solid-principles-review-report.md](solid-principles-review-report.md) pe
 
 ### COD cross-check
 
-<inward-only + stack leakage + fractal index per clean-onion-documentation.md §4>
+<inward-only + stack leakage + fractal index + §4.1 self-containment/matrix when applicable per clean-onion-documentation.md §4>
 
 ### SOLID cross-check
 

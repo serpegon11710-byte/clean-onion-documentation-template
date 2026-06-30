@@ -90,6 +90,10 @@ All authoritative content lives in **one place per concern**. Adapters (`CLAUDE.
 | **Layer scope & navigation** | `{N-layer}/README.md` | Read when working inside that layer |
 | **Layer file catalog** | `{N-layer}/index.md` | **Mandatory** file discovery — never list-dir |
 | **Doubts dashboard** | `{N-layer}/doubts_and_resolutions/index.md` | Load when managing doubts |
+| **Decision matrix (vigente doubts)** | `{block}/doubts_and_resolutions/decision-matrix.md` | Load when closing doubts; scope by `## {element}` only |
+| **Intra-layer SSOT & decision matrix** | `5-governance/clean-onion-documentation.md` §2.1 | Load when closing doubts or editing entities/BR/UC normative files |
+| **Doubt overlap analysis** | `skills/refactor-doubts.md` | Invoke before PO closure when overlaps are suspected |
+| **Doubt closure verification** | `skills/check-solve-doubt.md` | Human invokes after closure, before commit |
 | **History map** | `{N-layer}/history/index.md` | Load when writing traceability logs |
 
 ### Navigation law (anti-scan)
@@ -134,6 +138,8 @@ Operational modes live in `skills/`. Load the file when invoked; do not infer ru
 | document | [skills/document.md](skills/document.md) | Documentation-only turns — no source code changes |
 | implement | [skills/implement.md](skills/implement.md) | Atomic code changes on approved tasks |
 | product-owner | [skills/product-owner.md](skills/product-owner.md) | PO debate and doubt resolution |
+| refactor-doubts | [skills/refactor-doubts.md](skills/refactor-doubts.md) | Audit overlapping open doubts before PO closure |
+| check-solve-doubt | [skills/check-solve-doubt.md](skills/check-solve-doubt.md) | Human-triggered closure audit for one doubt before commit |
 | solid | [skills/solid.md](skills/solid.md) | SOLID and Layer 5 decoupling audit |
 
 ---
@@ -144,9 +150,9 @@ Operational modes live in `skills/`. Load the file when invoked; do not infer ru
 
 Before any commit:
 
-1. Invoke [solid](skills/solid.md), which loads and executes **all** criteria in `pre-commit-validation-rules.md` (COD, SOLID, L4 ZC pseudocode mirror when applicable).
+1. Invoke [solid](skills/solid.md), which loads and executes **all** criteria in `pre-commit-validation-rules.md` (COD, SOLID, L4 ZC pseudocode mirror when applicable) **and** the skill-only propagation coherence check in that skill.
 2. Regenerate `## Current audit` in [solid-principles-review-report.md](5-governance/solid-principles-review-report.md) per that document.
-3. Abort the commit on `**STATUS:** KO` or any unresolved violation.
+3. Abort the commit on `**STATUS:** KO` or any unresolved violation (including `COD-PROPAGATION-STALE` when declared propagation does not match updated SSOT/matrix artifacts).
 
 Hook enforcement for the **audit report artifact** is documented in §8. L4 pseudocode mirror validation has **no automated hook** in this template — see §9.
 

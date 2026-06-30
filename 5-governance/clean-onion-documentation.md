@@ -1,6 +1,6 @@
 # Clean Onion Documentation (COD) Standard
 
-**Last updated:** 2026-06-29
+**Last updated:** 2026-06-30
 
 This cross-cutting policy defines the **directionality**, **isolation**, and **internal fractal structure** of all documentation layers within the repository. It complements the Agent Governance rules defined in `AGENTS.md`.
 
@@ -28,6 +28,7 @@ Every block or main folder within the layers must replicate this exact scheme:
 └── 📁 doubts_and_resolutions/   <-- Atomic management of doubts and FAQs.
     ├── 📄 README.md             <-- Strict protocol for opening/closing issues.
     ├── 📄 index.md              <-- Dashboard (Open vs. Solved doubts).
+    ├── 📄 decision-matrix.md    <-- Vigente decision index per block element type.
     ├── 📁 open/                 <-- Active tracking (work in progress).
     │   ├── 📄 doubt-001.md      <-- Isolated file exclusively for open doubt 001.
     │   └── 📄 doubt-002.md
@@ -45,6 +46,96 @@ Every block or main folder within the layers must replicate this exact scheme:
 - **`history/`:** Records modifications chronologically in fragmented files. The past is frozen and does not contaminate the active chat context.
 
 - **`doubts_and_resolutions/`:** Isolates issues in atomic format (one file per doubt). Active doubts live in **`open/`**; resolved ones are moved to **`solved/`**. The **`index.md`** dashboard must always stay in sync with both folders (Open Issues / Solved Issues tables). The AI only reads the specific doubt file it is working on, preventing cross-contamination. Files must never be moved between `open/` and `solved/` without updating `index.md`.
+
+- **`decision-matrix.md`:** Per-block index of vigente doubts by element and event. Updated on every normative doubt closure. See §2.1.
+
+### §2.1 Intra-layer self-containment and decision traceability
+
+**Problem addressed:** Normative domain knowledge must not fragment across `solved/` doubts, use cases, and entity stubs within the same layer. Layer isolation (outer → inner) does **not** justify scattering implementable rules inside Layer 1.
+
+#### SSOT normative artifacts
+
+Files that define **implementable** domain behavior (`logical-domain/entities/{entity}/README.md`, `logic.md`, `business-rules/**/BR-*.md`, `use-cases/UC-*/README.md`, and equivalent normative paths) **must**:
+
+- Contain the full rule text required to implement or review behavior **without** opening doubt files.
+- **Must not** reference doubt IDs for normative delegation (patterns such as `see D-`, `See doubt-`, `Ver D-`, or equivalent).
+- **Must not** use pointer-only stubs as sole content.
+
+Decision history is **not** normative. It is indexed separately (see **Decision matrix** below).
+
+#### Decision matrix (`decision-matrix.md`)
+
+Every fractal block that owns `doubts_and_resolutions/` **must** include `decision-matrix.md` alongside `index.md`.
+
+| Rule | Requirement |
+|------|-------------|
+| **Scope** | The matrix lists **only elements owned by this block** (e.g. a `use-cases/.../doubts_and_resolutions/decision-matrix.md` contains only `## UC-XX` sections; a `business-rules/...` matrix contains only `## BR-XX` sections). |
+| **Structure** | One `## {element-id}` heading per indexed element. Under each heading, a table with columns `Event (brief)` and `Vigente doubt`. |
+| **Uniqueness** | At most **one** vigente doubt per `(element, event)` pair within a block. |
+| **Role** | Operational index of **which doubt** currently explains a decision for an element. It does **not** replace SSOT normative files. |
+| **Historical chain** | Supersede and merge chains are **not** stored in the matrix. They live in `doubts_and_resolutions/history/` (append-only, brief). |
+
+**Matrix template (per element section):**
+
+```markdown
+## UC-02.03
+
+| Event (brief) | Vigente doubt |
+|---------------|---------------|
+| Sparse persist on materialized Edit | D-008 |
+```
+
+#### Doubt closure propagation contract
+
+A doubt is **not fully closed** until all of the following complete in the **same work session**:
+
+| Step | Action |
+|------|--------|
+| 1 | Record resolution and debate log in `solved/doubt-XXX.md` (historical acta). |
+| 2 | **Propagate** each normative decision to SSOT artifacts (entities, business-rules, use-cases as applicable). |
+| 3 | Add a **`## Propagated to`** section in the solved doubt (paths only — no duplicate normative tables). |
+| 4 | Update `decision-matrix.md` in every affected block (vigente row per `(element, event)`). |
+| 5 | Append a brief entry to `doubts_and_resolutions/history/` when a doubt supersedes or merges another. |
+| 6 | Update `doubts_and_resolutions/index.md` dashboard. |
+
+**Closure criterion:** No implementer should need to read **only** `solved/doubt-XXX.md` to build domain behavior.
+
+#### Cross-context collisions
+
+When closing a doubt in block A affects an element owned by block B (e.g. a UC doubt impacts a BR):
+
+1. **Do not close** until block B is consistent.
+2. Consult block B's `decision-matrix.md` for the affected `## {element}` section only.
+3. Resolve in block B's context:
+   - Target doubt still in **`open/`** → extend that open debate with merged context.
+   - Target doubt already in **`solved/`** → **supersede** with a new self-contained doubt in block B; do **not** rewrite closed acta files.
+4. Propagate SSOT in block B, update block B's matrix, then complete closure in block A.
+
+#### Doubt self-containment and inter-doubt rules
+
+| Allowed | Forbidden |
+|---------|-----------|
+| `superseded by D-XXX` when a prior decision is explicitly replaced | `see D-XXX` / `Ver D-XXX` to expand debate context |
+| Full problem, options, decision, and impact inside each doubt file | Chains of doubt-to-doubt reading as substitute for self-contained acta |
+
+Each doubt file (open or solved) **must** be readable on its own for the debate it records.
+
+#### Agent navigation: matrix vs history
+
+| Action | Default during debate / closure |
+|--------|----------------------------------|
+| Read `decision-matrix.md` | **Allowed** — only `## {element}` sections matching elements in current debate scope |
+| Read other matrix sections | **Forbidden** unless scope expands |
+| Traverse `doubts_and_resolutions/history/` week files to reconstruct traceability | **Forbidden** unless the human gives an **explicit** instruction (e.g. "investigate historical traceability for this event") |
+
+**Reading hierarchy:**
+
+```text
+Implement / explain domain     →  entities/ + business-rules/ + normative UC sections
+Actor flow and invocation      →  use-cases/UC-XX
+Which doubt explains a decision →  decision-matrix.md (scoped by element)
+Why a decision evolved (forensic) →  doubts history — human-authorized only
+```
 
 ## 3. Structured Hierarchy (Inside-Out)
 
