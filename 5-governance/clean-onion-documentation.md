@@ -42,6 +42,7 @@ Every block or main folder within the layers must replicate this exact scheme:
 
 - **`index.md` (Dynamic):** File catalog for the **current directory only**. The table lists exclusively `.md` files at the same path level (excluding `index.md` itself). Subdirectories are **not** listed — each child folder maintains its own `index.md`.
 - **`index.md` table contract (Mandatory):** Every `index.md` must include the file catalog table with header `| File name | Description |`. The table is **required even when empty** (header + separator, zero data rows). Placeholder or dummy rows are **forbidden**. An empty table renders correctly in GitHub, VS Code, and CommonMark parsers.
+- **`index.md` catalog bijection (Mandatory):** Each catalog row **must** name a `.md` file **tracked in git** at the same path level. Every tracked same-level `.md` except `index.md` **must** appear exactly once. Rows for missing, gitignored, or deleted files are **forbidden**. Subdirectory paths (e.g. `logical-domain/`) are **forbidden** in the file catalog table. On add/remove/rename of a same-level `.md`, update `index.md` in the **same commit**.
 
 - **`history/`:** Records modifications chronologically in fragmented files. The past is frozen and does not contaminate the active chat context.
 
