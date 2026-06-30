@@ -15,10 +15,11 @@ This block maintains [decision-matrix.md](decision-matrix.md): vigente doubts in
 | Folder | Role |
 |--------|------|
 | `open/` | Active debate — one self-contained file per doubt |
-| `solved/` | Closed acta — not the sole copy of normative rules |
-| `decision-matrix.md` | Which `D-XXX` is vigente per `(element, event)` |
+| `solved/` | Closed actas with operational vigente value |
+| `superseded/` | Fully superseded actas — forensic only; not in dashboard |
+| `decision-matrix.md` | Vigente doubt per entity `(element, event)` — local `D-XXX` or cross-block `[block/D-XXX](…/solved/…)` |
 | `history/` | Supersede/merge chain — forensic only; not loaded by default |
 
-On solve: propagate to SSOT + update matrix per [clean-onion-documentation.md](../../../5-governance/clean-onion-documentation.md) §2.1.
+On solve: propagate to SSOT + `## Matrix impact` + update matrices per [clean-onion-documentation.md](../../../5-governance/clean-onion-documentation.md) §2.1. Foreign doubts use qualified matrix links only (no dashboard row here).
 
-**Forbidden:** `see D-XXX` to expand doubt context. Use `superseded by D-XXX` when replacing a prior decision.
+**Forbidden:** `see D-XXX` to expand doubt context. Supersede via `**Superseded by:** {block}/D-YYY` and `Matrix impact` status updates.
