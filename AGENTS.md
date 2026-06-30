@@ -90,9 +90,9 @@ All authoritative content lives in **one place per concern**. Adapters (`CLAUDE.
 | **Layer scope & navigation** | `{N-layer}/README.md` | Read when working inside that layer |
 | **Layer file catalog** | `{N-layer}/index.md` | **Mandatory** file discovery — never list-dir |
 | **Doubts dashboard** | `{N-layer}/doubts_and_resolutions/index.md` | Load when managing doubts |
-| **Decision matrix (vigente doubts)** | `{block}/doubts_and_resolutions/decision-matrix.md` | Load when closing doubts; scope by `## {element}` only; resolve cross-block via `[block/D-XXX](…)` |
-| **Matrix impact (closure map)** | `## Matrix impact` in solved acta | Load when closing or superseding; operational SSOT of touched matrix rows |
-| **Superseded actas (forensic)** | `{block}/doubts_and_resolutions/superseded/` | Do not load unless human requests forensic traceability |
+| **Decision matrix (effective doubts)** | `{block}/doubts_and_resolutions/decision-matrix.md` | Load when closing doubts; scope by `## {element}` only; resolve cross-block via `[block/D-XXX](…)` |
+| **Matrix impact (closure map)** | `## Matrix impact` in solved record | Load when closing or superseding; operational SSOT of touched matrix rows |
+| **Superseded records (forensic)** | `{block}/doubts_and_resolutions/superseded/` | Do not load unless human requests forensic traceability |
 | **Intra-layer SSOT & decision matrix** | `5-governance/clean-onion-documentation.md` §2.1 | Load when closing doubts or editing entities/BR/UC normative files |
 | **Fractal index archetypes & doubts README profiles** | `5-governance/clean-onion-documentation.md` §2.2–§2.4 | Load when creating or editing `index.md` / `doubts_and_resolutions/README.md` |
 | **Doubt overlap analysis** | `skills/refactor-doubts.md` | Invoke before PO closure when overlaps are suspected |

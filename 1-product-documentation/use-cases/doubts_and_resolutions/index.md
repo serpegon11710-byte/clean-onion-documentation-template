@@ -1,11 +1,11 @@
-﻿# Doubt Dashboard - Use Cases
+# Doubt Dashboard - Use Cases
 
 ## File Catalog
 
 | File name | Description |
 |---|---|
 | `README.md` | Scope and operating rules for this folder. |
-| `decision-matrix.md` | Vigente decision index per UC element owned by this block. |
+| `decision-matrix.md` | Effective decision index per UC element owned by this block. |
 
 ## Open Issues
 

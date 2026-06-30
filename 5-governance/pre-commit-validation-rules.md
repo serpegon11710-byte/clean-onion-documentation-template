@@ -95,22 +95,22 @@ Apply when staged paths include any of:
 
 | Check | Rule | On failure |
 |-------|------|------------|
-| **SSOT doubt pointers** | Staged SSOT files (`entities/**`, `business-rules/**`, `use-cases/**/README.md`) **must not** contain doubt-delegation patterns (`see D-`, `See doubt-`, `Ver D-`, case-insensitive) | `**STATUS:** KO` |
+| **SSOT doubt pointers** | Staged SSOT files (`entities/**`, `business-rules/**`, `use-cases/**/README.md`) **must not** contain doubt-delegation patterns (`See D-`, `See doubt-`, case-insensitive) | `**STATUS:** KO` |
 | **Propagated to on solve** | Staged new or modified `doubts_and_resolutions/solved/doubt-*.md` with normative resolution content **must** include a `## Propagated to` section listing at least one SSOT or matrix path | `**STATUS:** KO` |
 | **Matrix impact on solve** | When a staged solved doubt is paired with staged `decision-matrix.md` changes, the solved doubt **must** include `## Matrix impact` with columns `Block`, `Element`, `Event (brief)`, `Matrix`, `Status` | `**STATUS:** KO` |
-| **Matrix on solve** | When a solved doubt is staged, staged changes **must** include the corresponding `decision-matrix.md` update in each affected block, or each matrix must already list the doubt as vigente for each impacted `(element, event)` per §2.1 format | `**STATUS:** KO` |
-| **Matrix cross-block format** | In staged `decision-matrix.md`, a bare `D-XXX` vigente cell in block B requires `B/doubts_and_resolutions/solved/doubt-XXX.md` to exist. Cross-block vigente **must** use `[block/D-XXX](…)` with link target under the owning block's `solved/` (never `superseded/`) | `**STATUS:** KO` |
-| **Matrix uniqueness** | Within each `## {element}` section of a staged `decision-matrix.md`, no duplicate `Event (brief)` row and no duplicate `Vigente doubt` claiming the same event | `**STATUS:** KO` |
-| **Archive on full supersede** | When a staged supersede leaves a doubt with no `Vigente` rows in `## Matrix impact`, the acta **must** move to `superseded/` in the same staged changeset and its Solved dashboard row **must** be removed | `**STATUS:** KO` |
-| **Vigente inverse on archive** | For each row in a fully superseded doubt's `Matrix impact`, the referenced block's staged `decision-matrix.md` cell for that `(element, event)` must **not** resolve to the archived doubt ID | `**STATUS:** KO` |
-| **Supersede header** | Staged superseded acta may add only `**Superseded by:** {block}/D-YYY` at the top plus `Matrix impact` status updates — no other rewrites of closed debate body | `**STATUS:** KO` if debate body was rewritten |
-| **Doubt context chains** | Staged doubt files **must not** add `see D-` / `Ver D-` patterns for context expansion (supersede declarations and `Matrix impact` status are allowed) | `**STATUS:** KO` |
+| **Matrix on solve** | When a solved doubt is staged, staged changes **must** include the corresponding `decision-matrix.md` update in each affected block, or each matrix must already list the doubt as effective for each impacted `(element, event)` per §2.1 format | `**STATUS:** KO` |
+| **Matrix cross-block format** | In staged `decision-matrix.md`, a bare `D-XXX` effective cell in block B requires `B/doubts_and_resolutions/solved/doubt-XXX.md` to exist. Cross-block effective **must** use `[block/D-XXX](…)` with link target under the owning block's `solved/` (never `superseded/`) | `**STATUS:** KO` |
+| **Matrix uniqueness** | Within each `## {element}` section of a staged `decision-matrix.md`, no duplicate `Event (brief)` row and no duplicate `Effective doubt` claiming the same event | `**STATUS:** KO` |
+| **Archive on full supersede** | When a staged supersede leaves a doubt with no `Effective` rows in `## Matrix impact`, the record **must** move to `superseded/` in the same staged changeset and its Solved dashboard row **must** be removed | `**STATUS:** KO` |
+| **Effective inverse on archive** | For each row in a fully superseded doubt's `Matrix impact`, the referenced block's staged `decision-matrix.md` cell for that `(element, event)` must **not** resolve to the archived doubt ID | `**STATUS:** KO` |
+| **Supersede header** | Staged superseded record may add only `**Superseded by:** {block}/D-YYY` at the top plus `Matrix impact` status updates — no other rewrites of closed debate body | `**STATUS:** KO` if debate body was rewritten |
+| **Doubt context chains** | Staged doubt files **must not** add `See D-` patterns for context expansion (supersede declarations and `Matrix impact` status are allowed) | `**STATUS:** KO` |
 
 **Out of scope for this gate (by design):**
 
 - Semantic verification that SSOT files actually contain complete normative text.
-- Verification that a vigente doubt file is fully self-contained.
-- Full supersede coherence and vigente inverse on archive — use [check-solve-doubt.md](../skills/check-solve-doubt.md) checks 11–12 before commit.
+- Verification that a self-contained doubt file is fully self-contained.
+- Full supersede coherence and effective inverse on archive — use [check-solve-doubt.md](../skills/check-solve-doubt.md) checks 11–12 before commit.
 - Automated traversal of `history/` for traceability.
 
 Record violations under **Findings** with tag `COD-SSOT` or `COD-MATRIX` and affected paths.

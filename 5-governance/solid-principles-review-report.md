@@ -1,4 +1,4 @@
-﻿# SOLID & COD Pre-Commit Audit Report
+# SOLID & COD Pre-Commit Audit Report
 
 > **Usage and functionality:** documented in [README.md](README.md) (this layer).  
 > Regenerate **only** the `## Current audit` section below before each commit ([pre-commit-validation-rules.md](pre-commit-validation-rules.md)).
@@ -7,12 +7,12 @@
 
 ## Current audit
 
-**Audit completed:** 2026-06-30T21:50:39
+**Audit completed:** 2026-07-01T00:00:53
 **STATUS:** PASS
 
 ### Scope of last audit
 
-Remove `PROPAGATION-STALE` / `COD-PROPAGATION-STALE` mtime checks (false positives when solved acta saved after SSOT). Drop check-solve-doubt check 6 and solid.md propagation coherence block; renumber checks; COD §2.1 note that `Propagated to` is navigational only.
+Replace Spanglish `vigente` with English `active` across COD doubt terminology: `clean-onion-documentation.md` §2.1, `pre-commit-validation-rules.md`, `AGENTS.md`, skills (`check-solve-doubt.md`, `product-owner.md`), and all layer `doubts_and_resolutions/` README, index, and decision-matrix templates.
 
 ### Findings
 
@@ -20,15 +20,16 @@ No violations.
 
 ### COD cross-check
 
-- **Inward-only:** Governance and skills paths only.
-- **No stack leakage:** Documentation-only changes.
-- **§4.1:** Unchanged hard gates; mtime propagation removed from skill-only path.
-- **§4.2:** Not triggered.
+- **Inward-only:** Governance, skills, and outer-layer doubt block docs only; no inner-layer SSOT edits.
+- **No stack leakage:** Documentation-only terminology alignment.
+- **§4.1:** No staged solved records or matrix row changes; column label `Active doubt` and status `Active` consistent with §2.1.
+- **§4.2:** Staged README/index files retain dashboard profiles and Decision matrix sections; footer parity unchanged.
+- **§4.3:** Not triggered — no catalog row add/remove/rename.
 
 ### SOLID cross-check
 
-- **S:** Propagation verification separated from filesystem mtime heuristic.
-- **D:** Closure gates remain matrix + semantic SSOT checks.
+- **S:** Terminology change scoped to documentation labels and prose; no mixed concerns introduced.
+- **D:** No new cross-layer coupling.
 
 ### L4 ZC pseudocode mirror cross-check
 

@@ -28,14 +28,14 @@ Every block or main folder within the layers must replicate this exact scheme:
 └── 📁 doubts_and_resolutions/   <-- Atomic management of doubts and FAQs.
     ├── 📄 README.md             <-- Strict protocol for opening/closing issues.
     ├── 📄 index.md              <-- Dashboard (Open vs. Solved doubts).
-    ├── 📄 decision-matrix.md    <-- Vigente decision index per block element type.
+    ├── 📄 decision-matrix.md    <-- Effective decision index per block element type.
     ├── 📁 open/                 <-- Active tracking (work in progress).
     │   ├── 📄 doubt-001.md      <-- Isolated file exclusively for open doubt 001.
     │   └── 📄 doubt-002.md
-    ├── 📁 solved/               <-- Closed actas with operational vigente value.
+    ├── 📁 solved/               <-- Closed records with operational value.
     │   └── 📄 doubt-000.md      <-- Resolved doubt moved from open/.
-    └── 📁 superseded/           <-- Fully superseded actas (forensic only).
-        └── 📄 doubt-000.md      <-- Archived from solved/ when no longer vigente.
+    └── 📁 superseded/           <-- Fully superseded records (forensic only).
+        └── 📄 doubt-000.md      <-- Archived from solved/ when no longer effective.
 
 ```
 ### Fractal Component Specification:
@@ -48,9 +48,9 @@ Every block or main folder within the layers must replicate this exact scheme:
 
 - **`history/`:** Records modifications chronologically in fragmented files. The past is frozen and does not contaminate the active chat context.
 
-- **`doubts_and_resolutions/`:** Isolates issues in atomic format (one file per doubt). Active doubts live in **`open/`**; closed actas with operational value in **`solved/`**; fully superseded actas in **`superseded/`** (forensic only — agents do not load without explicit human instruction). The **`index.md`** dashboard tracks **`open/`** and **`solved/`** only (`Open Issues` / `Solved Issues` — **no** `Superseded Issues` table). Files must not move between `open/`, `solved/`, and `superseded/` without the matching dashboard update (remove Solved row when archiving to `superseded/`).
+- **`doubts_and_resolutions/`:** Isolates issues in atomic format (one file per doubt). Open doubts live in **`open/`**; closed records with operational value in **`solved/`**; fully superseded records in **`superseded/`** (forensic only — agents do not load without explicit human instruction). The **`index.md`** dashboard tracks **`open/`** and **`solved/`** only (`Open Issues` / `Solved Issues` — **no** `Superseded Issues` table). Files must not move between `open/`, `solved/`, and `superseded/` without the matching dashboard update (remove Solved row when archiving to `superseded/`).
 
-- **`decision-matrix.md`:** Per-block index of vigente doubts by element and event. Updated on every normative doubt closure. See §2.1.
+- **`decision-matrix.md`:** Per-block index of effective doubts by element and event. Updated on every normative doubt closure. See §2.1.
 
 ### §2.2 `index.md` heading archetypes
 
@@ -76,6 +76,12 @@ Two profiles are allowed. Operational how-to **must not** appear without `## Dec
 **Minimal profile — mechanical steps:** Do not duplicate long how-to text. After `## Navigation`, state that open/solve file moves and dashboard rows are defined in the **footer** of [index.md](index.md) in the same folder. Normative closure remains §2.1 + matrix.
 
 **Enriched profile:** Full mechanical how-to may live in the README. The doubt dashboard footer (§2.4) stays identical across all blocks for agents that load only `index.md`.
+
+**Canonical `Forbidden` line (copy verbatim into every `doubts_and_resolutions/README.md`):**
+
+```markdown
+**Forbidden:** `See D-XXX` to expand doubt context. Supersede via `**Superseded by:** {block}/D-YYY` and `Matrix impact` status updates; archive to `superseded/` when fully superseded (same session).
+```
 
 ### §2.4 Doubt dashboard (`doubts_and_resolutions/index.md`)
 
@@ -107,7 +113,7 @@ Mechanical how-to belongs in this footer (dynamic artifact, point of use), not i
 Files that define **implementable** domain behavior (`logical-domain/entities/{entity}/README.md`, `logic.md`, `business-rules/**/BR-*.md`, `use-cases/UC-*/README.md`, and equivalent normative paths) **must**:
 
 - Contain the full rule text required to implement or review behavior **without** opening doubt files.
-- **Must not** reference doubt IDs for normative delegation (patterns such as `see D-`, `See doubt-`, `Ver D-`, or equivalent).
+- **Must not** reference doubt IDs for normative delegation (patterns such as `See D-`, `See doubt-`, or equivalent).
 - **Must not** use pointer-only stubs as sole content.
 
 Decision history is **not** normative. It is indexed separately (see **Decision matrix** below).
@@ -116,64 +122,69 @@ Decision history is **not** normative. It is indexed separately (see **Decision 
 
 Every fractal block that owns `doubts_and_resolutions/` **must** include `decision-matrix.md` alongside `index.md`.
 
+**`Effective` (term):** The doubt indexed in `decision-matrix.md` for a given `(element, event)` — authoritative for that row until superseded. **Not** the same as a doubt in `open/` (debate in progress).
+
+**`Record` (term):** A closed doubt file in `solved/doubt-XXX.md` (or archived in `superseded/`) that documents resolution, debate, and propagation. **Not** used for doubts still in `open/`.
+
 | Rule | Requirement |
 |------|-------------|
 | **Scope** | The matrix lists **only elements owned by this block** (e.g. a `use-cases/.../doubts_and_resolutions/decision-matrix.md` contains only `## UC-XX` sections; a `business-rules/...` matrix contains only `## BR-XX` sections). |
-| **Structure** | One `## {element-id}` heading per indexed element. Under each heading, a table with columns `Event (brief)` and `Vigente doubt`. |
-| **Uniqueness** | At most **one** vigente doubt per `(element, event)` pair within a block. |
-| **Role** | Operational **SSOT of vigente doubt identity** per `(block, element, event)`. It does **not** replace SSOT normative files (entities, BR, UC). |
+| **Structure** | One `## {element-id}` heading per indexed element. Under each heading, a table with columns `Event (brief)` and `Effective doubt`. |
+| **Uniqueness** | At most **one** effective doubt per `(element, event)` pair within a block. |
+| **Role** | Operational **SSOT of effective doubt identity** per `(block, element, event)`. It does **not** replace SSOT normative files (entities, BR, UC). |
 | **Historical chain** | Supersede and merge chains are **not** stored in the matrix. They live in `doubts_and_resolutions/history/` (append-only, brief). |
 | **Doubt ID scope** | Each `doubts_and_resolutions/` block has its **own** `D-001`, `D-002`, … sequence in its dashboard. IDs may repeat across blocks. Global identity uses the **block-qualified** form `{block}/D-XXX` (e.g. `use-cases/D-002`). |
+| **Owning block** | The fractal block where the doubt record file lives under `{block}/doubts_and_resolutions/solved/` (e.g. a record in `use-cases/.../solved/doubt-008.md` has owning block `use-cases`). Foreign `decision-matrix.md` cells **must** use qualified links `[owning-block/D-XXX](…)` — never bare `D-XXX` when the record is elsewhere. |
 
-**`Vigente doubt` cell format:**
+**`Effective doubt` cell format:**
 
-| Case | Required cell value | Acta resolution |
+| Case | Required cell value | Record resolution |
 |------|---------------------|-----------------|
-| **Local** (acta in this block) | `D-XXX` (bare ID) | `{current-block}/doubts_and_resolutions/solved/doubt-XXX.md` |
-| **Cross-block** (acta in another block) | Markdown link: display text `{block}/D-XXX`, target = owning block's `solved/doubt-XXX.md` | Follow link to owning block acta |
-| **Forbidden** | Bare `D-XXX` in block B when the acta file lives only under another block's `solved/` | — |
+| **Local** (record in this block) | `D-XXX` (bare ID) | `{current-block}/doubts_and_resolutions/solved/doubt-XXX.md` |
+| **Cross-block** (record in another block) | Markdown link: display text `{block}/D-XXX`, target = owning block's `solved/doubt-XXX.md` | Follow link to the owning block's record |
+| **Forbidden** | Bare `D-XXX` in block B when the record file lives only under another block's `solved/` | — |
 
-**Matrix template — local vigente (per element section):**
+**Matrix template — local effective (per element section):**
 
 ```markdown
 ## UC-02.03
 
-| Event (brief) | Vigente doubt |
+| Event (brief) | Effective doubt |
 |---------------|---------------|
 | Sparse persist on materialized Edit | D-008 |
 ```
 
-**Matrix template — cross-block vigente (element owned by this block, acta in another block):**
+**Matrix template — cross-block effective (element owned by this block, record in another block):**
 
 ```markdown
 ## project
 
-| Event (brief) | Vigente doubt |
+| Event (brief) | Effective doubt |
 |---------------|---------------|
 | Edge cases on persist | [use-cases/D-002](../../use-cases/doubts_and_resolutions/solved/doubt-002.md) |
 ```
 
-**Agent resolution (matrix cell → acta path):**
+**Agent resolution (matrix cell → record path):**
 
 ```text
-Read Vigente doubt cell in current block's decision-matrix.md
+Read Effective doubt cell in current block's decision-matrix.md
   IF cell matches bare D-XXX
     → {current-block}/doubts_and_resolutions/solved/doubt-XXX.md (must exist)
   IF cell is Markdown link with display {block}/D-XXX
     → {block}/doubts_and_resolutions/solved/doubt-XXX.md (must exist)
-  IF bare D-XXX in block B but acta missing locally → KO / escalate (use qualified link)
+  IF bare D-XXX in block B but record missing locally → KO / escalate (use qualified link)
 ```
 
-#### Matrix impact (`## Matrix impact` in solved acta)
+#### Matrix impact (`## Matrix impact` in solved record)
 
 Operational map of **which matrix rows** this doubt touches — used for closure and supersede propagation without scanning the repository.
 
 | Artifact | Role |
 |----------|------|
-| `decision-matrix.md` | **Vigente** pointer per `(block, element, event)` — links only to `solved/` actas |
+| `decision-matrix.md` | **Effective** pointer per `(block, element, event)` — links only to `solved/` records |
 | `## Matrix impact` | **Operational** index for closures and supersede updates |
-| `solved/` | Actas with operational value (may have partial supersede rows still `Vigente`) |
-| `superseded/` | Fully superseded actas — forensic only |
+| `solved/` | Records with operational value (may have partial supersede rows still `Effective`) |
+| `superseded/` | Fully superseded records — forensic only |
 | `doubts_and_resolutions/history/` | **Forensic** brief log — agents must not traverse without explicit human instruction |
 
 **When required:** Every solved doubt that updates at least one row in any `decision-matrix.md` (local or cross-block) **must** include `## Matrix impact` in the same work session.
@@ -185,8 +196,8 @@ Operational map of **which matrix rows** this doubt touches — used for closure
 
 | Block | Element | Event (brief) | Matrix | Status |
 |-------|---------|---------------|--------|--------|
-| use-cases | UC-02 | Sparse persist | [decision-matrix.md](../decision-matrix.md) | Vigente |
-| logical-domain | project | Edge cases on persist | [decision-matrix.md](../../logical-domain/doubts_and_resolutions/decision-matrix.md) | Vigente |
+| use-cases | UC-02 | Sparse persist | [decision-matrix.md](../decision-matrix.md) | Effective |
+| logical-domain | project | Edge cases on persist | [decision-matrix.md](../../logical-domain/doubts_and_resolutions/decision-matrix.md) | Effective |
 ```
 
 | Column | Rule |
@@ -195,7 +206,7 @@ Operational map of **which matrix rows** this doubt touches — used for closure
 | `Element` | Element ID in that block's matrix (`UC-XX`, `project`, `BR-XX`, …) |
 | `Event (brief)` | Must match the `Event (brief)` row in the linked matrix |
 | `Matrix` | Link to the owning block's `decision-matrix.md` |
-| `Status` | `Vigente` while this doubt is the active index for that row; `Superseded by {block}/D-YYY` when replaced |
+| `Status` | `Effective` while this doubt is the effective index for that row; `Superseded by {block}/D-YYY` when replaced |
 
 **Dashboard rule:** Cross-block impact does **not** add rows to foreign blocks' `index.md` dashboards. Traceability is via matrix + `Matrix impact` only.
 
@@ -205,11 +216,11 @@ A doubt is **not fully closed** until all of the following complete in the **sam
 
 | Step | Action |
 |------|--------|
-| 1 | Record resolution and debate log in `solved/doubt-XXX.md` (historical acta). |
+| 1 | Record resolution and debate log in `solved/doubt-XXX.md` (historical record). |
 | 2 | **Propagate** each normative decision to SSOT artifacts (entities, business-rules, use-cases as applicable). |
 | 3 | Add a **`## Propagated to`** section in the solved doubt (SSOT paths only — no duplicate normative tables). Navigational index for humans/agents; **not** a machine-verifiable propagation contract (closure gates: SSOT content, `Matrix impact`, and `decision-matrix.md`). |
 | 4 | Add **`## Matrix impact`** when any `decision-matrix.md` row is created or updated (see **Matrix impact** above). |
-| 5 | Update `decision-matrix.md` in every affected block (vigente row per `(element, event)` — use qualified links in non-owning blocks). |
+| 5 | Update `decision-matrix.md` in every affected block (effective row per `(element, event)` — use qualified links in non-owning blocks). |
 | 6 | Append a brief entry to `doubts_and_resolutions/history/` when a doubt supersedes or merges another (**mandatory** on supersede). |
 | 7 | Update the **owning block's** `doubts_and_resolutions/index.md` dashboard only (no foreign-dashboard rows). |
 
@@ -221,12 +232,12 @@ When closing a doubt in block A affects an element owned by block B (e.g. a UC d
 
 1. **Do not close** until block B is consistent (SSOT + matrix).
 2. Consult block B's `decision-matrix.md` for the affected `## {element}` section only.
-3. In block B's matrix, set `Vigente doubt` to a **qualified link** `[A/D-XXX](…/A/…/solved/doubt-XXX.md)` — never bare `D-XXX`.
+3. In block B's matrix, set `Effective doubt` to a **qualified link** `[A/D-XXX](…/A/…/solved/doubt-XXX.md)` — never bare `D-XXX`.
 4. Propagate normative text to block B SSOT artifacts.
-5. List block B rows in block A's `## Matrix impact` with `Status: Vigente`.
+5. List block B rows in block A's `## Matrix impact` with `Status: Effective`.
 6. **Do not** add a dashboard row for this doubt in block B's `index.md`.
 
-Debate origin (block A vs B) does **not** change the rule — only the vigente solution matters.
+Debate origin (block A vs B) does **not** change the rule — only the effective solution matters.
 
 #### Supersede (complete and partial)
 
@@ -234,36 +245,38 @@ When doubt **D-YYY** supersedes **D-XXX**, **D-XXX** loses operational value (fo
 
 | Mode | When | Matrix / impact rules |
 |------|------|------------------------|
-| **Complete** (default) | D-YYY covers the same scope as D-XXX or the PO explicitly expands D-YYY to absorb the full `Matrix impact` of D-XXX | Every `Vigente` row in D-XXX's `Matrix impact` becomes `Superseded by {block}/D-YYY`; all such rows appear as `Vigente` in D-YYY's `Matrix impact`; no matrix cell may remain pointing at D-XXX for those events |
-| **Partial** | D-YYY is too narrow to absorb unrelated context from D-XXX without polluting the acta | Only touched rows in D-XXX's `Matrix impact` become `Superseded by {block}/D-YYY`; remaining rows stay `Vigente` on D-XXX; `history/` must state `partial` and one-line PO rationale |
+| **Complete** (default) | D-YYY covers the same scope as D-XXX or the PO explicitly expands D-YYY to absorb the full `Matrix impact` of D-XXX | Every `Effective` row in D-XXX's `Matrix impact` becomes `Superseded by {block}/D-YYY`; all such rows appear as `Effective` in D-YYY's `Matrix impact`; no matrix cell may remain pointing at D-XXX for those events |
+| **Partial** | D-YYY is too narrow to absorb unrelated context from D-XXX without polluting the record | Only touched rows in D-XXX's `Matrix impact` become `Superseded by {block}/D-YYY`; remaining rows stay `Effective` on D-XXX; `history/` must state `partial` and one-line PO rationale |
 
 **On closing D-YYY that supersedes D-XXX (same session, blocking):**
 
 1. Append **`history/`** entry: `{block}/D-XXX superseded (complete|partial) by {block}/D-YYY`.
-2. Add at the top of D-XXX's acta: `**Superseded by:** {block}/D-YYY` (qualified ID only — no `see D-` chains).
+2. Add at the top of D-XXX's record: `**Superseded by:** {block}/D-YYY` (qualified ID only — no `See D-` chains).
 3. Update D-XXX's `## Matrix impact`: superseded rows → `Status: Superseded by {block}/D-YYY`.
-4. D-YYY's `## Matrix impact` **must include** every row marked `Superseded by {block}/D-YYY` in D-XXX's `Matrix impact` (as `Vigente`).
+4. D-YYY's `## Matrix impact` **must include** every row marked `Superseded by {block}/D-YYY` in D-XXX's `Matrix impact` (as `Effective`).
 5. Update all affected `decision-matrix.md` cells to point at D-YYY (qualified link in foreign blocks).
-6. D-YYY acta is **self-contained** for its scope; a generic note that prior behavior was superseded is allowed — **without** referencing origin acta paths for context expansion.
-7. If D-XXX has **no** remaining `Vigente` rows in `Matrix impact`, run **Archive to `superseded/`** in the **same session** (vigente inverse check + move file + remove Solved dashboard row).
+6. D-YYY record is **self-contained** for its scope; a generic note that prior behavior was superseded is allowed — **without** referencing origin record paths for context expansion.
+7. If D-XXX has **no** remaining `Effective` rows in `Matrix impact`, run **Archive to `superseded/`** in the **same session** (effective inverse check + move file + remove Solved dashboard row).
 
-**Supersede gate (KO):** Any row in D-XXX's `Matrix impact` with `Superseded by {block}/D-YYY` that is missing from D-YYY's `Matrix impact` as `Vigente` blocks commit.
+**Supersede gate (KO):** Any row in D-XXX's `Matrix impact` with `Superseded by {block}/D-YYY` that is missing from D-YYY's `Matrix impact` as `Effective` blocks commit.
 
 #### Archive to `superseded/` (same session as last supersede)
 
-When the **last** `Vigente` row in D-XXX's `## Matrix impact` becomes `Superseded by …` in the **same work session**, archive D-XXX immediately after the superseding closure completes.
+When the **last** `Effective` row in D-XXX's `## Matrix impact` becomes `Superseded by …` in the **same work session**, archive D-XXX immediately after the superseding closure completes.
+
+**Effective inverse check:** For each row in D-XXX's `## Matrix impact`, read that block's `decision-matrix.md` at the matching `(element, event)`. The `Effective doubt` cell **must resolve to a doubt other than D-XXX**. This verifies the **effective index** (operational matrix pointers) only — it confirms no matrix cell still treats D-XXX as effective. It is **not** a full supersede-coherence or `history/` traceability audit (see [check-solve-doubt.md](../skills/check-solve-doubt.md) checks 11–12).
 
 | Step | Action |
 |------|--------|
-| 1 | Verify every row in D-XXX's `## Matrix impact` has `Status: Superseded by {block}/D-…` (no `Vigente` rows remain). |
-| 2 | **Vigente inverse check** (per row): for each `(Block, Element, Event (brief))` in D-XXX's `Matrix impact`, read that block's `decision-matrix.md` at `## {Element}` for the matching event. The `Vigente doubt` cell **must resolve to a doubt other than D-XXX** (`D-AAA`, `{block}/D-ZZZ`, etc.). This is a **vigente** check, not a traceability audit — it guarantees no decision matrix still treats D-XXX as vigente. |
+| 1 | Verify every row in D-XXX's `## Matrix impact` has `Status: Superseded by {block}/D-…` (no `Effective` rows remain). |
+| 2 | Run the **effective inverse check** (per row) as defined above. |
 | 3 | Move `solved/doubt-XXX.md` → `superseded/doubt-XXX.md`. |
 | 4 | Remove D-XXX from **Solved Issues** in the owning block's `index.md` (no new dashboard section). |
 | 5 | Append brief note to `history/` if not already recorded for this archival step. |
 
 **Archive gate (KO):** If any `decision-matrix.md` cell for a row in D-XXX's `Matrix impact` still resolves to D-XXX, archive **must not** proceed.
 
-**Qualified links:** Operational `Vigente doubt` cells and cross-block links **must** target actas under `solved/` only — never `superseded/`.
+**Qualified links:** Operational `Effective doubt` cells and cross-block links **must** target records under `solved/` only — never `superseded/`.
 
 **Agent rule:** Do **not** load `superseded/` unless the human gives an explicit forensic instruction (same policy as `history/`).
 
@@ -271,10 +284,10 @@ When the **last** `Vigente` row in D-XXX's `## Matrix impact` becomes `Supersede
 
 | Allowed | Forbidden |
 |---------|-----------|
-| `**Superseded by:** {block}/D-YYY` at the top of a superseded acta | `see D-XXX` / `Ver D-XXX` to expand debate context |
-| `Status: Superseded by {block}/D-YYY` in `## Matrix impact` | Bare `D-XXX` in a foreign block's matrix when acta is elsewhere |
-| Full problem, options, decision, and impact inside each vigente doubt file | Chains of doubt-to-doubt reading as substitute for self-contained acta |
-| Generic note in D-YYY that prior decisions were superseded (no origin links) | Normative `see D-` delegation in SSOT artifacts |
+| `**Superseded by:** {block}/D-YYY` at the top of a superseded record | `See D-XXX` to expand debate context |
+| `Status: Superseded by {block}/D-YYY` in `## Matrix impact` | Bare `D-XXX` in a foreign block's matrix when record is elsewhere |
+| Full problem, options, decision, and impact inside each self-contained doubt file | Chains of doubt-to-doubt reading as substitute for self-contained record |
+| Generic note in D-YYY that prior decisions were superseded (no origin links) | Normative `See D-` delegation in SSOT artifacts |
 
 #### Agent navigation: matrix vs history
 
@@ -291,12 +304,12 @@ When the **last** `Vigente` row in D-XXX's `## Matrix impact` becomes `Supersede
 Implement / explain domain     →  entities/ + business-rules/ + normative UC sections
 Actor flow and invocation      →  use-cases/UC-XX
 Which doubt explains a decision →  decision-matrix.md (scoped by element; resolve qualified links)
-Operational closure / supersede map →  ## Matrix impact in vigente solved acta
-Fully superseded acta (forensic)   →  superseded/ — human-authorized only
+Operational closure / supersede map →  ## Matrix impact in solved record with effective matrix rows
+Fully superseded record (forensic)   →  superseded/ — human-authorized only
 Why a decision evolved (forensic)    →  doubts history — human-authorized only
 ```
 
-Each vigente doubt file in `open/` or `solved/` **must** be readable on its own for the debate it records. Actas in `superseded/` retain forensic value only.
+Each self-contained doubt file in `open/` or `solved/` **must** be readable on its own for the debate it records. Records in `superseded/` retain forensic value only.
 
 ## 3. Structured Hierarchy (Inside-Out)
 

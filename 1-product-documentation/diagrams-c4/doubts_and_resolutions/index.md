@@ -1,11 +1,11 @@
-﻿# Doubt Dashboard - C4 Diagrams
+# Doubt Dashboard - C4 Diagrams
 
 ## File Catalog
 
 | File name | Description |
 |---|---|
 | `README.md` | Scope and operating rules for this folder. |
-| `decision-matrix.md` | Vigente decision index per element owned by this block. |
+| `decision-matrix.md` | Effective decision index per element owned by this block. |
 
 ## Open Issues
 

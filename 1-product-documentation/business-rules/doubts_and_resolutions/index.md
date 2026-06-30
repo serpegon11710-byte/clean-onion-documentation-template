@@ -1,11 +1,11 @@
-﻿# Doubt Dashboard - Business Rules
+# Doubt Dashboard - Business Rules
 
 ## File Catalog
 
 | File name | Description |
 |---|---|
 | `README.md` | Scope and operating rules for this folder. |
-| `decision-matrix.md` | Vigente decision index per BR element owned by this block. |
+| `decision-matrix.md` | Effective decision index per BR element owned by this block. |
 
 ## Open Issues
 
