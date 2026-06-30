@@ -1,11 +1,11 @@
-﻿# Doubt Dashboard - Logical Domain
+# Doubt Dashboard - Logical Domain
 
 ## File Catalog
 
 | File name | Description |
 |---|---|
 | `README.md` | Scope and operating rules for this folder. |
-| `decision-matrix.md` | Vigente decision index per element owned by this block. |
+| `decision-matrix.md` | Effective decision index per element owned by this block. |
 
 ## Open Issues
 

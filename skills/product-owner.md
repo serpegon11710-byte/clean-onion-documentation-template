@@ -15,7 +15,7 @@ Once the user gives "Approved" or defines the final strategy:
 
 1. Identify all elements in scope (`UC-XX`, `BR-XX`, `entity/name`, etc.) and their **owning blocks**.
 2. For each owning block, open `decision-matrix.md` and read **only** the matching `## {element}` sections.
-3. If any `(element, event)` row points to a different vigente doubt, or cross-block impact is required:
+3. If any `(element, event)` row points to a different effective doubt, or cross-block impact is required:
    - **Stop closure.**
    - Resolve per [clean-onion-documentation.md](../5-governance/clean-onion-documentation.md) §2.1 (qualified cross-block matrix links, supersede complete/partial, SSOT propagation).
    - Resume only after matrices and SSOT are consistent.
@@ -29,14 +29,14 @@ A doubt may be marked **Solved** in the **owning block's** `index.md` only when 
 | 1 | Write resolution + discussion log in `solved/doubt-XXX.md`. |
 | 2 | Propagate normative text to SSOT paths (entities, BR, UC — not pointers). |
 | 3 | Add `## Propagated to` with affected SSOT paths. |
-| 4 | Add `## Matrix impact` (all touched matrix rows; `Status: Vigente`). |
+| 4 | Add `## Matrix impact` (all touched matrix rows; `Status: Effective`). |
 | 5 | Update `decision-matrix.md` in each affected block — bare `D-XXX` in owning block; `[block/D-XXX](…/solved/…)` qualified links in foreign blocks. |
 | 6 | If superseding D-XXX: update D-XXX `Matrix impact`, append `history/`, ensure successor `Matrix impact` absorbs superseded rows per §2.1. |
-| 7 | If D-XXX has **no** remaining `Vigente` rows in `Matrix impact`: run **vigente inverse check** on each row's `decision-matrix.md` cell (must resolve ≠ D-XXX), then move `solved/doubt-XXX.md` → `superseded/doubt-XXX.md` and **remove** Solved dashboard row (**same session** as the last supersede). |
+| 7 | If D-XXX has **no** remaining `Effective` rows in `Matrix impact`: run **effective inverse check** on each row's `decision-matrix.md` cell (must resolve ≠ D-XXX), then move `solved/doubt-XXX.md` → `superseded/doubt-XXX.md` and **remove** Solved dashboard row (**same session** as the last supersede). |
 | 8 | Move file `open/` → `solved/` (when newly solved) and sync **owning block** `index.md` only. |
 | 9 | Draft implementation guidelines for the operator. |
 
-**Forbidden:** Closing with normative rules living only in the doubt file, bare `D-XXX` in foreign matrices, links to `superseded/` actas, leaving fully superseded actas in `solved/` past the closing session, or unresolved matrix/supersede collisions.
+**Forbidden:** Closing with normative rules living only in the doubt file, bare `D-XXX` in foreign matrices, links to `superseded/` records, leaving fully superseded records in `solved/` past the closing session, or unresolved matrix/supersede collisions.
 
 ### Human closure verification
 
