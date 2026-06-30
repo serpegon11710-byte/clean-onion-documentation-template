@@ -15,7 +15,7 @@ Structural rules: [clean-onion-documentation.md](../5-governance/clean-onion-doc
 ## Operating mode
 
 1. **Scope:** Load `index.md` and all files in `open/` for the target block(s). Load `decision-matrix.md` `## {element}` sections for elements in scope only.
-2. **Exclude:** Doubts already marked `superseded by D-XXX`. Do not traverse week `history/` unless the user explicitly requests forensic traceability.
+2. **Exclude:** Doubts in `superseded/` and actas marked fully superseded. Do not traverse week `history/` or load `superseded/` unless the user explicitly requests forensic traceability.
 3. **Detect:**
    - Duplicate scope (same element + same event in multiple open doubts).
    - Semantic conflict (contradictory decisions proposed for the same element).

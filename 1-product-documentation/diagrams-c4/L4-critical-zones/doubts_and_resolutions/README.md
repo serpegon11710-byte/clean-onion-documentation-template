@@ -1,4 +1,4 @@
-# Doubts & Resolutions
+﻿# Doubts & Resolutions
 
 Manages questions and decisions for `L4-critical-zones/`.
 
@@ -15,10 +15,11 @@ This block maintains [decision-matrix.md](decision-matrix.md): vigente doubts in
 | Folder | Role |
 |--------|------|
 | `open/` | Active debate — one self-contained file per doubt |
-| `solved/` | Closed acta — not the sole copy of normative rules |
-| `decision-matrix.md` | Which `D-XXX` is vigente per `(element, event)` |
+| `solved/` | Closed actas with operational vigente value |
+| `superseded/` | Fully superseded actas — forensic only; not in dashboard |
+| `decision-matrix.md` | Vigente doubt per `(element, event)` — links to `solved/` actas only |
 | `history/` | Supersede/merge chain — forensic only; not loaded by default |
 
-On solve: propagate to SSOT + update matrix per [clean-onion-documentation.md](../../../../5-governance/clean-onion-documentation.md) §2.1.
+On solve: propagate to SSOT + `## Matrix impact` + update matrices per [clean-onion-documentation.md](../../../../5-governance/clean-onion-documentation.md) §2.1.
 
 **Forbidden:** `see D-XXX` to expand doubt context. Use `superseded by D-XXX` when replacing a prior decision.
