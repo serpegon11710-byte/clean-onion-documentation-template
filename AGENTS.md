@@ -92,6 +92,7 @@ All authoritative content lives in **one place per concern**. Adapters (`CLAUDE.
 | **Doubts dashboard** | `{N-layer}/doubts_and_resolutions/index.md` | Load when managing doubts |
 | **Decision matrix (vigente doubts)** | `{block}/doubts_and_resolutions/decision-matrix.md` | Load when closing doubts; scope by `## {element}` only |
 | **Intra-layer SSOT & decision matrix** | `5-governance/clean-onion-documentation.md` §2.1 | Load when closing doubts or editing entities/BR/UC normative files |
+| **Fractal index archetypes & doubts README profiles** | `5-governance/clean-onion-documentation.md` §2.2–§2.4 | Load when creating or editing `index.md` / `doubts_and_resolutions/README.md` |
 | **Doubt overlap analysis** | `skills/refactor-doubts.md` | Invoke before PO closure when overlaps are suspected |
 | **Doubt closure verification** | `skills/check-solve-doubt.md` | Human invokes after closure, before commit |
 | **History map** | `{N-layer}/history/index.md` | Load when writing traceability logs |

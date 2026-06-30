@@ -1,4 +1,4 @@
-# Logical Domain History
+# History - Logical Domain
 
 ## File Catalog
 
