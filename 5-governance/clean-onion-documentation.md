@@ -49,6 +49,51 @@ Every block or main folder within the layers must replicate this exact scheme:
 
 - **`decision-matrix.md`:** Per-block index of vigente doubts by element and event. Updated on every normative doubt closure. See §2.1.
 
+### §2.2 `index.md` heading archetypes
+
+Every `index.md` belongs to **one** archetype. The H1 must match the archetype; do not use `Dashboard` for block or history catalogs.
+
+| Archetype | Path pattern | Canonical H1 | Body sections |
+|-----------|--------------|--------------|---------------|
+| **Block catalog** | `{block}/index.md` (not under `history/` or `doubts_and_resolutions/`) | `# {Scope}` | `## File Catalog` only |
+| **History catalog** | `{block}/history/index.md` | `# History - {Scope}` | `## File Catalog` only |
+| **Doubt dashboard** | `{block}/doubts_and_resolutions/index.md` | `# Doubt Dashboard - {Scope}` | `## File Catalog`, `## Open Issues`, `## Solved Issues`, canonical footer (§2.4) |
+
+`{Scope}` is the human-readable block name (e.g. `Use Cases`, `5 Governance`, `L4 Critical Zones`). Same scope label may appear in more than one path; disambiguation is by directory path, not H1 alone.
+
+### §2.3 `doubts_and_resolutions/README.md` profiles
+
+Two profiles are allowed. Operational how-to **must not** appear without `## Decision matrix` and §2.1 propagation rules (anti-pattern: file-move workflow only).
+
+| Profile | Applies to | Required sections | Forbidden |
+|---------|------------|-------------------|-----------|
+| **Minimal** | Layer 1 **sub-blocks** only: `1-product-documentation/{sub}/doubts_and_resolutions/README.md` where `{sub}` is any first-level folder under Layer 1 **except** `doubts_and_resolutions` (includes nested sub-blocks such as `logical-domain/business-rules/`) | `## Navigation`, `## Decision matrix`, §2.1 `On solve` + `Forbidden` lines | `## How to manage Doubts`, `## Folders`, `## Status` |
+| **Enriched** | `1-product-documentation/doubts_and_resolutions/README.md` and layers **2–5** `doubts_and_resolutions/README.md` | `## Status` or equivalent, `## Folders`, `## How to manage Doubts`, `## Decision matrix`, §2.1 `On solve` + `Forbidden` | `## How to manage` without `## Decision matrix` |
+
+**Minimal profile — mechanical steps:** Do not duplicate long how-to text. After `## Navigation`, state that open/solve file moves and dashboard rows are defined in the **footer** of [index.md](index.md) in the same folder. Normative closure remains §2.1 + matrix.
+
+**Enriched profile:** Full mechanical how-to may live in the README. The doubt dashboard footer (§2.4) stays identical across all blocks for agents that load only `index.md`.
+
+### §2.4 Doubt dashboard (`doubts_and_resolutions/index.md`)
+
+Beyond §2.2, every doubt dashboard **must** include:
+
+| Section | Contract |
+|---------|----------|
+| `## Open Issues` | Table header: `\| ID \| Title \| Priority \| Date Created \|` |
+| `## Solved Issues` | Table header: `\| ID \| Title \| Resolution Date \|` |
+| Footer | Static canonical text below (identical in every dashboard; not duplicated in COD governance prose) |
+
+**Canonical footer (copy verbatim into every doubt dashboard):**
+
+```markdown
+---
+*Instructions: To add a new doubt, create a file in open/ named doubt-XXX.md and append a row to the Open Issues table.*
+*Once a doubt is solved, move the file to solved/ and move the row to the Solved Issues table.*
+```
+
+Mechanical how-to belongs in this footer (dynamic artifact, point of use), not in `5-governance/`. Structural sync rules remain in §2 (`doubts_and_resolutions/` bullet) and closure propagation in §2.1.
+
 ### §2.1 Intra-layer self-containment and decision traceability
 
 **Problem addressed:** Normative domain knowledge must not fragment across `solved/` doubts, use cases, and entity stubs within the same layer. Layer isolation (outer → inner) does **not** justify scattering implementable rules inside Layer 1.

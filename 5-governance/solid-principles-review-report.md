@@ -7,12 +7,12 @@
 
 ## Current audit
 
-**Audit completed:** 2026-06-30T13:11:35
+**Audit completed:** 2026-06-30T16:20:14
 **STATUS:** PASS
 
 ### Scope of last audit
 
-COD §2.1 intra-layer self-containment: decision-matrix templates, doubt closure propagation, pre-commit §4.1 gates, skills (product-owner, solid propagation check, refactor-doubts, check-solve-doubt), AGENTS registry updates; removed bridge doc absorbed into SSOT.
+COD §2.2–§2.4 (index archetypes, doubts README profiles, dashboard footer contract); pre-commit §4.2; minimal L1 sub-block README updates; history `index.md` H1 alignment.
 
 ### Findings
 
@@ -20,15 +20,16 @@ No violations.
 
 ### COD cross-check
 
-- **Inward-only:** Governance and skill paths reference inner layers only; no upward leakage in staged Layer 1 content.
-- **No stack leakage:** Staged paths are documentation and governance only.
-- **Fractal index:** All updated `doubts_and_resolutions/index.md` files include `decision-matrix.md` in file catalog.
-- **§4.1 self-containment/matrix:** New normative rules documented; no staged SSOT doubt pointers or solved doubts without propagation contract in this change set.
+- **Inward-only:** Governance updates reference inner layers only.
+- **No stack leakage:** Documentation-only paths.
+- **Fractal index:** All `index.md` files retain mandatory file catalog; history H1 aligned to `# History - {Scope}`; doubt dashboards use `# Doubt Dashboard - {Scope}` with canonical footer.
+- **§4.1 self-containment/matrix:** Unchanged; no staged solved doubts in this change set.
+- **§4.2 dashboard/README profiles:** All 11 doubt dashboards share canonical footer; 6 L1 sub-block READMEs use minimal profile; 5 enriched READMEs retain `How to manage` + `Decision matrix`.
 
 ### SOLID cross-check
 
-- **S:** Each skill and policy file maintains a single operational concern.
-- **D:** Closure verification (`check-solve-doubt`) and commit gate (`solid`) remain decoupled roles.
+- **S:** COD §2.2–§2.4 and §4.2 each address a single fractal concern.
+- **D:** Mechanical how-to stays in dashboard footer / enriched README; normative closure remains §2.1.
 
 ### L4 ZC pseudocode mirror cross-check
 

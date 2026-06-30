@@ -42,7 +42,7 @@ For **non-commit** audits (ad-hoc review), respond in chat with:
 ## 3. Regeneration Workflow
 
 1. Review **staged** changes (`git diff --cached`).
-2. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4 and §2.1 (see §4 and §4.1 below).
+2. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4 (see §4, §4.1, and §4.2 below).
 3. Validate **SOLID** — at minimum **S** and **D** on staged changes (see §5 below).
 4. Validate **L4 ZC pseudocode mirror** when staged changes touch Critical Zones or their Layer 3 projections (see §6 below).
 5. Run `Get-Date -Format "yyyy-MM-ddTHH:mm:ss"` **once**, immediately before writing report headers.
@@ -90,6 +90,29 @@ Apply when staged paths include any of:
 - Automated traversal of `history/` for traceability.
 
 Record violations under **Findings** with tag `COD-SSOT` or `COD-MATRIX` and affected paths.
+
+### §4.2 Fractal doubts dashboard and README profiles (hard gate)
+
+Normative rules: [clean-onion-documentation.md](clean-onion-documentation.md) §2.2, §2.3, §2.4.
+
+Apply when staged paths include any:
+
+- `**/doubts_and_resolutions/README.md`
+- `**/doubts_and_resolutions/index.md`
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **Dashboard H1** | Staged `doubts_and_resolutions/index.md` H1 matches `# Doubt Dashboard - {Scope}` | `COD-DASHBOARD` |
+| **Dashboard sections** | Staged dashboard includes `## Open Issues` and `## Solved Issues` with column headers per §2.4 | `COD-DASHBOARD` |
+| **Dashboard footer** | Staged dashboard footer matches the canonical footer in §2.4 (both instruction lines, verbatim) | `COD-DASHBOARD` |
+| **Footer parity** | When any staged dashboard `index.md` is modified, **every** `**/doubts_and_resolutions/index.md` in the repo must carry the same canonical footer (prevents arbitrary template copy drift) | `COD-DASHBOARD` |
+| **How-to requires matrix** | Staged `doubts_and_resolutions/README.md` with `## How to manage` (any casing) **must** also contain `## Decision matrix` | `COD-README` |
+| **L1 sub-block minimal** | Staged README under `1-product-documentation/*/doubts_and_resolutions/README.md` or `1-product-documentation/*/*/doubts_and_resolutions/README.md` (any depth under Layer 1, excluding `1-product-documentation/doubts_and_resolutions/`) **must not** contain `## How to manage`, `## Folders`, or `## Status` | `COD-README` |
+| **L1 sub-block matrix** | Same minimal-path READMEs **must** contain `## Decision matrix` and an `On solve:` line referencing §2.1 | `COD-README` |
+
+**L1 sub-block path rule:** Match `1-product-documentation/{segment}/doubts_and_resolutions/README.md` where `{segment}` ≠ `doubts_and_resolutions`, plus any deeper nesting under `1-product-documentation/` (e.g. `logical-domain/business-rules/`). The enriched Layer 1 root `1-product-documentation/doubts_and_resolutions/README.md` is **exempt** from minimal-profile checks.
+
+Record violations under **Findings** with tag `COD-DASHBOARD` or `COD-README` and affected paths.
 
 ---
 
@@ -188,7 +211,7 @@ Update [solid-principles-review-report.md](solid-principles-review-report.md) pe
 
 ### COD cross-check
 
-<inward-only + stack leakage + fractal index + §4.1 self-containment/matrix when applicable per clean-onion-documentation.md §4>
+<inward-only + stack leakage + fractal index + §4.1 self-containment/matrix + §4.2 dashboard/README profiles when applicable per clean-onion-documentation.md §4>
 
 ### SOLID cross-check
 
