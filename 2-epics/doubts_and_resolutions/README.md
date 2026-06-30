@@ -1,4 +1,4 @@
-# Doubts & Resolutions
+﻿# Doubts & Resolutions
 
 This folder manages doubts and resolutions for this layer.
 
@@ -9,7 +9,8 @@ Consult [index.md](index.md) in this folder to view the current status of all do
 ## Folders
 
 - **`open/`** — Active work. Place doubt files here while they are under discussion or pending resolution.
-- **`solved/`** — Closed decisions and historical record. Move doubt files here once resolved.
+- **`solved/`** — Closed actas with operational vigente value.
+- **`superseded/`** — Fully superseded actas (forensic only; archive from `solved/` per §2.1).
 
 ## How to manage Doubts
 
@@ -28,10 +29,11 @@ This block maintains [decision-matrix.md](decision-matrix.md): vigente doubts in
 | Folder | Role |
 |--------|------|
 | `open/` | Active debate — one self-contained file per doubt |
-| `solved/` | Closed acta — not the sole copy of normative rules |
-| `decision-matrix.md` | Which `D-XXX` is vigente per `(element, event)` |
+| `solved/` | Closed actas with operational vigente value |
+| `superseded/` | Fully superseded actas — forensic only; not in dashboard |
+| `decision-matrix.md` | Vigente doubt per `(element, event)` — links to `solved/` actas only |
 | `history/` | Supersede/merge chain — forensic only; not loaded by default |
 
-On solve: propagate to SSOT + update matrix per [clean-onion-documentation.md](../../5-governance/clean-onion-documentation.md) §2.1.
+On solve: propagate to SSOT + `## Matrix impact` + update matrices per [clean-onion-documentation.md](../../5-governance/clean-onion-documentation.md) §2.1.
 
 **Forbidden:** `see D-XXX` to expand doubt context. Use `superseded by D-XXX` when replacing a prior decision.

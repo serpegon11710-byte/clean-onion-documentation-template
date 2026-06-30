@@ -10,3 +10,4 @@
 | `repository-language-standard.md` | Repository-wide linguistic and naming policy. |
 | `pre-commit-validation-rules.md` | Pre-commit integrity contract, COD/SOLID/L4 mirror criteria, auditor workflow. |
 | `solid-principles-review-report.md` | Pre-commit audit artifact (machine gate). |
+| `template-owner-feedback-cross-block-decision-matrix.md` | Closed pilot feedback — cross-block matrix contract (SSOT: COD §2.1). |

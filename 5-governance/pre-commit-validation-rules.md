@@ -97,14 +97,20 @@ Apply when staged paths include any of:
 |-------|------|------------|
 | **SSOT doubt pointers** | Staged SSOT files (`entities/**`, `business-rules/**`, `use-cases/**/README.md`) **must not** contain doubt-delegation patterns (`see D-`, `See doubt-`, `Ver D-`, case-insensitive) | `**STATUS:** KO` |
 | **Propagated to on solve** | Staged new or modified `doubts_and_resolutions/solved/doubt-*.md` with normative resolution content **must** include a `## Propagated to` section listing at least one SSOT or matrix path | `**STATUS:** KO` |
-| **Matrix on solve** | When a solved doubt is staged, staged changes **must** include the corresponding `decision-matrix.md` update in the owning block(s), or the matrix must already list the doubt as vigente for each impacted `(element, event)` | `**STATUS:** KO` |
+| **Matrix impact on solve** | When a staged solved doubt is paired with staged `decision-matrix.md` changes, the solved doubt **must** include `## Matrix impact` with columns `Block`, `Element`, `Event (brief)`, `Matrix`, `Status` | `**STATUS:** KO` |
+| **Matrix on solve** | When a solved doubt is staged, staged changes **must** include the corresponding `decision-matrix.md` update in each affected block, or each matrix must already list the doubt as vigente for each impacted `(element, event)` per §2.1 format | `**STATUS:** KO` |
+| **Matrix cross-block format** | In staged `decision-matrix.md`, a bare `D-XXX` vigente cell in block B requires `B/doubts_and_resolutions/solved/doubt-XXX.md` to exist. Cross-block vigente **must** use `[block/D-XXX](…)` with link target under the owning block's `solved/` (never `superseded/`) | `**STATUS:** KO` |
 | **Matrix uniqueness** | Within each `## {element}` section of a staged `decision-matrix.md`, no duplicate `Event (brief)` row and no duplicate `Vigente doubt` claiming the same event | `**STATUS:** KO` |
-| **Doubt context chains** | Staged doubt files **must not** add `see D-` / `Ver D-` patterns for context expansion (supersede declarations are allowed) | `**STATUS:** KO` |
+| **Archive on full supersede** | When a staged supersede leaves a doubt with no `Vigente` rows in `## Matrix impact`, the acta **must** move to `superseded/` in the same staged changeset and its Solved dashboard row **must** be removed | `**STATUS:** KO` |
+| **Vigente inverse on archive** | For each row in a fully superseded doubt's `Matrix impact`, the referenced block's staged `decision-matrix.md` cell for that `(element, event)` must **not** resolve to the archived doubt ID | `**STATUS:** KO` |
+| **Supersede header** | Staged superseded acta may add only `**Superseded by:** {block}/D-YYY` at the top plus `Matrix impact` status updates — no other rewrites of closed debate body | `**STATUS:** KO` if debate body was rewritten |
+| **Doubt context chains** | Staged doubt files **must not** add `see D-` / `Ver D-` patterns for context expansion (supersede declarations and `Matrix impact` status are allowed) | `**STATUS:** KO` |
 
 **Out of scope for this gate (by design):**
 
 - Semantic verification that SSOT files actually contain complete normative text.
 - Verification that a vigente doubt file is fully self-contained.
+- Full supersede coherence and vigente inverse on archive — use [check-solve-doubt.md](../skills/check-solve-doubt.md) checks 12–13 before commit.
 - Automated traversal of `history/` for traceability.
 
 Record violations under **Findings** with tag `COD-SSOT` or `COD-MATRIX` and affected paths.
@@ -122,7 +128,8 @@ Apply when staged paths include any:
 |-------|------|------------|
 | **Dashboard H1** | Staged `doubts_and_resolutions/index.md` H1 matches `# Doubt Dashboard - {Scope}` | `COD-DASHBOARD` |
 | **Dashboard sections** | Staged dashboard includes `## Open Issues` and `## Solved Issues` with column headers per §2.4 | `COD-DASHBOARD` |
-| **Dashboard footer** | Staged dashboard footer matches the canonical footer in §2.4 (both instruction lines, verbatim) | `COD-DASHBOARD` |
+| **Dashboard footer** | Staged dashboard footer matches the canonical footer in §2.4 (all three instruction lines, verbatim) | `COD-DASHBOARD` |
+| **Dashboard bijection** | Every doubt listed in **Solved Issues** has a file in `solved/`; no Solved row for a file in `superseded/`; no `## Superseded Issues` section | `COD-DASHBOARD` |
 | **Footer parity** | When any staged dashboard `index.md` is modified, **every** `**/doubts_and_resolutions/index.md` in the repo must carry the same canonical footer (prevents arbitrary template copy drift) | `COD-DASHBOARD` |
 | **How-to requires matrix** | Staged `doubts_and_resolutions/README.md` with `## How to manage` (any casing) **must** also contain `## Decision matrix` | `COD-README` |
 | **L1 sub-block minimal** | Staged README under `1-product-documentation/*/doubts_and_resolutions/README.md` or `1-product-documentation/*/*/doubts_and_resolutions/README.md` (any depth under Layer 1, excluding `1-product-documentation/doubts_and_resolutions/`) **must not** contain `## How to manage`, `## Folders`, or `## Status` | `COD-README` |

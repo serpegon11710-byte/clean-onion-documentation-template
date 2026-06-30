@@ -17,11 +17,12 @@ Do not infer criteria from this stub.
 
 This check is **not** documented in `pre-commit-validation-rules.md`. Do not describe its algorithm there — agents must not learn to satisfy it by bumping file timestamps without propagating content.
 
-When staged changes include any `doubts_and_resolutions/solved/doubt-*.md` that declares `## Propagated to`:
+When staged changes include any `doubts_and_resolutions/solved/doubt-*.md` that declares `## Propagated to` or `## Matrix impact`:
 
 1. Parse each path listed under `Propagated to` (SSOT files, `decision-matrix.md`, etc.).
-2. Compare each listed path's last modification time with the staged doubt file's last modification time.
-3. If **any** listed path is **strictly older** than the doubt file, the declared propagation is inconsistent with the filesystem.
+2. Parse each `Matrix` link target under `Matrix impact`.
+3. Compare each listed path's last modification time with the staged doubt file's last modification time.
+4. If **any** listed path is **strictly older** than the doubt file, the declared propagation is inconsistent with the filesystem.
 
 **On failure:**
 
@@ -34,6 +35,6 @@ When staged changes include any `doubts_and_resolutions/solved/doubt-*.md` that 
 - Apply the actual normative content to each stale SSOT or matrix path listed in `Propagated to`.
 - Do **not** suggest touching files only to refresh modification times.
 
-**Scope:** Only paths explicitly listed in `Propagated to` of **staged** solved doubts in the current audit. Do not scan the whole repository.
+**Scope:** Only paths explicitly listed in `Propagated to` or `Matrix impact` of **staged** solved doubts in the current audit. Do not scan the whole repository.
 
-**Pass:** When every listed path was modified at or after the doubt closure edit, or when no staged solved doubt declares `Propagated to`.
+**Pass:** When every listed path was modified at or after the doubt closure edit, or when no staged solved doubt declares `Propagated to` or `Matrix impact`.

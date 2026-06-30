@@ -13,28 +13,30 @@ Once the user gives "Approved" or defines the final strategy:
 
 ### Pre-closure matrix check
 
-1. Identify all elements in scope (`UC-XX`, `BR-XX`, `entity/name`, etc.).
+1. Identify all elements in scope (`UC-XX`, `BR-XX`, `entity/name`, etc.) and their **owning blocks**.
 2. For each owning block, open `decision-matrix.md` and read **only** the matching `## {element}` sections.
-3. If any `(element, event)` row points to a different vigente doubt, or a cross-block element is impacted:
+3. If any `(element, event)` row points to a different vigente doubt, or cross-block impact is required:
    - **Stop closure.**
-   - Resolve per [clean-onion-documentation.md](../5-governance/clean-onion-documentation.md) §2.1 (extend open doubt or supersede solved doubt in the owning block).
-   - Resume only after matrices and owning-block SSOT are consistent.
+   - Resolve per [clean-onion-documentation.md](../5-governance/clean-onion-documentation.md) §2.1 (qualified cross-block matrix links, supersede complete/partial, SSOT propagation).
+   - Resume only after matrices and SSOT are consistent.
 
 ### Closure checklist (blocking)
 
-A doubt may be marked **Solved** in `index.md` only when **all** steps complete in the same session:
+A doubt may be marked **Solved** in the **owning block's** `index.md` only when **all** steps complete in the same session:
 
 | # | Step |
 |---|------|
 | 1 | Write resolution + discussion log in `solved/doubt-XXX.md`. |
 | 2 | Propagate normative text to SSOT paths (entities, BR, UC — not pointers). |
-| 3 | Add `## Propagated to` with affected SSOT paths and updated matrix path(s). |
-| 4 | Update `decision-matrix.md` in each affected block (one vigente row per `(element, event)`). |
-| 5 | If supersede/merge occurred, append brief note to `doubts_and_resolutions/history/`. |
-| 6 | Move file `open/` → `solved/` and sync `index.md`. |
-| 7 | Draft implementation guidelines for the operator. |
+| 3 | Add `## Propagated to` with affected SSOT paths. |
+| 4 | Add `## Matrix impact` (all touched matrix rows; `Status: Vigente`). |
+| 5 | Update `decision-matrix.md` in each affected block — bare `D-XXX` in owning block; `[block/D-XXX](…/solved/…)` qualified links in foreign blocks. |
+| 6 | If superseding D-XXX: update D-XXX `Matrix impact`, append `history/`, ensure successor `Matrix impact` absorbs superseded rows per §2.1. |
+| 7 | If D-XXX has **no** remaining `Vigente` rows in `Matrix impact`: run **vigente inverse check** on each row's `decision-matrix.md` cell (must resolve ≠ D-XXX), then move `solved/doubt-XXX.md` → `superseded/doubt-XXX.md` and **remove** Solved dashboard row (**same session** as the last supersede). |
+| 8 | Move file `open/` → `solved/` (when newly solved) and sync **owning block** `index.md` only. |
+| 9 | Draft implementation guidelines for the operator. |
 
-**Forbidden:** Closing with normative rules living only in the doubt file, only in `Propagated to` links without SSOT text, or with unresolved matrix collisions.
+**Forbidden:** Closing with normative rules living only in the doubt file, bare `D-XXX` in foreign matrices, links to `superseded/` actas, leaving fully superseded actas in `solved/` past the closing session, or unresolved matrix/supersede collisions.
 
 ### Human closure verification
 
@@ -42,4 +44,4 @@ Recommend the human invoke [check-solve-doubt.md](check-solve-doubt.md) with the
 
 ### Historical traceability
 
-Do **not** traverse week-based `history/` files to reconstruct decision chains unless the user explicitly requests forensic traceability.
+Do **not** traverse week-based `history/` files or load `superseded/` to reconstruct decision chains unless the user explicitly requests forensic traceability.
