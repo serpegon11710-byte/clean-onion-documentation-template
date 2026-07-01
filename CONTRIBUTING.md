@@ -82,7 +82,7 @@ Before requesting review, confirm:
 
 1. Read **Findings** in `## Current audit` of [solid-principles-review-report.md](5-governance/solid-principles-review-report.md).
 2. Fix violations (refactor, move content to the correct layer, restore traceability).
-3. Log unresolved architectural conflicts in the affected layer's `doubts_and_resolutions/index.md` if debate is needed.
+3. Log unresolved architectural conflicts in the affected layer's `doubts-and-decisions/index.md` if debate is needed.
 4. Re-run the audit and commit only after `STATUS: PASS`.
 
 ---

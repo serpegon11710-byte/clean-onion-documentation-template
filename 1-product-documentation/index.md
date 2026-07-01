@@ -1,6 +1,4 @@
-# Product Documentation
-
-## File Catalog
+# Catalog : Product Documentation
 
 | File name | Description |
 |---|---|

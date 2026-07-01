@@ -1,6 +1,6 @@
 # Clean Onion Documentation (COD) Standard
 
-**Last updated:** 2026-06-30
+**Last updated:** 2026-07-01
 
 This cross-cutting policy defines the **directionality**, **isolation**, and **internal fractal structure** of all documentation layers within the repository. It complements the Agent Governance rules defined in `AGENTS.md`.
 
@@ -25,17 +25,17 @@ Every block or main folder within the layers must replicate this exact scheme:
 │   ├── 📄 2026-W26-changes.md   <-- One file per period Week of Year.
 │   └── 📄 2026-W27-changes.md
 │
-└── 📁 doubts_and_resolutions/   <-- Atomic management of doubts and FAQs.
+└── 📁 doubts-and-decisions/   <-- Doubt & Decision subsystem (debate + effective index).
     ├── 📄 README.md             <-- Strict protocol for opening/closing issues.
-    ├── 📄 index.md              <-- Dashboard (Open vs. Solved doubts).
-    ├── 📄 decision-matrix.md    <-- Effective decision index per block element type.
-    ├── 📁 open/                 <-- Active tracking (work in progress).
-    │   ├── 📄 doubt-001.md      <-- Isolated file exclusively for open doubt 001.
+    ├── 📄 index.md              <-- Issue catalog (Open vs. Solved).
+    ├── 📄 decision-matrix.md    <-- Dashboard: Decision Id per (element, event).
+    ├── 📁 open/                 <-- Debate in progress.
+    │   ├── 📄 doubt-001.md      <-- Doubt & Decision record (open phase).
     │   └── 📄 doubt-002.md
-    ├── 📁 solved/               <-- Closed records with operational value.
-    │   └── 📄 doubt-000.md      <-- Resolved doubt moved from open/.
+    ├── 📁 solved/               <-- Closed Doubt & Decision records (operational).
+    │   └── 📄 doubt-000.md      <-- Moved from open/ on closure.
     └── 📁 superseded/           <-- Fully superseded records (forensic only).
-        └── 📄 doubt-000.md      <-- Archived from solved/ when no longer effective.
+        └── 📄 doubt-000.md      <-- Archived from solved/ when no longer indexed.
 
 ```
 ### Fractal Component Specification:
@@ -48,52 +48,84 @@ Every block or main folder within the layers must replicate this exact scheme:
 
 - **`history/`:** Records modifications chronologically in fragmented files. The past is frozen and does not contaminate the active chat context.
 
-- **`doubts_and_resolutions/`:** Isolates issues in atomic format (one file per doubt). Open doubts live in **`open/`**; closed records with operational value in **`solved/`**; fully superseded records in **`superseded/`** (forensic only — agents do not load without explicit human instruction). The **`index.md`** dashboard tracks **`open/`** and **`solved/`** only (`Open Issues` / `Solved Issues` — **no** `Superseded Issues` table). Files must not move between `open/`, `solved/`, and `superseded/` without the matching dashboard update (remove Solved row when archiving to `superseded/`).
+- **`doubts-and-decisions/`:** Doubt & Decision subsystem in atomic form (one file per id). Debate in progress in **`open/`**; closed Doubt & Decision records with operational value in **`solved/`**; fully superseded records in **`superseded/`** (forensic only — agents do not load without explicit human instruction). The **`index.md`** issue catalog tracks **`open/`** and **`solved/`** only (`Open Issues` / `Solved Issues` — **no** `Superseded Issues` table). Files must not move between `open/`, `solved/`, and `superseded/` without the matching index update (remove Solved row when archiving to `superseded/`). Physical filename stays **`doubt-XXX.md`** in all phases (phase is encoded by folder only).
 
-- **`decision-matrix.md`:** Per-block index of effective doubts by element and event. Updated on every normative doubt closure. See §2.1.
+- **`decision-matrix.md`:** Dashboard of **Decision Id** (`D-XXX`) per `(element, event)` for the owning block. Updated on every normative closure. See §2.1.
 
-### §2.2 `index.md` heading archetypes
+### §2.2 Document title contracts (`index.md` and `decision-matrix.md`)
 
-Every `index.md` belongs to **one** archetype. The H1 must match the archetype; do not use `Dashboard` for block or history catalogs.
+Two title prefixes; **body profiles** vary by file type and path (see §2.4 for the doubts issue catalog body).
 
-| Archetype | Path pattern | Canonical H1 | Body sections |
-|-----------|--------------|--------------|---------------|
-| **Block catalog** | `{block}/index.md` (not under `history/` or `doubts_and_resolutions/`) | `# {Scope}` | `## File Catalog` only |
-| **History catalog** | `{block}/history/index.md` | `# History - {Scope}` | `## File Catalog` only |
-| **Doubt dashboard** | `{block}/doubts_and_resolutions/index.md` | `# Doubt Dashboard - {Scope}` | `## File Catalog`, `## Open Issues`, `## Solved Issues`, canonical footer (§2.4) |
+#### `index.md` — Catalog title (all directories)
 
-`{Scope}` is the human-readable block name (e.g. `Use Cases`, `5 Governance`, `L4 Critical Zones`). Same scope label may appear in more than one path; disambiguation is by directory path, not H1 alone.
+Every `index.md` **must** use:
 
-### §2.3 `doubts_and_resolutions/README.md` profiles
+```markdown
+# Catalog : {path-readable-for-human}
+```
+
+`{path-readable-for-human}` is derived from the **directory** containing `index.md`, starting at the **layer root** (`1-product-documentation/`, `2-epics/`, `3-implementation/`, `4-sprints/`, `5-governance/`).
+
+**`humanizePath` algorithm:**
+
+1. Split the directory path into segments (forward slashes).
+2. **First segment only:** remove the layer index prefix `^[0-9]+-` (e.g. `1-product-documentation` → `product-documentation`; `5-governance` → `governance`). Deeper segments **keep** numeric prefixes (e.g. `L4-critical-zones`).
+3. **Each segment:** split on `-` and `_`; apply strict Title Case per token; join tokens with a single space within the segment.
+4. **Join segments** with ` - ` (space-hyphen-space).
+
+Adopter repos may use `-` or `_` in custom folder names; humanize **must** accept both separators. The template canonical folder name is `doubts-and-decisions/`.
+
+**Default body profile:** File catalog table immediately after the H1 (blank line, then `| File name | Description |` per §2 table contract). **No** `## File Catalog` heading — the Catalog H1 replaces it.
+
+#### `decision-matrix.md` — Dashboard title (owning block only)
+
+`decision-matrix.md` exists **only** under `{block}/doubts-and-decisions/`. Every file **must** use:
+
+```markdown
+# Dashboard : {path-readable-for-human}
+```
+
+`{path-readable-for-human}` uses the **owning block** path: the directory containing `decision-matrix.md`, **minus** the trailing `doubts-and-decisions` (or legacy `doubts-and-resolutions` / `doubts_and_resolutions`) segment, humanized with the same algorithm.
+
+**Example:**
+
+```text
+1-product-documentation/use-cases/doubts-and-decisions/decision-matrix.md
+  → # Dashboard : Product Documentation - Use Cases
+```
+
+The Dashboard title identifies the **Decision Id index** for the owning block (§2.1). Matrix structure (`## {element-id}` sections, `Decision Id` column) remains normative in §2.1 — the H1 does not replace that body contract.
+
+### §2.3 `doubts-and-decisions/README.md` profiles
 
 Two profiles are allowed. Operational how-to **must not** appear without `## Decision matrix` and §2.1 propagation rules (anti-pattern: file-move workflow only).
 
 | Profile | Applies to | Required sections | Forbidden |
 |---------|------------|-------------------|-----------|
-| **Minimal** | Layer 1 **sub-blocks** only: `1-product-documentation/{sub}/doubts_and_resolutions/README.md` where `{sub}` is any first-level folder under Layer 1 **except** `doubts_and_resolutions` (includes nested sub-blocks such as `logical-domain/business-rules/`) | `## Navigation`, `## Decision matrix`, §2.1 `On solve` + `Forbidden` lines | `## How to manage Doubts`, `## Folders`, `## Status` |
-| **Enriched** | `1-product-documentation/doubts_and_resolutions/README.md` and layers **2–5** `doubts_and_resolutions/README.md` | `## Status` or equivalent, `## Folders`, `## How to manage Doubts`, `## Decision matrix`, §2.1 `On solve` + `Forbidden` | `## How to manage` without `## Decision matrix` |
+| **Minimal** | Layer 1 **sub-blocks** only: `1-product-documentation/{sub}/doubts-and-decisions/README.md` where `{sub}` is any first-level folder under Layer 1 **except** `doubts-and-decisions` (includes nested sub-blocks such as `logical-domain/business-rules/`) | `## Navigation`, `## Decision matrix`, §2.1 `On solve` + `Forbidden` lines | `## How to manage Doubts`, `## Folders`, `## Status` |
+| **Enriched** | `1-product-documentation/doubts-and-decisions/README.md` and layers **2–5** `doubts-and-decisions/README.md` | `## Status` or equivalent, `## Folders`, `## How to manage Doubts`, `## Decision matrix`, §2.1 `On solve` + `Forbidden` | `## How to manage` without `## Decision matrix` |
 
 **Minimal profile — mechanical steps:** Do not duplicate long how-to text. After `## Navigation`, state that open/solve file moves and dashboard rows are defined in the **footer** of [index.md](index.md) in the same folder. Normative closure remains §2.1 + matrix.
 
-**Enriched profile:** Full mechanical how-to may live in the README. The doubt dashboard footer (§2.4) stays identical across all blocks for agents that load only `index.md`.
+**Enriched profile:** Full mechanical how-to may live in the README. The doubts issue catalog footer (§2.4) stays identical across all blocks for agents that load only `index.md`.
 
-**Canonical `Forbidden` line (copy verbatim into every `doubts_and_resolutions/README.md`):**
+**Canonical `Forbidden` line (copy verbatim into every `doubts-and-decisions/README.md`):**
 
 ```markdown
 **Forbidden:** `See D-XXX` to expand doubt context. Supersede via `**Superseded by:** {block}/D-YYY` and `Matrix impact` status updates; archive to `superseded/` when fully superseded (same session).
 ```
 
-### §2.4 Doubt dashboard (`doubts_and_resolutions/index.md`)
+### §2.4 Doubts issue catalog body (`doubts-and-decisions/index.md`)
 
-Beyond §2.2, every doubt dashboard **must** include:
+Beyond the Catalog H1 (§2.2), every `doubts-and-decisions/index.md` **must** include:
 
 | Section | Contract |
 |---------|----------|
 | `## Open Issues` | Table header: `\| ID \| Title \| Priority \| Date Created \|` |
 | `## Solved Issues` | Table header: `\| ID \| Title \| Resolution Date \|` |
-| Footer | Static canonical text below (identical in every dashboard; not duplicated in COD governance prose) |
+| Footer | Static canonical text below (identical in every doubts issue catalog; not duplicated in COD governance prose) |
 
-**Canonical footer (copy verbatim into every doubt dashboard):**
+**Canonical footer (copy verbatim into every doubts issue catalog):**
 
 ```markdown
 ---
@@ -102,7 +134,7 @@ Beyond §2.2, every doubt dashboard **must** include:
 *When every row in ## Matrix impact is Superseded by … and no decision-matrix cell for those rows points at this doubt, move solved/doubt-XXX.md to superseded/ and remove its Solved Issues row in the same session as the last supersede (no Superseded Issues table).*
 ```
 
-Mechanical how-to belongs in this footer (dynamic artifact, point of use), not in `5-governance/`. Structural sync rules remain in §2 (`doubts_and_resolutions/` bullet) and closure propagation in §2.1.
+Mechanical how-to belongs in this footer (dynamic artifact, point of use), not in `5-governance/`. Structural sync rules remain in §2 (`doubts-and-decisions/` bullet) and closure propagation in §2.1.
 
 ### §2.1 Intra-layer self-containment and decision traceability
 
@@ -120,58 +152,58 @@ Decision history is **not** normative. It is indexed separately (see **Decision 
 
 #### Decision matrix (`decision-matrix.md`)
 
-Every fractal block that owns `doubts_and_resolutions/` **must** include `decision-matrix.md` alongside `index.md`.
+Every fractal block that owns `doubts-and-decisions/` **must** include `decision-matrix.md` alongside `index.md`.
 
-**`Effective` (term):** The doubt indexed in `decision-matrix.md` for a given `(element, event)` — authoritative for that row until superseded. **Not** the same as a doubt in `open/` (debate in progress).
+**`D-XXX` (Decision Id):** Logical identifier for a **Doubt & Decision** record. Physical file: `{phase}/doubt-XXX.md` where `{phase}` is `open/`, `solved/`, or `superseded/`. The letter **D** denotes **Doubt & Decision**, not a separate numeric scheme (`DEC-XXX` is **forbidden**). Matrix cells display bare `D-XXX` in the owning block or qualified `{block}/D-XXX` cross-block. One Decision Id may index **multiple** matrix rows (same id, different `(element, event)`).
 
-**`Record` (term):** A closed doubt file in `solved/doubt-XXX.md` (or archived in `superseded/`) that documents resolution, debate, and propagation. **Not** used for doubts still in `open/`.
+**`Record` (term):** A Doubt & Decision file (`doubt-XXX.md`) documenting problem context, debate, and closed decision. **`open/`** — debate in progress. **`solved/`** — operational record. **`superseded/`** — forensic only.
 
 | Rule | Requirement |
 |------|-------------|
-| **Scope** | The matrix lists **only elements owned by this block** (e.g. a `use-cases/.../doubts_and_resolutions/decision-matrix.md` contains only `## UC-XX` sections; a `business-rules/...` matrix contains only `## BR-XX` sections). |
-| **Structure** | One `## {element-id}` heading per indexed element. Under each heading, a table with columns `Event (brief)` and `Effective doubt`. |
-| **Uniqueness** | At most **one** effective doubt per `(element, event)` pair within a block. |
-| **Role** | Operational **SSOT of effective doubt identity** per `(block, element, event)`. It does **not** replace SSOT normative files (entities, BR, UC). |
-| **Historical chain** | Supersede and merge chains are **not** stored in the matrix. They live in `doubts_and_resolutions/history/` (append-only, brief). |
-| **Doubt ID scope** | Each `doubts_and_resolutions/` block has its **own** `D-001`, `D-002`, … sequence in its dashboard. IDs may repeat across blocks. Global identity uses the **block-qualified** form `{block}/D-XXX` (e.g. `use-cases/D-002`). |
-| **Owning block** | The fractal block where the doubt record file lives under `{block}/doubts_and_resolutions/solved/` (e.g. a record in `use-cases/.../solved/doubt-008.md` has owning block `use-cases`). Foreign `decision-matrix.md` cells **must** use qualified links `[owning-block/D-XXX](…)` — never bare `D-XXX` when the record is elsewhere. |
+| **Scope** | The matrix lists **only elements owned by this block** (e.g. a `use-cases/.../doubts-and-decisions/decision-matrix.md` contains only `## UC-XX` sections; a `business-rules/...` matrix contains only `## BR-XX` sections). |
+| **Structure** | One `## {element-id}` heading per indexed element. Under each heading, a table with columns `Event (brief)` and `Decision Id`. |
+| **Uniqueness** | At most **one** Decision Id per `(element, event)` pair within a block. |
+| **Role** | Operational **SSOT of Decision Id** per `(block, element, event)`. It does **not** replace SSOT normative files (entities, BR, UC). The matrix lists **current** ids only — not `open/` debate or `superseded/` records. |
+| **Historical chain** | Supersede and merge chains are **not** stored in the matrix. They live in `doubts-and-decisions/history/` (append-only, brief). |
+| **Decision Id scope** | Each `doubts-and-decisions/` block has its **own** `D-001`, `D-002`, … sequence. IDs may repeat across blocks. Global identity uses the **block-qualified** form `{block}/D-XXX` (e.g. `use-cases/D-002`). |
+| **Owning block** | The fractal block where the record file lives under `{block}/doubts-and-decisions/solved/` (e.g. a record in `use-cases/.../solved/doubt-008.md` has owning block `use-cases`). Foreign `decision-matrix.md` cells **must** use qualified links `[owning-block/D-XXX](…)` — never bare `D-XXX` when the record is elsewhere. |
 
-**`Effective doubt` cell format:**
+**`Decision Id` cell format:**
 
 | Case | Required cell value | Record resolution |
 |------|---------------------|-----------------|
-| **Local** (record in this block) | `D-XXX` (bare ID) | `{current-block}/doubts_and_resolutions/solved/doubt-XXX.md` |
+| **Local** (record in this block) | `D-XXX` (bare ID) | `{current-block}/doubts-and-decisions/solved/doubt-XXX.md` |
 | **Cross-block** (record in another block) | Markdown link: display text `{block}/D-XXX`, target = owning block's `solved/doubt-XXX.md` | Follow link to the owning block's record |
 | **Forbidden** | Bare `D-XXX` in block B when the record file lives only under another block's `solved/` | — |
 
-**Matrix template — local effective (per element section):**
+**Matrix template — local (per element section):**
 
 ```markdown
 ## UC-02.03
 
-| Event (brief) | Effective doubt |
-|---------------|---------------|
+| Event (brief) | Decision Id |
+|---------------|-------------|
 | Sparse persist on materialized Edit | D-008 |
 ```
 
-**Matrix template — cross-block effective (element owned by this block, record in another block):**
+**Matrix template — cross-block (element owned by this block, record in another block):**
 
 ```markdown
 ## project
 
-| Event (brief) | Effective doubt |
-|---------------|---------------|
-| Edge cases on persist | [use-cases/D-002](../../use-cases/doubts_and_resolutions/solved/doubt-002.md) |
+| Event (brief) | Decision Id |
+|---------------|-------------|
+| Edge cases on persist | [use-cases/D-002](../../use-cases/doubts-and-decisions/solved/doubt-002.md) |
 ```
 
 **Agent resolution (matrix cell → record path):**
 
 ```text
-Read Effective doubt cell in current block's decision-matrix.md
+Read Decision Id cell in current block's decision-matrix.md
   IF cell matches bare D-XXX
-    → {current-block}/doubts_and_resolutions/solved/doubt-XXX.md (must exist)
+    → {current-block}/doubts-and-decisions/solved/doubt-XXX.md (must exist)
   IF cell is Markdown link with display {block}/D-XXX
-    → {block}/doubts_and_resolutions/solved/doubt-XXX.md (must exist)
+    → {block}/doubts-and-decisions/solved/doubt-XXX.md (must exist)
   IF bare D-XXX in block B but record missing locally → KO / escalate (use qualified link)
 ```
 
@@ -181,11 +213,11 @@ Operational map of **which matrix rows** this doubt touches — used for closure
 
 | Artifact | Role |
 |----------|------|
-| `decision-matrix.md` | **Effective** pointer per `(block, element, event)` — links only to `solved/` records |
+| `decision-matrix.md` | **Decision Id** pointer per `(block, element, event)` — links only to `solved/` records |
 | `## Matrix impact` | **Operational** index for closures and supersede updates |
 | `solved/` | Records with operational value (may have partial supersede rows still `Effective`) |
 | `superseded/` | Fully superseded records — forensic only |
-| `doubts_and_resolutions/history/` | **Forensic** brief log — agents must not traverse without explicit human instruction |
+| `doubts-and-decisions/history/` | **Forensic** brief log — agents must not traverse without explicit human instruction |
 
 **When required:** Every solved doubt that updates at least one row in any `decision-matrix.md` (local or cross-block) **must** include `## Matrix impact` in the same work session.
 
@@ -197,7 +229,7 @@ Operational map of **which matrix rows** this doubt touches — used for closure
 | Block | Element | Event (brief) | Matrix | Status |
 |-------|---------|---------------|--------|--------|
 | use-cases | UC-02 | Sparse persist | [decision-matrix.md](../decision-matrix.md) | Effective |
-| logical-domain | project | Edge cases on persist | [decision-matrix.md](../../logical-domain/doubts_and_resolutions/decision-matrix.md) | Effective |
+| logical-domain | project | Edge cases on persist | [decision-matrix.md](../../logical-domain/doubts-and-decisions/decision-matrix.md) | Effective |
 ```
 
 | Column | Rule |
@@ -206,7 +238,7 @@ Operational map of **which matrix rows** this doubt touches — used for closure
 | `Element` | Element ID in that block's matrix (`UC-XX`, `project`, `BR-XX`, …) |
 | `Event (brief)` | Must match the `Event (brief)` row in the linked matrix |
 | `Matrix` | Link to the owning block's `decision-matrix.md` |
-| `Status` | `Effective` while this doubt is the effective index for that row; `Superseded by {block}/D-YYY` when replaced |
+| `Status` | `Effective` while this Decision Id is indexed for that row; `Superseded by {block}/D-YYY` when replaced |
 
 **Dashboard rule:** Cross-block impact does **not** add rows to foreign blocks' `index.md` dashboards. Traceability is via matrix + `Matrix impact` only.
 
@@ -221,8 +253,8 @@ A doubt is **not fully closed** until all of the following complete in the **sam
 | 3 | Add a **`## Propagated to`** section in the solved doubt (SSOT paths only — no duplicate normative tables). Navigational index for humans/agents; **not** a machine-verifiable propagation contract (closure gates: SSOT content, `Matrix impact`, and `decision-matrix.md`). |
 | 4 | Add **`## Matrix impact`** when any `decision-matrix.md` row is created or updated (see **Matrix impact** above). |
 | 5 | Update `decision-matrix.md` in every affected block (effective row per `(element, event)` — use qualified links in non-owning blocks). |
-| 6 | Append a brief entry to `doubts_and_resolutions/history/` when a doubt supersedes or merges another (**mandatory** on supersede). |
-| 7 | Update the **owning block's** `doubts_and_resolutions/index.md` dashboard only (no foreign-dashboard rows). |
+| 6 | Append a brief entry to `doubts-and-decisions/history/` when a doubt supersedes or merges another (**mandatory** on supersede). |
+| 7 | Update the **owning block's** `doubts-and-decisions/index.md` dashboard only (no foreign-dashboard rows). |
 
 **Closure criterion:** No implementer should need to read **only** `solved/doubt-XXX.md` to build domain behavior.
 
@@ -232,7 +264,7 @@ When closing a doubt in block A affects an element owned by block B (e.g. a UC d
 
 1. **Do not close** until block B is consistent (SSOT + matrix).
 2. Consult block B's `decision-matrix.md` for the affected `## {element}` section only.
-3. In block B's matrix, set `Effective doubt` to a **qualified link** `[A/D-XXX](…/A/…/solved/doubt-XXX.md)` — never bare `D-XXX`.
+3. In block B's matrix, set **Decision Id** to a **qualified link** `[A/D-XXX](…/A/…/solved/doubt-XXX.md)` — never bare `D-XXX`.
 4. Propagate normative text to block B SSOT artifacts.
 5. List block B rows in block A's `## Matrix impact` with `Status: Effective`.
 6. **Do not** add a dashboard row for this doubt in block B's `index.md`.
@@ -264,7 +296,7 @@ When doubt **D-YYY** supersedes **D-XXX**, **D-XXX** loses operational value (fo
 
 When the **last** `Effective` row in D-XXX's `## Matrix impact` becomes `Superseded by …` in the **same work session**, archive D-XXX immediately after the superseding closure completes.
 
-**Effective inverse check:** For each row in D-XXX's `## Matrix impact`, read that block's `decision-matrix.md` at the matching `(element, event)`. The `Effective doubt` cell **must resolve to a doubt other than D-XXX**. This verifies the **effective index** (operational matrix pointers) only — it confirms no matrix cell still treats D-XXX as effective. It is **not** a full supersede-coherence or `history/` traceability audit (see [check-solve-doubt.md](../skills/check-solve-doubt.md) checks 11–12).
+**Effective inverse check:** For each row in D-XXX's `## Matrix impact`, read that block's `decision-matrix.md` at the matching `(element, event)`. The **Decision Id** cell **must resolve to an id other than D-XXX**. This verifies the operational matrix pointers only — it confirms no matrix cell still indexes D-XXX. It is **not** a full supersede-coherence or `history/` traceability audit (see [check-solve-doubt.md](../skills/check-solve-doubt.md) checks 11–12).
 
 | Step | Action |
 |------|--------|
@@ -276,7 +308,7 @@ When the **last** `Effective` row in D-XXX's `## Matrix impact` becomes `Superse
 
 **Archive gate (KO):** If any `decision-matrix.md` cell for a row in D-XXX's `Matrix impact` still resolves to D-XXX, archive **must not** proceed.
 
-**Qualified links:** Operational `Effective doubt` cells and cross-block links **must** target records under `solved/` only — never `superseded/`.
+**Qualified links:** Operational **Decision Id** cells and cross-block links **must** target records under `solved/` only — never `superseded/`.
 
 **Agent rule:** Do **not** load `superseded/` unless the human gives an explicit forensic instruction (same policy as `history/`).
 
@@ -295,7 +327,7 @@ When the **last** `Effective` row in D-XXX's `## Matrix impact` becomes `Superse
 |--------|----------------------------------|
 | Read `decision-matrix.md` | **Allowed** — only `## {element}` sections matching elements in current debate scope |
 | Read other matrix sections | **Forbidden** unless scope expands |
-| Traverse `doubts_and_resolutions/history/` week files to reconstruct traceability | **Forbidden** unless the human gives an **explicit** instruction (e.g. "investigate historical traceability for this event") |
+| Traverse `doubts-and-decisions/history/` week files to reconstruct traceability | **Forbidden** unless the human gives an **explicit** instruction (e.g. "investigate historical traceability for this event") |
 | Load files under `superseded/` | **Forbidden** unless the human gives an **explicit** forensic instruction |
 
 **Reading hierarchy:**

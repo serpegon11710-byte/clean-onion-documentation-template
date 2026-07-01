@@ -1,6 +1,4 @@
-# Business Rules
-
-## File Catalog
+# Catalog : Product Documentation - Logical Domain - Business Rules
 
 | File name | Description |
 |---|---|

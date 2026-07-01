@@ -1,6 +1,4 @@
-# L2 — Containers
-
-## File Catalog
+# Catalog : Product Documentation - Diagrams C4 - L2 Containers
 
 | File name | Description |
 |---|---|

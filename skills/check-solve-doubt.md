@@ -19,7 +19,7 @@ Closure workflow: [skills/product-owner.md](product-owner.md) Phase 2.
 
 ```text
 @skills/check-solve-doubt.md
-Scope: 1-product-documentation/use-cases/doubts_and_resolutions/solved/doubt-008.md
+Scope: 1-product-documentation/use-cases/doubts-and-decisions/solved/doubt-008.md
 ```
 
 Alternate form:
@@ -32,25 +32,25 @@ Doubt: D-008
 ## Scope resolution
 
 1. If a full path to `doubt-XXX.md` is given, use it (file may be in `open/` during final edit, `solved/` after solve, or `superseded/` only when human requests forensic audit).
-2. If block + doubt ID are given, resolve via that block's `doubts_and_resolutions/solved/` first, then `open/` if missing.
-3. Determine **owning block** (folder immediately under which `doubts_and_resolutions/` lives, e.g. `use-cases`, `logical-domain`).
+2. If block + doubt ID are given, resolve via that block's `doubts-and-decisions/solved/` first, then `open/` if missing.
+3. Determine **owning block** (folder immediately under which `doubts-and-decisions/` lives, e.g. `use-cases`, `logical-domain`).
 4. Load **only**:
    - The target doubt file.
    - Paths listed under `## Propagated to`.
    - `## Matrix impact` (if present) and superseded doubt records in `solved/` referenced for supersede checks.
    - `decision-matrix.md` `## {element}` sections for elements in `Matrix impact` or `Propagated to`.
-   - Owning-block `doubts_and_resolutions/index.md` (dashboard row for this doubt — owning block only).
+   - Owning-block `doubts-and-decisions/index.md` (dashboard row for this doubt — owning block only).
 5. Do **not** traverse week `history/` or load `superseded/` unless the human explicitly requests forensic traceability.
 
-## Effective doubt resolution (checks 6–8)
+## Decision Id resolution (checks 6–8)
 
-Apply when reading an `Effective doubt` cell or validating matrix consistency:
+Apply when reading an `Decision Id` cell or validating matrix consistency:
 
 ```text
 IF cell is bare D-XXX
-  → record = {matrix-block}/doubts_and_resolutions/solved/doubt-XXX.md
+  → record = {matrix-block}/doubts-and-decisions/solved/doubt-XXX.md
 IF cell is [block/D-XXX](path)
-  → record = {block}/doubts_and_resolutions/solved/doubt-XXX.md (path must resolve under solved/)
+  → record = {block}/doubts-and-decisions/solved/doubt-XXX.md (path must resolve under solved/)
 IF matrix-block ≠ owning block AND cell is bare D-XXX → KO (MATRIX-CROSS-BLOCK-FORMAT)
 IF path targets superseded/ → KO (MATRIX-SUPERSEDED-LINK)
 ```

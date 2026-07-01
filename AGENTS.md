@@ -32,7 +32,7 @@ You are operating inside a concentric, modular repository structure. You must st
 
 2. **Inner Layer Agnosticism:** Core business logic and use cases inside `1-product-documentation` must remain entirely agnostic of technological stacks, deployment details, or sprint timelines.
 
-3. **Atomic Fractal Pattern:** Every micro-feature folder should contain an independent ecosystem (`README.md`, `index.md`, `history/`, and `doubts_and_resolutions/`). Never mix scopes.
+3. **Atomic Fractal Pattern:** Every micro-feature folder should contain an independent ecosystem (`README.md`, `index.md`, `history/`, and `doubts-and-decisions/`). Never mix scopes.
 
 4. **Token Management:** Do not read full directories recursively unless explicitly instructed. Lean on local `index.md` files at layer root to navigate the architecture efficiently.
 
@@ -66,7 +66,7 @@ Before modifying any architectural layout or drafting a core system entity:
 
 2. Cross-reference the scope with `1-product-documentation/`.
 
-3. If an architectural ambiguity arises, log the query under the local `doubts_and_resolutions/` index and ask the user for confirmation before writing code.
+3. If an architectural ambiguity arises, log the query under the local `doubts-and-decisions/` index and ask the user for confirmation before writing code.
 
 ---
 
@@ -89,12 +89,12 @@ All authoritative content lives in **one place per concern**. Adapters (`CLAUDE.
 | **Operational modes** | `skills/<name>.md` + `skills/README.md` + §8 below + agent stubs | Triple contract — see [skills/README.md](skills/README.md) and [multi-agent-governance.md](5-governance/multi-agent-governance.md) §5 |
 | **Layer scope & navigation** | `{N-layer}/README.md` | Read when working inside that layer |
 | **Layer file catalog** | `{N-layer}/index.md` | **Mandatory** file discovery — never list-dir |
-| **Doubts dashboard** | `{N-layer}/doubts_and_resolutions/index.md` | Load when managing doubts |
-| **Decision matrix (effective doubts)** | `{block}/doubts_and_resolutions/decision-matrix.md` | Load when closing doubts; scope by `## {element}` only; resolve cross-block via `[block/D-XXX](…)` |
+| **Doubts issue catalog** | `{N-layer}/doubts-and-decisions/index.md` | Load when managing doubt lifecycle (open/solved) |
+| **Decision matrix (Decision Id index)** | `{block}/doubts-and-decisions/decision-matrix.md` | Load when closing doubts; scope by `## {element}` only; resolve cross-block via `[block/D-XXX](…)` |
 | **Matrix impact (closure map)** | `## Matrix impact` in solved record | Load when closing or superseding; operational SSOT of touched matrix rows |
-| **Superseded records (forensic)** | `{block}/doubts_and_resolutions/superseded/` | Do not load unless human requests forensic traceability |
+| **Superseded records (forensic)** | `{block}/doubts-and-decisions/superseded/` | Do not load unless human requests forensic traceability |
 | **Intra-layer SSOT & decision matrix** | `5-governance/clean-onion-documentation.md` §2.1 | Load when closing doubts or editing entities/BR/UC normative files |
-| **Fractal index archetypes & doubts README profiles** | `5-governance/clean-onion-documentation.md` §2.2–§2.4 | Load when creating or editing `index.md` / `doubts_and_resolutions/README.md` |
+| **Fractal document titles & doubts README profiles** | `5-governance/clean-onion-documentation.md` §2.2–§2.4 | Load when creating or editing `index.md`, `decision-matrix.md`, or `doubts-and-decisions/README.md` |
 | **Doubt overlap analysis** | `skills/refactor-doubts.md` | Invoke before PO closure when overlaps are suspected |
 | **Doubt closure verification** | `skills/check-solve-doubt.md` | Human invokes after closure, before commit |
 | **History map** | `{N-layer}/history/index.md` | Load when writing traceability logs |

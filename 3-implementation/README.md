@@ -99,4 +99,4 @@ Every component that implements a ZC must follow this structure:
 - [bootstrap-policy.md](bootstrap-policy.md) — Bootstrap and initialization policy (component `.bootstrap/`, root orchestrator).
 - [component-decoupling-contracts.md](component-decoupling-contracts.md) — Component decoupling through explicit contracts.
 - [i18n-implementation-contract.md](i18n-implementation-contract.md) — Localization boundaries for implementation.
-- [doubts_and_resolutions/](doubts_and_resolutions/) — Atomic management of open and closed doubts.
+- [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open and closed doubts.

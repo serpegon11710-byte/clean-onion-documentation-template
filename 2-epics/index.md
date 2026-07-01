@@ -1,6 +1,4 @@
-# Epics
-
-## File Catalog
+# Catalog : Epics
 
 | File name | Description |
 |---|---|

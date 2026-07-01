@@ -1,6 +1,6 @@
 # Pre-Commit Validation Rules
 
-**Last updated:** 2026-06-30
+**Last updated:** 2026-07-01
 
 **Source of truth** for the pre-commit integrity contract (`AGENTS.md` §9), auditor behavior ([skills/solid.md](../skills/solid.md)), and all validation criteria executed before `git commit`.
 
@@ -19,7 +19,7 @@ Before any commit, perform an architectural audit of all **staged** changes. Inv
 ### On failure
 
 - **Reject** the commit process immediately.
-- **Log** the conflict in the corresponding layer's `doubts_and_resolutions/index.md`.
+- **Log** the conflict in the corresponding layer's `doubts-and-decisions/index.md`.
 - **Report** the violation to the user for manual correction and refactor.
 
 ---
@@ -42,7 +42,7 @@ For **non-commit** audits (ad-hoc review), respond in chat with:
 ## 3. Regeneration Workflow
 
 1. Review **staged** changes (`git diff --cached`).
-2. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4 (see §4, §4.1, §4.2, and §4.3 below).
+2. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4 (see §4, §4.1, §4.2, §4.3, and §4.4 below).
 3. Validate **SOLID** — at minimum **S** and **D** on staged changes (see §5 below).
 4. Validate **L4 ZC pseudocode mirror** when staged changes touch Critical Zones or their Layer 3 projections (see §6 below).
 5. Run `Get-Date -Format "yyyy-MM-ddTHH:mm:ss"` **once**, immediately before writing report headers.
@@ -72,12 +72,12 @@ Apply when staged paths include any `**/index.md` **or** when a same-level `.md`
 
 | Check | Rule | On failure |
 |-------|------|------------|
-| **Row exists on disk** | Every file name in the `## File Catalog` table resolves to a `.md` file at the same path | `COD-INDEX` |
+| **Row exists on disk** | Every file name in the file catalog table (first markdown table after H1) resolves to a `.md` file at the same path | `COD-INDEX` |
 | **Tracked in git** | Every cataloged `.md` is listed by `git ls-files` for that directory (not gitignored or deleted) | `COD-INDEX` |
 | **No omissions** | Every git-tracked same-level `.md` except `index.md` has exactly one catalog row | `COD-INDEX` |
 | **No directories** | No catalog row names a subdirectory (trailing `/` or path segment without `.md` extension) | `COD-INDEX` |
 
-**Auditor algorithm:** For each affected `index.md`, parse rows between `## File Catalog` and the next `##` heading; compare against `git ls-files --directory <dir>` filtered to `*.md` excluding `index.md`.
+**Auditor algorithm:** For each affected `index.md`, parse rows in the **first markdown table** after the H1 (from `| File name | Description |` until the next `##` heading or EOF); compare against `git ls-files --directory <dir>` filtered to `*.md` excluding `index.md`.
 
 Record violations under **Findings** with tag `COD-INDEX` and affected paths.
 
@@ -87,7 +87,7 @@ Normative rules: [clean-onion-documentation.md](clean-onion-documentation.md) §
 
 Apply when staged paths include any of:
 
-- `**/doubts_and_resolutions/**`
+- `**/doubts-and-decisions/**`
 - `**/logical-domain/entities/**`
 - `**/logical-domain/business-rules/**`
 - `**/use-cases/**`
@@ -96,12 +96,12 @@ Apply when staged paths include any of:
 | Check | Rule | On failure |
 |-------|------|------------|
 | **SSOT doubt pointers** | Staged SSOT files (`entities/**`, `business-rules/**`, `use-cases/**/README.md`) **must not** contain doubt-delegation patterns (`See D-`, `See doubt-`, case-insensitive) | `**STATUS:** KO` |
-| **Propagated to on solve** | Staged new or modified `doubts_and_resolutions/solved/doubt-*.md` with normative resolution content **must** include a `## Propagated to` section listing at least one SSOT or matrix path | `**STATUS:** KO` |
+| **Propagated to on solve** | Staged new or modified `doubts-and-decisions/solved/doubt-*.md` with normative resolution content **must** include a `## Propagated to` section listing at least one SSOT or matrix path | `**STATUS:** KO` |
 | **Matrix impact on solve** | When a staged solved doubt is paired with staged `decision-matrix.md` changes, the solved doubt **must** include `## Matrix impact` with columns `Block`, `Element`, `Event (brief)`, `Matrix`, `Status` | `**STATUS:** KO` |
-| **Matrix on solve** | When a solved doubt is staged, staged changes **must** include the corresponding `decision-matrix.md` update in each affected block, or each matrix must already list the doubt as effective for each impacted `(element, event)` per §2.1 format | `**STATUS:** KO` |
-| **Matrix cross-block format** | In staged `decision-matrix.md`, a bare `D-XXX` effective cell in block B requires `B/doubts_and_resolutions/solved/doubt-XXX.md` to exist. Cross-block effective **must** use `[block/D-XXX](…)` with link target under the owning block's `solved/` (never `superseded/`) | `**STATUS:** KO` |
-| **Matrix uniqueness** | Within each `## {element}` section of a staged `decision-matrix.md`, no duplicate `Event (brief)` row and no duplicate `Effective doubt` claiming the same event | `**STATUS:** KO` |
-| **Archive on full supersede** | When a staged supersede leaves a doubt with no `Effective` rows in `## Matrix impact`, the record **must** move to `superseded/` in the same staged changeset and its Solved dashboard row **must** be removed | `**STATUS:** KO` |
+| **Matrix on solve** | When a solved doubt is staged, staged changes **must** include the corresponding `decision-matrix.md` update in each affected block, or each matrix must already list the Decision Id for each impacted `(element, event)` per §2.1 format | `**STATUS:** KO` |
+| **Matrix cross-block format** | In staged `decision-matrix.md`, a bare `D-XXX` Decision Id cell in block B requires `B/doubts-and-decisions/solved/doubt-XXX.md` to exist. Cross-block **must** use `[block/D-XXX](…)` with link target under the owning block's `solved/` (never `superseded/`) | `**STATUS:** KO` |
+| **Matrix uniqueness** | Within each `## {element}` section of a staged `decision-matrix.md`, no duplicate `Event (brief)` row and no duplicate `Decision Id` claiming the same event | `**STATUS:** KO` |
+| **Archive on full supersede** | When a staged supersede leaves a doubt with no `Effective` rows in `## Matrix impact`, the record **must** move to `superseded/` in the same staged changeset and its Solved issue catalog row **must** be removed | `**STATUS:** KO` |
 | **Effective inverse on archive** | For each row in a fully superseded doubt's `Matrix impact`, the referenced block's staged `decision-matrix.md` cell for that `(element, event)` must **not** resolve to the archived doubt ID | `**STATUS:** KO` |
 | **Supersede header** | Staged superseded record may add only `**Superseded by:** {block}/D-YYY` at the top plus `Matrix impact` status updates — no other rewrites of closed debate body | `**STATUS:** KO` if debate body was rewritten |
 | **Doubt context chains** | Staged doubt files **must not** add `See D-` patterns for context expansion (supersede declarations and `Matrix impact` status are allowed) | `**STATUS:** KO` |
@@ -115,29 +115,50 @@ Apply when staged paths include any of:
 
 Record violations under **Findings** with tag `COD-SSOT` or `COD-MATRIX` and affected paths.
 
-### §4.2 Fractal doubts dashboard and README profiles (hard gate)
+### §4.2 Fractal doubts issue catalog and README profiles (hard gate)
 
-Normative rules: [clean-onion-documentation.md](clean-onion-documentation.md) §2.2, §2.3, §2.4.
+Normative rules: [clean-onion-documentation.md](clean-onion-documentation.md) §2.3, §2.4.
 
 Apply when staged paths include any:
 
-- `**/doubts_and_resolutions/README.md`
-- `**/doubts_and_resolutions/index.md`
+- `**/doubts-and-decisions/README.md`
+- `**/doubts-and-decisions/index.md`
 
 | Check | Rule | On failure |
 |-------|------|------------|
-| **Dashboard H1** | Staged `doubts_and_resolutions/index.md` H1 matches `# Doubt Dashboard - {Scope}` | `COD-DASHBOARD` |
-| **Dashboard sections** | Staged dashboard includes `## Open Issues` and `## Solved Issues` with column headers per §2.4 | `COD-DASHBOARD` |
-| **Dashboard footer** | Staged dashboard footer matches the canonical footer in §2.4 (all three instruction lines, verbatim) | `COD-DASHBOARD` |
-| **Dashboard bijection** | Every doubt listed in **Solved Issues** has a file in `solved/`; no Solved row for a file in `superseded/`; no `## Superseded Issues` section | `COD-DASHBOARD` |
-| **Footer parity** | When any staged dashboard `index.md` is modified, **every** `**/doubts_and_resolutions/index.md` in the repo must carry the same canonical footer (prevents arbitrary template copy drift) | `COD-DASHBOARD` |
-| **How-to requires matrix** | Staged `doubts_and_resolutions/README.md` with `## How to manage` (any casing) **must** also contain `## Decision matrix` | `COD-README` |
-| **L1 sub-block minimal** | Staged README under `1-product-documentation/*/doubts_and_resolutions/README.md` or `1-product-documentation/*/*/doubts_and_resolutions/README.md` (any depth under Layer 1, excluding `1-product-documentation/doubts_and_resolutions/`) **must not** contain `## How to manage`, `## Folders`, or `## Status` | `COD-README` |
+| **Issue catalog sections** | Staged `doubts-and-decisions/index.md` includes `## Open Issues` and `## Solved Issues` with column headers per §2.4 | `COD-DOUBTS-BODY` |
+| **Issue catalog footer** | Staged index footer matches the canonical footer in §2.4 (all three instruction lines, verbatim) | `COD-DOUBTS-BODY` |
+| **Issue catalog bijection** | Every doubt listed in **Solved Issues** has a file in `solved/`; no Solved row for a file in `superseded/`; no `## Superseded Issues` section | `COD-DOUBTS-BODY` |
+| **Footer parity** | When any staged `doubts-and-decisions/index.md` is modified, **every** `**/doubts-and-decisions/index.md` in the repo must carry the same canonical footer (prevents arbitrary template copy drift) | `COD-DOUBTS-BODY` |
+| **How-to requires matrix** | Staged `doubts-and-decisions/README.md` with `## How to manage` (any casing) **must** also contain `## Decision matrix` | `COD-README` |
+| **L1 sub-block minimal** | Staged README under `1-product-documentation/*/doubts-and-decisions/README.md` or `1-product-documentation/*/*/doubts-and-decisions/README.md` (any depth under Layer 1, excluding `1-product-documentation/doubts-and-decisions/`) **must not** contain `## How to manage`, `## Folders`, or `## Status` | `COD-README` |
 | **L1 sub-block matrix** | Same minimal-path READMEs **must** contain `## Decision matrix` and an `On solve:` line referencing §2.1 | `COD-README` |
 
-**L1 sub-block path rule:** Match `1-product-documentation/{segment}/doubts_and_resolutions/README.md` where `{segment}` ≠ `doubts_and_resolutions`, plus any deeper nesting under `1-product-documentation/` (e.g. `logical-domain/business-rules/`). The enriched Layer 1 root `1-product-documentation/doubts_and_resolutions/README.md` is **exempt** from minimal-profile checks.
+**L1 sub-block path rule:** Match `1-product-documentation/{segment}/doubts-and-decisions/README.md` where `{segment}` ≠ `doubts-and-decisions`, plus any deeper nesting under `1-product-documentation/` (e.g. `logical-domain/business-rules/`). The enriched Layer 1 root `1-product-documentation/doubts-and-decisions/README.md` is **exempt** from minimal-profile checks.
 
-Record violations under **Findings** with tag `COD-DASHBOARD` or `COD-README` and affected paths.
+Record violations under **Findings** with tag `COD-DOUBTS-BODY` or `COD-README` and affected paths.
+
+### §4.4 Document title contracts (hard gate)
+
+Normative rules: [clean-onion-documentation.md](clean-onion-documentation.md) §2.2 (`humanizePath` algorithm).
+
+Apply when staged paths include any `**/index.md` or `**/decision-matrix.md`.
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **Catalog H1** | Staged `index.md` line 1 equals `# Catalog : {path-readable-for-human}` where `{path-readable-for-human}` is `humanizePath` of the file's directory from the layer root | `COD-CATALOG-H1` |
+| **Dashboard H1** | Staged `decision-matrix.md` line 1 equals `# Dashboard : {path-readable-for-human}` where `{path-readable-for-human}` is `humanizePath` of the **owning block** directory (parent of `doubts-and-decisions/` or legacy `doubts-and-resolutions` / `doubts_and_resolutions/`) | `COD-DASHBOARD-H1` |
+
+**Auditor `humanizePath` steps (must match §2.2):**
+
+1. Split directory path into segments (forward slashes, relative to repo root).
+2. **First segment only:** strip leading `^[0-9]+-`.
+3. **Each segment:** split on `-` and `_`; strict Title Case per token; join tokens with a space within the segment.
+4. Join segments with ` - `.
+
+**Dashboard path:** For `…/doubts-and-decisions/decision-matrix.md` (or legacy `doubts-and-resolutions` / `doubts_and_resolutions`), humanize the directory **above** the doubts folder.
+
+Record violations under **Findings** with tag `COD-CATALOG-H1` or `COD-DASHBOARD-H1` and affected paths.
 
 ---
 
@@ -236,7 +257,7 @@ Update [solid-principles-review-report.md](solid-principles-review-report.md) pe
 
 ### COD cross-check
 
-<inward-only + stack leakage + fractal index + catalog bijection §4.3 + §4.1 self-containment/matrix + §4.2 dashboard/README profiles when applicable per clean-onion-documentation.md §4>
+<inward-only + stack leakage + fractal index + catalog bijection §4.3 + §4.1 self-containment/matrix + §4.2 doubts issue catalog/README + §4.4 Catalog/Dashboard H1 when applicable per clean-onion-documentation.md §4>
 
 ### SOLID cross-check
 

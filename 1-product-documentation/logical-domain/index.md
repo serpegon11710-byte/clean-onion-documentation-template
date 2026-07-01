@@ -1,6 +1,4 @@
-# Logical Domain
-
-## File Catalog
+# Catalog : Product Documentation - Logical Domain
 
 | File name | Description |
 |---|---|

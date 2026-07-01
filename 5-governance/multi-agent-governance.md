@@ -48,7 +48,7 @@ All authoritative content lives in **one place per concern**. Adapters never cop
 | **Operational modes** | `skills/<name>.md` + `skills/README.md` + `AGENTS.md` §8 + agent stubs | Triple contract — see §5 below |
 | **Layer scope & navigation** | `{N-layer}/README.md` | Read when working inside that layer |
 | **Layer file catalog** | `{N-layer}/index.md` | **Mandatory** file discovery — never list-dir |
-| **Doubts dashboard** | `{N-layer}/doubts_and_resolutions/index.md` | Load when managing doubts |
+| **Doubts issue catalog** | `{N-layer}/doubts-and-decisions/index.md` | Load when managing doubt lifecycle (open/solved) |
 | **History map** | `{N-layer}/history/index.md` | Load when writing traceability logs |
 
 ### Navigation law (anti-scan)

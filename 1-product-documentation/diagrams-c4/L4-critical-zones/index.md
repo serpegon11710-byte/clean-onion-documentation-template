@@ -1,6 +1,4 @@
-# L4 — Critical Zones
-
-## File Catalog
+# Catalog : Product Documentation - Diagrams C4 - L4 Critical Zones
 
 | File name | Description |
 |---|---|

@@ -78,7 +78,7 @@ To guarantee maximum efficiency and minimum token consumption, every significant
 
 - `history/`: Chronological modification logs to maintain context tracking.
 
-- `doubts_and_resolutions/`: Atomic space to isolate issues, FAQs, and edge cases.
+- `doubts-and-decisions/`: Atomic space to isolate issues, FAQs, and edge cases.
 
 ## 🤖 AI Agent Governance
 

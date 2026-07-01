@@ -11,7 +11,7 @@ logical-domain/
 ├── README.md
 ├── index.md
 ├── history/
-├── doubts_and_resolutions/
+├── doubts-and-decisions/
 ├── diagrams/                    # Visual projections (UML / ER / state machines)
 │   ├── class-diagram.mmd
 │   └── er-diagram.mmd
@@ -49,5 +49,5 @@ logical-domain/
 - [entities/](entities/) — Domain entities.
 - [business-rules/](business-rules/) — Business rules repository.
 - [diagrams/](diagrams/) — Domain diagrams.
-- [doubts_and_resolutions/](doubts_and_resolutions/) — Atomic management of open and closed doubts.
+- [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open and closed doubts.
 - [history/](history/) — Chronological modification log.

@@ -1,6 +1,4 @@
-# Sprints
-
-## File Catalog
+# Catalog : Sprints
 
 | File name | Description |
 |---|---|

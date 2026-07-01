@@ -1,6 +1,4 @@
-# History - Business Rules
-
-## File Catalog
+# Catalog : Product Documentation - Logical Domain - Business Rules - History
 
 | File name | Description |
 |---|---|
