@@ -7,12 +7,12 @@
 
 ## Current audit
 
-**Audit completed:** 2026-07-01T03:17:43
+**Audit completed:** 2026-07-01T20:25:44
 **STATUS:** PASS
 
 ### Scope of last audit
 
-Catalog/Dashboard H1 contract (COD §2.2), `doubts-and-decisions` folder rename, Decision Id terminology (§2.1), removal of `## File Catalog`, 36× `index.md` + 11× `decision-matrix.md` title updates, 11× README H1 `Doubts & Decisions`, pre-commit §4.2/§4.4, AGENTS/skills propagation, deletion of `cod-dual-history-h1-conflict.md`.
+Governance hardening for automated file writes: explicit PowerShell persistent-write prohibition in AGENTS §3, new file integrity hard gate in pre-commit §1.1, regeneration workflow update, and COD findings tag extension (`COD-FORMAT`).
 
 ### Findings
 
@@ -20,17 +20,14 @@ No violations.
 
 ### COD cross-check
 
-- **Inward-only:** Documentation and governance paths only; no upward layer references.
-- **No stack leakage:** Documentation-only changes.
-- **Fractal index / §4.3:** All `index.md` file catalogs retain bijection contract; Catalog H1 validated mechanically (`All H1 OK`).
-- **§4.1:** Path globs updated to `doubts-and-decisions/**`; matrix rules use `Decision Id` column.
-- **§4.2:** Doubts issue catalog body profiles (Open/Solved/footer) preserved on all 11 blocks.
-- **§4.4:** Catalog H1 on all 36 indexes; Dashboard H1 on all 11 decision matrices per `humanizePath`.
+- **File integrity policy (§1.1):** Primary write methods (`apply_patch` / IDE edits) used; no prohibited OS-native write cmdlets used for persistent edits.
+- **File integrity output:** Modified markdown files remain UTF-8 + LF compliant under repository defaults.
+- **Inward-only / stack leakage:** Governance-only edits in Layer 5 and AGENTS; no layer dependency violations.
 
 ### SOLID cross-check
 
-- **S:** Title contract separated from body profiles (index catalog vs Decision Id index vs issue lifecycle).
-- **D:** Governance SSOT in COD §2.1–§2.2; pre-commit references SSOT without duplicating algorithm prose.
+- **S:** Concerns are separated (shell safeguards in AGENTS, hard gate logic in pre-commit SSOT).
+- **D:** AGENTS depends on governance abstraction by referencing pre-commit §1.1 as normative source.
 
 ### L4 ZC pseudocode mirror cross-check
 

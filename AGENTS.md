@@ -44,9 +44,15 @@ When writing automation scripts, scaffolding files, or updating documentation th
 
 - **No Heredocs (`<<`):** PowerShell 5.x does not support bash-style Heredocs. Never emit scripts using this syntax.
 
-- **Multiline String Block Rules:** When updating or appending multiline strings into files via script, you must use standard `Set-Content` or `Out-File` redirection with strict escape sequences (`\n` for newlines).
+- **File Write Prohibition (Default-Deny):** Do not use OS-native PowerShell write cmdlets for persistent edits (`Set-Content`, `Out-File`, `Add-Content`, `>`/`>>`) because they can inject platform defaults (for example CRLF) and break repository integrity.
+
+- **Approved Editing Methods:** Use IDE-native editing operations or `apply_patch` as primary methods. CLI fallback is allowed only when UTF-8 + LF normalization is explicitly enforced.
+
+- **Mandatory Post-Write Verification:** After any automated write, verify UTF-8 + LF compliance and immediately normalize with approved methods if drift is detected.
 
 - **Temporary Files Safeguard:** If complex string escaping is required, write the content to an atomic temporary file (`*.tmp`), execute the transfer, and delete the file immediately after confirmation.
+
+Normative source: [5-governance/pre-commit-validation-rules.md](5-governance/pre-commit-validation-rules.md) §1.1.
 
 ---
 
