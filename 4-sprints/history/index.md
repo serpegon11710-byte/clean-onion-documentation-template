@@ -1,6 +1,4 @@
-# History - 4 Sprints
-
-## File Catalog
+# Catalog : Sprints - History
 
 | File name | Description |
 |---|---|

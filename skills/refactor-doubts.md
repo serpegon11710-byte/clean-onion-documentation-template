@@ -1,6 +1,6 @@
 # SKILL: REFACTOR DOUBTS
 
-Analyze `doubts_and_resolutions/` for overlapping or conflicting open doubts **before** PO closure. Complements the decision matrix; does not replace human decisions.
+Analyze `doubts-and-decisions/` for overlapping or conflicting open doubts **before** PO closure. Complements the decision matrix; does not replace human decisions.
 
 ## Authority
 

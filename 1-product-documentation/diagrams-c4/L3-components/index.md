@@ -1,6 +1,4 @@
-# L3 — Components
-
-## File Catalog
+# Catalog : Product Documentation - Diagrams C4 - L3 Components
 
 | File name | Description |
 |---|---|

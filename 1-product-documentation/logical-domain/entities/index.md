@@ -1,6 +1,4 @@
-# Domain Entities
-
-## File Catalog
+# Catalog : Product Documentation - Logical Domain - Entities
 
 | File name | Description |
 |---|---|

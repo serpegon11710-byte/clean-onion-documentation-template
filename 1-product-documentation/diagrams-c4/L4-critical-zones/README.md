@@ -67,4 +67,4 @@ Every `ZC-XX-{description}/` folder **must** contain these assets:
 
 - [index.md](index.md) — Live directory of ZC entities.
 - [history/](history/) — Chronological modification log.
-- [doubts_and_resolutions/](doubts_and_resolutions/) — Atomic management of open and closed doubts.
+- [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open and closed doubts.

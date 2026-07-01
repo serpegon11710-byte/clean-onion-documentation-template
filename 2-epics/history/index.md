@@ -1,6 +1,4 @@
-# History - 2 Epics
-
-## File Catalog
+# Catalog : Epics - History
 
 | File name | Description |
 |---|---|

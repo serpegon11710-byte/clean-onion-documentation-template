@@ -1,6 +1,4 @@
-# C4 Diagrams
-
-## File Catalog
+# Catalog : Product Documentation - Diagrams C4
 
 | File name | Description |
 |---|---|

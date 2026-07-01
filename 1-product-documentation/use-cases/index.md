@@ -1,6 +1,4 @@
-# Use Cases
-
-## File Catalog
+# Catalog : Product Documentation - Use Cases
 
 | File name | Description |
 |---|---|

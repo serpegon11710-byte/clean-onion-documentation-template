@@ -1,6 +1,4 @@
-# Governance Standards
-
-## File Catalog
+# Catalog : Governance
 
 | File name | Description |
 |---|---|

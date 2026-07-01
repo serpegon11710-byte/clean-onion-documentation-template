@@ -15,7 +15,7 @@ Once the user gives "Approved" or defines the final strategy:
 
 1. Identify all elements in scope (`UC-XX`, `BR-XX`, `entity/name`, etc.) and their **owning blocks**.
 2. For each owning block, open `decision-matrix.md` and read **only** the matching `## {element}` sections.
-3. If any `(element, event)` row points to a different effective doubt, or cross-block impact is required:
+3. If any `(element, event)` row points to a different Decision Id, or cross-block impact is required:
    - **Stop closure.**
    - Resolve per [clean-onion-documentation.md](../5-governance/clean-onion-documentation.md) §2.1 (qualified cross-block matrix links, supersede complete/partial, SSOT propagation).
    - Resume only after matrices and SSOT are consistent.

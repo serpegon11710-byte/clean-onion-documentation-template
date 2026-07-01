@@ -1,6 +1,4 @@
-# History - 5 Governance
-
-## File Catalog
+# Catalog : Governance - History
 
 | File name | Description |
 |---|---|

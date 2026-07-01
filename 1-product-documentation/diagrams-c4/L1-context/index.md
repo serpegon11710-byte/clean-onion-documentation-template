@@ -1,6 +1,4 @@
-# L1 — System Context
-
-## File Catalog
+# Catalog : Product Documentation - Diagrams C4 - L1 Context
 
 | File name | Description |
 |---|---|

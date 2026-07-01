@@ -1,6 +1,4 @@
-# Domain Diagrams
-
-## File Catalog
+# Catalog : Product Documentation - Logical Domain - Diagrams
 
 | File name | Description |
 |---|---|

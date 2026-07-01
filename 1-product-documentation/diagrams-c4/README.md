@@ -16,10 +16,10 @@ This folder orchestrates all **technology-agnostic C4 diagrams** for the product
 1. **Agnosticism:** No framework, library, database, or implementation path may appear in this tree.
 2. **Single source of truth:** Each diagram or ZC entity is defined once under its level folder. Consumers reference by identifier (`ZC-XX`, container name, component name), never by duplicating logic.
 3. **Inward traceability:** L2 references L1 boundaries; L3 references L2 containers; L4 ZCs declare which logical components they affect.
-4. **Fractal pattern:** Each level subfolder that owns active content follows the COD fractal block (`README.md`, `index.md`, `history/`, `doubts_and_resolutions/` when applicable).
+4. **Fractal pattern:** Each level subfolder that owns active content follows the COD fractal block (`README.md`, `index.md`, `history/`, `doubts-and-decisions/` when applicable).
 
 ## Navigation
 
 - [index.md](index.md) — Live directory of this folder.
-- [doubts_and_resolutions/](doubts_and_resolutions/) — Atomic management of open and closed doubts.
+- [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open and closed doubts.
 - [history/](history/) — Chronological modification log.

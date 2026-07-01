@@ -1,6 +1,4 @@
-# History - Product Documentation
-
-## File Catalog
+# Catalog : Product Documentation - History
 
 | File name | Description |
 |---|---|

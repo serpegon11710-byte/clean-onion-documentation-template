@@ -1,6 +1,4 @@
-# History - Logical Domain
-
-## File Catalog
+# Catalog : Product Documentation - Logical Domain - History
 
 | File name | Description |
 |---|---|
