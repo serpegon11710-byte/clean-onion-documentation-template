@@ -22,6 +22,19 @@ Before any commit, perform an architectural audit of all **staged** changes. Inv
 - **Log** the conflict in the corresponding layer's `doubts-and-decisions/index.md`.
 - **Report** the violation to the user for manual correction and refactor.
 
+### 1.1 File Integrity & Environment Normalization (hard gate)
+
+To preserve repository integrity across agents and operating systems, all automated file writes must follow this policy:
+
+1. **Mandatory format:** Persist text files as UTF-8 with LF-only line endings.
+2. **Explicit prohibition (default-deny):** Do not use OS-native shell cmdlets for persistent file writes when they can inject platform defaults (for example PowerShell `Set-Content`, `Out-File`, `Add-Content`, and redirection operators).
+3. **Approved methods:**
+     - **Primary:** IDE-native editing APIs and `apply_patch`.
+     - **Secondary (CLI fallback):** Tooling that explicitly enforces UTF-8 + LF on output.
+4. **Post-write verification (mandatory):** After any automated write, verify encoding and line endings remain compliant.
+5. **Immediate remediation:** If drift is detected (for example CRLF injection), normalize using approved methods and re-verify.
+6. **Fail-safe behavior:** If compliant output cannot be guaranteed with available tooling, abort the write and report the blocker.
+
 ---
 
 ## 2. Auditor Operating Mode (`skills/solid.md`)
@@ -42,12 +55,13 @@ For **non-commit** audits (ad-hoc review), respond in chat with:
 ## 3. Regeneration Workflow
 
 1. Review **staged** changes (`git diff --cached`).
-2. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4 (see §4, §4.1, §4.2, §4.3, and §4.4 below).
-3. Validate **SOLID** — at minimum **S** and **D** on staged changes (see §5 below).
-4. Validate **L4 ZC pseudocode mirror** when staged changes touch Critical Zones or their Layer 3 projections (see §6 below).
-5. Run `Get-Date -Format "yyyy-MM-ddTHH:mm:ss"` **once**, immediately before writing report headers.
-6. Overwrite **only** `## Current audit` to EOF in [solid-principles-review-report.md](solid-principles-review-report.md).
-7. Set `**STATUS:** PASS` only if **all** checks pass; otherwise `**STATUS:** KO` and **abort the commit**.
+2. Validate **file integrity policy** per §1.1 (write method compliance + UTF-8/LF post-write verification evidence when applicable).
+3. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4 (see §4, §4.1, §4.2, §4.3, and §4.4 below).
+4. Validate **SOLID** — at minimum **S** and **D** on staged changes (see §5 below).
+5. Validate **L4 ZC pseudocode mirror** when staged changes touch Critical Zones or their Layer 3 projections (see §6 below).
+6. Run `Get-Date -Format "yyyy-MM-ddTHH:mm:ss"` **once**, immediately before writing report headers.
+7. Overwrite **only** `## Current audit` to EOF in [solid-principles-review-report.md](solid-principles-review-report.md).
+8. Set `**STATUS:** PASS` only if **all** checks pass; otherwise `**STATUS:** KO` and **abort the commit**.
 
 ---
 
@@ -57,12 +71,14 @@ Normative rules: [clean-onion-documentation.md](clean-onion-documentation.md) §
 
 | Check | Rule |
 |-------|------|
+| **File integrity method** | Automated edits follow §1.1 approved methods and avoid prohibited OS-native write cmdlets |
+| **File integrity output** | Any staged text file modified by automation remains UTF-8 + LF compliant after write |
 | **Inward-only** | Layer N references only inner layers per the dependency matrix in §4 |
 | **No stack leakage** | Only Layer 3 may name concrete stacks; forbidden in Layers 1, 2, 4, and 5 |
 | **Fractal index** | Every `index.md` uses the same-level file catalog table per `clean-onion-documentation.md` §2 |
 | **Catalog bijection** | Each `index.md` file catalog row maps to exactly one **git-tracked** same-level `.md` (excluding `index.md`); no row without a tracked file; no tracked same-level `.md` omitted; no subdirectory paths in the catalog table |
 
-Record violations under **Findings** with `COD`, `COD-INDEX`, or affected paths.
+Record violations under **Findings** with `COD`, `COD-FORMAT`, `COD-INDEX`, or affected paths.
 
 ### §4.3 File catalog bijection (hard gate)
 
@@ -257,7 +273,7 @@ Update [solid-principles-review-report.md](solid-principles-review-report.md) pe
 
 ### COD cross-check
 
-<inward-only + stack leakage + fractal index + catalog bijection §4.3 + §4.1 self-containment/matrix + §4.2 doubts issue catalog/README + §4.4 Catalog/Dashboard H1 when applicable per clean-onion-documentation.md §4>
+<file integrity policy §1.1 + inward-only + stack leakage + fractal index + catalog bijection §4.3 + §4.1 self-containment/matrix + §4.2 doubts issue catalog/README + §4.4 Catalog/Dashboard H1 when applicable per clean-onion-documentation.md §4>
 
 ### SOLID cross-check
 
