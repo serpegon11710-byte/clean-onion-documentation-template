@@ -1,10 +1,10 @@
-# History
+# History : Epics
 
-This folder provides traceability for changes made within this layer.
+This folder provides traceability for changes made within this block.
 
 ## Practice
 
-Create one file per period (e.g., 2026-W26-changes.md) to keep the history fragmented and avoid contaminating the active chat context.
+Create one file per period (e.g., `2026-W26-changes.md`) to keep the history fragmented and avoid contaminating the active chat context.
 
 Weekly fragmentation is mandatory, but daily traceability is also mandatory:
 
@@ -17,4 +17,4 @@ Weekly fragmentation is mandatory, but daily traceability is also mandatory:
 
 ## Navigation
 
-Consult index.md in this folder for the chronological map of all history entries.
+Consult [index.md](index.md) in this folder for the chronological map of all history entries.

@@ -1,6 +1,6 @@
 # Pre-Commit Validation Rules
 
-**Last updated:** 2026-07-02
+**Last updated:** 2026-07-03
 
 **Source of truth** for the pre-commit integrity contract (`AGENTS.md` §9), auditor behavior ([skills/solid.md](../skills/solid.md)), and all validation criteria executed before `git commit`.
 
@@ -72,7 +72,7 @@ For `See D-` / `See doubt-` findings, the boundary check is mandatory: the audit
 1. Review **staged** changes (`git diff --cached`).
 2. Validate **file integrity policy** per §1.1 (write method compliance + UTF-8/LF post-write verification evidence when applicable).
 3. If staged paths include `**/doubts-and-decisions/**`, run [check-solve-doubt.md](../skills/check-solve-doubt.md) for each touched solved/superseded record before `solid`; if any result is `KO`, abort pre-commit and do not continue to report regeneration.
-4. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4 (see §4, §4.1, §4.2, §4.3, and §4.4 below).
+4. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4, and §2.6 (see §4, §4.1, §4.2, §4.3, §4.4, and §4.8 below).
 5. Validate **SOLID** — at minimum **S** and **D** on staged changes (see §5 below).
 6. Validate **L4 ZC pseudocode mirror** when staged changes touch Critical Zones or their Layer 3 projections (see §6 below).
 7. Run `Get-Date -Format "yyyy-MM-ddTHH:mm:ss"` **once**, immediately before writing report headers.
@@ -247,6 +247,28 @@ Apply when staged paths include any `**/history/*.md` excluding `**/history/READ
 | **Cross-block Decision Id format** | If the referenced doubt belongs to another block, use qualified markdown link display `{block}/D-XXX` targeting owning block `solved/doubt-XXX.md` | `COD-HISTORY` |
 
 Record violations under **Findings** with tag `COD-HISTORY` and affected paths.
+
+### §4.8 History README template and H1 archetype (hard gate)
+
+Normative rules: [clean-onion-documentation.md](clean-onion-documentation.md) §2.6.
+
+Apply when staged paths include any `**/history/README.md`.
+
+Template source of truth:
+
+- `5-governance/history/README.md`
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **Template readable** | The canonical template file exists and is parseable as markdown for section checks | `**STATUS:** KO` |
+| **Template minimum contract** | The template must contain `## Practice`, `## Navigation`, and explicit history entry format + Decision Id conventions | `**STATUS:** KO` |
+| **History H1 archetype** | Each staged `history/README.md` line 1 must be `# History : {path-readable-for-human}` using the owning block path (directory above `history/`) | `**STATUS:** KO` |
+| **Body profile parity** | Each staged `history/README.md` must match the canonical template body profile and rule semantics (H1 varies by owning block only) | `**STATUS:** KO` |
+| **Template self-check always on** | Validate template minimum contract on every audit run, even when template is not staged | `**STATUS:** KO` |
+
+**Fail-closed policy:** If the template cannot be parsed, is missing required sections, or is semantically incomplete for the checks above, return `KO`.
+
+Record violations under **Findings** with tag `COD-HISTORY-README` and affected paths.
 
 ---
 
