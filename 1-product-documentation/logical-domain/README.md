@@ -27,6 +27,7 @@ logical-domain/
 | Path | Role |
 |------|------|
 | `diagrams/` | Technology-agnostic Mermaid projections for human understanding. |
+| `entities/domain-entities.md` | Consolidated catalog and navigation for entity logic files. |
 | `entities/{entity}/README.md` | Entity definition, attributes, and invariants. |
 | `entities/{entity}/logic.md` | Core domain behavior and responsibilities for the entity. |
 | `business-rules/{category}/` | Independent, atomic logical specifications (see [business-rules/README.md](business-rules/README.md)). |
@@ -47,7 +48,9 @@ logical-domain/
 
 - [index.md](index.md) — Live directory of this folder.
 - [entities/](entities/) — Domain entities.
+- [entities/domain-entities.md](entities/domain-entities.md) — Consolidated entity catalog.
 - [business-rules/](business-rules/) — Business rules repository.
 - [diagrams/](diagrams/) — Domain diagrams.
+- [diagrams/class-diagram.mmd](diagrams/class-diagram.mmd) — Domain class diagram.
 - [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open and closed doubts.
 - [history/](history/) — Chronological modification log.
