@@ -30,16 +30,17 @@ Technology-agnostic C4 architecture diagrams and Critical Zones (ZC) live under 
 ## Traceability Architecture
 
 1. **Business Rules Repository (`logical-domain/business-rules/`):**
-   - Every `BR-XX.YY-description.md` must contain:
-     - **Definition:** The authoritative business logic.
-     - **Usage:** A list of `UC-XX` IDs that consume this rule.
+  - Every business rule is an atomic element with one dedicated folder: `BR-XX.YY-{short-description}/`.
+  - The rule definition lives in `README.md`; consumer/dependency traceability lives in `reference-matrix.md`.
 
 2. **Use Case Repository (`use-cases/`):**
-   - Every `UC-XX/README.md` must contain:
-     - **Business Logic Reference:** A section citing the `BR-XX.YY` identifiers it relies upon.
-     - **Impact Verification:** If a developer modifies a rule, they are mandated to review all associated Use Cases listed in the rule's "Usage" section.
+  - Every `UC-XX/README.md` must reference consumed `BR-XX.YY` IDs in its dependency section.
+  - If a rule changes, all use cases listed in that rule's `reference-matrix.md` must be reviewed.
 
 ## Navigation
 
 - [index.md](index.md) — Live directory of all files in this layer.
+- [logical-domain/](logical-domain/) — Core domain model: entities, business rules, and domain diagrams.
+- [use-cases/](use-cases/) — Primary use cases with Mermaid diagrams.
+- [diagrams-c4/](diagrams-c4/) — C4 conceptual diagrams.
 - [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open and closed doubts.
