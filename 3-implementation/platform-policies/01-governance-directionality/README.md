@@ -1,6 +1,6 @@
 # Policy Type 01 - Governance Directionality
 
-Type code `01` covers directionality and cross-layer policy contracts.
+Type code `01` covers RP to PP directionality contracts at Layer 3.
 
 ## Naming
 
@@ -10,4 +10,4 @@ Type code `01` covers directionality and cross-layer policy contracts.
 ## Required artifacts
 
 - [index.md](index.md) - Same-level file catalog.
-- [runtime.time.md](runtime.time.md) - Platform-to-runtime mapping matrix.
+- [rp-to-pp.runtime.md](rp-to-pp.runtime.md) - Directionality profile for RP to PP matrix governance.

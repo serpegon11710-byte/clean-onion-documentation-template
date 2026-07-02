@@ -2,22 +2,18 @@
 
 This folder manages the **governance** layer (Layer 5): cross-cutting policies, COD standards, and agent orchestration rules.
 
+Layer 5 governs **how COD operates** (structure, validation, and agent behavior). It is not the normative source for product platform/runtime policy catalogs.
+
 ## Navigation
 
 - [index.md](index.md) — Live directory of all files in this layer.
-- [platform-policies/](platform-policies/) — Platform policy registry and runtime linkage matrices.
 - [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open and closed doubts.
 
-## Platform policies (`platform-policies/`)
+## Scope boundary (mandatory)
 
-Platform policies are grouped by type. Each type folder must provide:
-
-- `README.md` with scope and type code (`XX`) ownership.
-- `index.md` with same-level file catalog.
-- One file per policy: `PP-XX.YY-{slug}.md` (`YY` incremental within the type).
-- `runtime.time.md` with matrix columns: `Technology | PP-XX.YY | RP-XXX (Layer 3 link)`.
-
-Directionality is mandatory: Layer 5 policy groups map inward to Layer 3 runtime policies. Reverse dependency from Layer 3 to Layer 5 is forbidden by COD.
+- Product platform policies (`PP-XX.YY`) and runtime policies (`RP-XXX`) belong to Layer 3.
+- RP to PP traceability matrices belong to the Layer 3 technology folder that owns the runtime policies.
+- Layer 5 changes are exceptional and allowed only on explicitly documented grave conflicts.
 
 ## Pre-commit audit report (`solid-principles-review-report.md`)
 
