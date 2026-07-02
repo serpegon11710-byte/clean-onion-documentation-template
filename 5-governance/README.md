@@ -5,7 +5,19 @@ This folder manages the **governance** layer (Layer 5): cross-cutting policies, 
 ## Navigation
 
 - [index.md](index.md) — Live directory of all files in this layer.
+- [platform-policies/](platform-policies/) — Platform policy registry and runtime linkage matrices.
 - [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open and closed doubts.
+
+## Platform policies (`platform-policies/`)
+
+Platform policies are grouped by type. Each type folder must provide:
+
+- `README.md` with scope and type code (`XX`) ownership.
+- `index.md` with same-level file catalog.
+- One file per policy: `PP-XX.YY-{slug}.md` (`YY` incremental within the type).
+- `runtime.time.md` with matrix columns: `Technology | PP-XX.YY | RP-XXX (Layer 3 link)`.
+
+Directionality is mandatory: Layer 5 policy groups map inward to Layer 3 runtime policies. Reverse dependency from Layer 3 to Layer 5 is forbidden by COD.
 
 ## Pre-commit audit report (`solid-principles-review-report.md`)
 

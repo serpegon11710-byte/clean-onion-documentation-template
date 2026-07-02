@@ -55,6 +55,22 @@ Every block or main folder within the layers must replicate this exact scheme:
 
 - **`decision-matrix.md`:** Dashboard of **Decision Id** (`D-XXX`) per `(element, event)` for the owning block. Updated on every normative closure. See §2.1.
 
+### §2.5 Normative element structure (general COD pattern)
+
+This pattern applies to any COD block that documents a normative element (entity, rule, use-case element, policy item, or equivalent).
+
+| Artifact | Mandatory role |
+|----------|----------------|
+| `README.md` | Normative definition and scope of the element (SSOT for that element) |
+| `reference-matrix.md` | Consumption and dependency references only |
+
+Mandatory rules:
+
+1. `README.md` may link only to other artifacts that **directly complete the definition** (SSOT completion links), never as sibling pointers (forbidden pattern: "see my sibling" without normative completion purpose).
+2. "This element consumes me" / inbound-consumer lists must live in `reference-matrix.md`, never in `README.md`.
+3. Every element must be explicitly differentiated: the definition must justify why it is a distinct normative element and not a simple extension that should be absorbed by another element.
+4. One folder per element is a mandatory COD policy. If differentiation cannot be justified, do not create a new element artifact: document the content inside the element that absorbs it.
+
 ### §2.2 Document title contracts (`index.md` and `decision-matrix.md`)
 
 Two title prefixes; **body profiles** vary by file type and path (see §2.4 for the doubts issue catalog body).
@@ -328,6 +344,12 @@ When the **last** `Effective` row in D-XXX's `## Matrix impact` becomes `Superse
 | `**Superseded by:** {block}/D-YYY` at the top of a superseded record | `See D-XXX` to expand debate context |
 | `Status: Superseded by {block}/D-YYY` in `## Matrix impact` | Bare `D-XXX` in a foreign block's matrix when record is elsewhere |
 | Full problem, options, decision, and impact inside each self-contained doubt file | Chains of doubt-to-doubt reading as substitute for self-contained record |
+
+**Zero-tolerance rule for doubt records (`open/`, `solved/`, `superseded/`):**
+
+- Any `D-XXX` reference is **forbidden** outside `## Matrix impact` and the top-level `**Superseded by:** {block}/D-YYY` header.
+- There is **no** "contextual reference" exception for doubt bodies (problem, options, decision, impact, resolution, scope, rationale).
+- If understanding or implementing a doubt requires reading another doubt record, the record is non-compliant and must be rewritten to be self-contained.
 | Generic note in D-YYY that prior decisions were superseded (no origin links) | Normative `See D-` delegation in SSOT artifacts |
 
 #### Agent navigation: matrix vs history
@@ -398,6 +420,24 @@ Each self-contained doubt file in `open/` or `solved/` **must** be readable on i
 
 - **Path:** `5-governance/`
 
+### 3.1 Rule scope taxonomy (mandatory)
+
+Rules must be classified by **nature**, not by document format:
+
+| Rule class | Canonical layer/path | Purpose | Forbidden placement |
+|------------|----------------------|---------|---------------------|
+| **Domain rules** | `1-product-documentation/logical-domain/business-rules/` | Timeless business truth and invariants | Layer 3 runtime folders, Layer 5 policy folders |
+| **Process/Application rules** | `1-product-documentation/use-cases/` | Flow orchestration and use-case behavior | `logical-domain/business-rules/` when rule is orchestration-only |
+| **Runtime policies** | `3-implementation/` | Technology-specific operational policy materialization | Layer 1 artifacts |
+| **Platform policies** | `5-governance/platform-policies/` | Cross-cutting governance policy, mapped to runtime enforcement | Layer 1 artifacts |
+
+**Mandatory flow:** Platform Policies (Layer 5) → Runtime Policies (Layer 3).
+
+- Every effective platform policy must map to at least one runtime policy.
+- Reverse normative dependency (Layer 3 → Layer 5) is forbidden.
+- `index.md` catalog tables remain same-level catalogs only; cross-layer mapping belongs in dedicated policy mapping artifacts (for example `runtime.time.md`).
+- **PP-01.01** (`platform-policies/01-governance-directionality/PP-01.01-platform-to-runtime-directionality.md`) is the mandatory COD policy defining this directionality contract.
+
 ## 4. Reference Directionality and Traceability
 
 **Source of truth:** this section defines the layer dependency matrix and tech-agnosticism rules. [pre-commit-validation-rules.md](pre-commit-validation-rules.md) and any agent audit **must** validate COD against this section — do not duplicate the table elsewhere.
@@ -427,3 +467,4 @@ Inner layers (Layer N) **must not** have knowledge, references, or dependencies 
 
 - **Invariable unidirectional flow:** references, hyperlinks, and mentions are made **exclusively** from outside to inside (higher numbers to lower numbers).
 - **Clear boundaries:** any attempt by an inner layer to reference or "link-delegate" to an outer layer is considered a **grave architectural violation**.
+- **Platform/runtime policy mapping:** Layer 5 policy groups must maintain a runtime mapping matrix (`runtime.time.md`) linking each effective `PP-XX.YY` to Layer 3 `RP-XXX` artifacts.

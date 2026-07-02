@@ -59,6 +59,7 @@ Every reported finding (chat or report) must include all fields below. Findings 
 3. **Qualification:** Why the evidence violates the clause.
 4. **Boundary check:** Why this is a real violation and not an allowed contextual reference.
 5. **Impact:** Enforcement result (`KO` or non-blocking note) according to the applicable section.
+6. **Allowed-context check (doubt references):** For any finding involving `D-XXX`, explicitly state whether the reference appears in an allowed context (`## Matrix impact` row or top-level `**Superseded by:**`) or a forbidden doubt-body context.
 
 For `See D-` / `See doubt-` findings, the boundary check is mandatory: the auditor must explicitly state whether the case is normative delegation to doubt records (violation) or same-layer contextual linkage with self-contained SSOT behavior (allowed).
 
@@ -68,12 +69,13 @@ For `See D-` / `See doubt-` findings, the boundary check is mandatory: the audit
 
 1. Review **staged** changes (`git diff --cached`).
 2. Validate **file integrity policy** per §1.1 (write method compliance + UTF-8/LF post-write verification evidence when applicable).
-3. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4 (see §4, §4.1, §4.2, §4.3, and §4.4 below).
-4. Validate **SOLID** — at minimum **S** and **D** on staged changes (see §5 below).
-5. Validate **L4 ZC pseudocode mirror** when staged changes touch Critical Zones or their Layer 3 projections (see §6 below).
-6. Run `Get-Date -Format "yyyy-MM-ddTHH:mm:ss"` **once**, immediately before writing report headers.
-7. Overwrite **only** `## Current audit` to EOF in [solid-principles-review-report.md](solid-principles-review-report.md).
-8. Set `**STATUS:** PASS` only if **all** checks pass; otherwise `**STATUS:** KO` and **abort the commit**.
+3. If staged paths include `**/doubts-and-decisions/**`, run [check-solve-doubt.md](../skills/check-solve-doubt.md) for each touched solved/superseded record before `solid`; if any result is `KO`, abort pre-commit and do not continue to report regeneration.
+4. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4 (see §4, §4.1, §4.2, §4.3, and §4.4 below).
+5. Validate **SOLID** — at minimum **S** and **D** on staged changes (see §5 below).
+6. Validate **L4 ZC pseudocode mirror** when staged changes touch Critical Zones or their Layer 3 projections (see §6 below).
+7. Run `Get-Date -Format "yyyy-MM-ddTHH:mm:ss"` **once**, immediately before writing report headers.
+8. Overwrite **only** `## Current audit` to EOF in [solid-principles-review-report.md](solid-principles-review-report.md).
+9. Set `**STATUS:** PASS` only if **all** checks pass; otherwise `**STATUS:** KO` and **abort the commit**.
 
 ---
 
@@ -139,11 +141,14 @@ Scope boundary for this gate:
 | **Effective inverse on archive** | For each row in a fully superseded doubt's `Matrix impact`, the referenced block's staged `decision-matrix.md` cell for that `(element, event)` must **not** resolve to the archived doubt ID | `**STATUS:** KO` |
 | **Supersede header** | Staged superseded record may add only `**Superseded by:** {block}/D-YYY` at the top plus `Matrix impact` status updates — no other rewrites of closed debate body | `**STATUS:** KO` if debate body was rewritten |
 | **Doubt context chains** | Staged doubt files **must not** add `See D-` patterns for context expansion (supersede declarations and `Matrix impact` status are allowed) | `**STATUS:** KO` |
+| **Doubt Decision-Id contexts** | In staged doubt files (`open/`, `solved/`, `superseded/`), any `D-XXX` reference outside `## Matrix impact` rows and the top-level `**Superseded by:** {block}/D-YYY` header is forbidden; there is no contextual-reference exception in doubt bodies | `**STATUS:** KO` |
+| **Element definition segregation** | For staged normative element folders using `README.md` + `reference-matrix.md`, `README.md` must contain only definition/scope and SSOT-completion links; inbound consumer lists belong only in `reference-matrix.md` | `**STATUS:** KO` |
+| **Element differentiation** | New or materially rewritten normative element `README.md` must include explicit differentiation rationale (why the element is distinct and cannot be absorbed into another element); if not justified, content must be documented in the absorbing element instead of creating a new element artifact | `**STATUS:** KO` |
 
 **Out of scope for this gate (by design):**
 
 - Semantic verification that SSOT files actually contain complete normative text.
-- Verification that a self-contained doubt file is fully self-contained.
+- Full semantic quality of doubt narratives beyond the hard-gate context checks above.
 - Full supersede coherence and effective inverse on archive — use [check-solve-doubt.md](../skills/check-solve-doubt.md) checks 11–12 before commit.
 - Automated traversal of `history/` for traceability.
 

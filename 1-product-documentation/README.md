@@ -10,6 +10,13 @@ This layer contains the authoritative definition of product functionality and bu
 
 The business model — entities, business rules, and domain diagrams — lives under [logical-domain/](logical-domain/). It is the SSOT for what the business *is* and *how it behaves*, agnostic of technology.
 
+## Rule Scope In Layer 1
+
+- **Domain rules** belong only to `logical-domain/business-rules/`.
+- **Process rules** (application-flow orchestration) belong to `use-cases/`.
+- Process rules are still **Layer 1** artifacts, but they are not domain invariants.
+- No `business-rules/` sibling folder is allowed at `1-product-documentation/` root.
+
 ## Core Integration Contract
 
 All consumers within this layer (Use Cases, Functional Modules) must comply with the
