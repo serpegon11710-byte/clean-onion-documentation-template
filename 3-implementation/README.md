@@ -2,6 +2,33 @@
 
 This folder manages the **implementation** layer.
 
+## Platform Policies and RP Traceability (Layer 3)
+
+**Last updated:** 2026-07-02
+
+Layer 3 owns product policy catalogs:
+
+- **Platform Policies (`PP-XX.YY`)** live in `3-implementation/platform-policies/` and must stay technology-agnostic.
+- **Runtime Policies (`RP-XXX`)** live in technology folders.
+- **Directionality is RP -> PP:** every effective `RP-XXX` must be explicitly mapped to an origin `PP-XX.YY`.
+
+### RP to PP matrix location (mandatory)
+
+- Each technology folder that groups runtime policies must include `rp-to-pp-matrix.md`.
+- The matrix is a dedicated document in that same technology folder (not embedded in policy files).
+- The matrix must include one effective row per `RP-XXX`.
+
+### Minimum matrix shape
+
+```markdown
+# RP to PP Mapping Matrix - {Technology}
+
+| RP-XXX | PP-XX.YY | Evidence / Notes |
+|---|---|---|
+```
+
+Audit must validate Layer 3 compliance from Layer 3 artifacts only; Layer 5 cannot be required as RP compliance evidence.
+
 ## Logical Domain — Technical Mirror (Layer 3)
 
 **Last updated:** 2026-06-29
@@ -96,6 +123,7 @@ Every component that implements a ZC must follow this structure:
 ## Navigation
 
 - [index.md](index.md) — Live directory of files in this layer (same-level catalog only).
+- [platform-policies/](platform-policies/) — Product platform policies (`PP-XX.YY`) defined at Layer 3 root (technology-agnostic).
 - [bootstrap-policy.md](bootstrap-policy.md) — Bootstrap and initialization policy (component `.bootstrap/`, root orchestrator).
 - [component-decoupling-contracts.md](component-decoupling-contracts.md) — Component decoupling through explicit contracts.
 - [i18n-implementation-contract.md](i18n-implementation-contract.md) — Localization boundaries for implementation.

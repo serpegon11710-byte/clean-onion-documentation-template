@@ -1,6 +1,6 @@
 # Clean Onion Documentation (COD) Standard
 
-**Last updated:** 2026-07-01
+**Last updated:** 2026-07-02
 
 This cross-cutting policy defines the **directionality**, **isolation**, and **internal fractal structure** of all documentation layers within the repository. It complements the Agent Governance rules defined in `AGENTS.md`.
 
@@ -167,11 +167,11 @@ Files that define **implementable** domain behavior (`logical-domain/entities/{e
 - **Must not** reference doubt IDs for normative delegation (patterns such as `See D-`, `See doubt-`, or equivalent).
 - **Must not** use pointer-only stubs as sole content.
 
-**Interpretation boundary (Permitido vs Prohibido):**
+**Interpretation boundary (Allowed vs Forbidden):**
 
-- **Prohibido:** `See D-XXX` (or equivalent) when used to move normative behavior out of SSOT artifacts into doubt records.
-- **Permitido:** contextual references across blocks in the same layer (for example `logical-domain` <-> `use-cases`) when normative behavior remains self-contained in the current SSOT artifact.
-- **Permitido (and required when applicable):** cross-block decision traceability in `decision-matrix.md` using qualified ownership links (`{block}/D-XXX`).
+- **Forbidden:** `See D-XXX` (or equivalent) when used to move normative behavior out of SSOT artifacts into doubt records.
+- **Allowed:** contextual references across blocks in the same layer (for example `logical-domain` <-> `use-cases`) when normative behavior remains self-contained in the current SSOT artifact and cross-block ownership is expressed with qualified ownership links.
+- **Allowed (and required when applicable):** cross-block decision traceability in `decision-matrix.md` using qualified ownership links (`{block}/D-XXX`).
 
 Decision history is **not** normative. It is indexed separately (see **Decision matrix** below).
 
@@ -414,9 +414,11 @@ Each self-contained doubt file in `open/` or `solved/` **must** be readable on i
 
 ### Layer 5: Cross-cutting Policies (The Outer Crust)
 
-- **Nature:** Governance, global standards, AI style guides (`.cursorrules`), and project directives.
+- **Nature:** COD operational governance, global standards, AI style guides (`.cursorrules`), and repository-wide execution directives.
 
-- **Rule:** The outermost layer: wraps and protects the entire system. Defines absolute norms governing architecture and AI behavior across all layers.
+- **Rule:** The outermost layer: wraps and protects COD operation (structure, validation contracts, and agent behavior) across all layers. Layer 5 is **not** the normative source of product policy catalogs.
+
+- **Stability rule:** Layer 5 is default-stable and must remain unchanged during normal product evolution. Changes are allowed only when a **grave conflict** is explicitly documented (architectural inconsistency, audit impossibility, or systemic policy contradiction).
 
 - **Path:** `5-governance/`
 
@@ -429,14 +431,13 @@ Rules must be classified by **nature**, not by document format:
 | **Domain rules** | `1-product-documentation/logical-domain/business-rules/` | Timeless business truth and invariants | Layer 3 runtime folders, Layer 5 policy folders |
 | **Process/Application rules** | `1-product-documentation/use-cases/` | Flow orchestration and use-case behavior | `logical-domain/business-rules/` when rule is orchestration-only |
 | **Runtime policies** | `3-implementation/` | Technology-specific operational policy materialization | Layer 1 artifacts |
-| **Platform policies** | `5-governance/platform-policies/` | Cross-cutting governance policy, mapped to runtime enforcement | Layer 1 artifacts |
+| **Platform policies** | `3-implementation/platform-policies/` | Product platform policy (Layer 3 root, technology-agnostic), consumed by runtime policies | Layer 1 artifacts, Layer 5 operational governance |
 
-**Mandatory flow:** Platform Policies (Layer 5) → Runtime Policies (Layer 3).
+**Mandatory flow:** Runtime Policies (Layer 3, technology folders) → Platform Policies (Layer 3 root, technology-agnostic).
 
-- Every effective platform policy must map to at least one runtime policy.
-- Reverse normative dependency (Layer 3 → Layer 5) is forbidden.
-- `index.md` catalog tables remain same-level catalogs only; cross-layer mapping belongs in dedicated policy mapping artifacts (for example `runtime.time.md`).
-- **PP-01.01** (`platform-policies/01-governance-directionality/PP-01.01-platform-to-runtime-directionality.md`) is the mandatory COD policy defining this directionality contract.
+- Every effective runtime policy must trace to at least one `PP-XX.YY` artifact.
+- `index.md` catalog tables remain same-level catalogs only; policy traceability belongs in dedicated mapping artifacts under the technology folder that owns the runtime policies.
+- **PP-01.01** (`../3-implementation/platform-policies/01-governance-directionality/PP-01.01-platform-to-runtime-directionality.md`) is the mandatory product-policy directionality contract.
 
 ## 4. Reference Directionality and Traceability
 
@@ -467,4 +468,5 @@ Inner layers (Layer N) **must not** have knowledge, references, or dependencies 
 
 - **Invariable unidirectional flow:** references, hyperlinks, and mentions are made **exclusively** from outside to inside (higher numbers to lower numbers).
 - **Clear boundaries:** any attempt by an inner layer to reference or "link-delegate" to an outer layer is considered a **grave architectural violation**.
-- **Platform/runtime policy mapping:** Layer 5 policy groups must maintain a runtime mapping matrix (`runtime.time.md`) linking each effective `PP-XX.YY` to Layer 3 `RP-XXX` artifacts.
+- **RP to PP mapping (Layer 3 only):** each technology folder that groups `RP-XXX` artifacts must maintain a dedicated mapping document linking every effective `RP-XXX` to its originating `PP-XX.YY`.
+- **Audit boundary:** Layer 3 compliance must be verifiable from Layer 3 artifacts only; Layer 5 cannot be a prerequisite evidence source for RP-to-PP compliance.

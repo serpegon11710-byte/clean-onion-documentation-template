@@ -7,17 +7,18 @@
 
 ## Current audit
 
-**Audit completed:** 2026-07-02T12:45:18
+**Audit completed:** 2026-07-02T16:51:43
 **STATUS:** PASS
 
 ### Scope of last audit
 
-COD governance update for history traceability and reference consistency:
+COD governance migration and RP->PP traceability alignment:
 
-- History entry contract in COD (weekly file, daily entries, line format, optional Decision Id reference).
-- Local vs cross-block Decision Id reference format documented for history entries.
-- New pre-commit hard gate section for history format checks (`COD-HISTORY`).
-- Layer history README alignment across product, epics, implementation, sprints, and governance.
+- Platform Policies ownership moved to Layer 3 (`3-implementation/platform-policies/**`).
+- Deprecated Layer 5 platform-policies artifacts removed.
+- COD governance wording refined for conflict escalation between COD Governance and Product Governance.
+- Pre-commit criteria updated for RP->PP traceability and conflict handling semantics.
+- Layer 3/Layer 5 READMEs aligned with new ownership boundary.
 
 ### Findings
 
@@ -25,19 +26,17 @@ No violations.
 
 ### COD cross-check
 
-- **File integrity policy (§1.1):** Primary write method `apply_patch` used; no prohibited OS-native write cmdlets used for persistent edits.
-- **File integrity output:** Modified markdown files remain UTF-8 + LF compliant.
-- **Inward-only / stack leakage:** Changes remain in Layers 1, 2, 3, 4, and 5 documentation governance scope; no stack leakage introduced.
-- **Fractal index / catalog bijection:** Not applicable for this change set (no catalog table mutations).
-- **§4.1 self-containment/matrix:** Existing local vs cross-block Decision Id convention preserved and extended to history guidance.
-- **§4.2 doubts issue catalog/README:** Not applicable (no `doubts-and-decisions/index.md` or profile body changes).
-- **§4.4 Catalog/Dashboard H1:** Not applicable (no `index.md`/`decision-matrix.md` title edits in scope).
-- **§4.5 history format:** Added mandatory history entry format and Decision Id reference rules; no violations detected in touched guidance files.
+- **File integrity policy (§1.1):** Approved methods used for persistent edits; no prohibited OS-native write cmdlets used to write repository files.
+- **File integrity output:** Staged markdown files are normalized to UTF-8 + LF by repository settings.
+- **Inward-only / stack leakage:** Product policy artifacts now live in Layer 3; Layer 5 keeps operational governance scope without stack leakage.
+- **Fractal index / catalog bijection:** Layer 3 platform-policies catalogs follow same-level file mapping.
+- **§4.6 RP->PP traceability:** Runtime-to-platform mapping is defined in Layer 3 with matrix locality and PP origin path constraints.
+- **§4.1 / §4.2 / §4.4 / §4.5:** Not directly affected by this change set.
 
 ### SOLID cross-check
 
-- **S:** Responsibilities remain separated (COD policy in Layer 5, enforcement in pre-commit, local usage in layer READMEs).
-- **D:** Audit/enforcement continues to depend on governance contracts rather than ad-hoc operator behavior.
+- **S:** Responsibilities are separated between COD governance contracts and implementation policy ownership.
+- **D:** Governance enforcement depends on documented contracts and traceability rules, not ad-hoc precedence.
 
 ### L4 ZC pseudocode mirror cross-check
 

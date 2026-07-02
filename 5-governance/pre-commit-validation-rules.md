@@ -40,8 +40,10 @@ To preserve repository integrity across agents and operating systems, all automa
 ## 2. Auditor Operating Mode (`skills/solid.md`)
 
 1. **BLIND AUDIT:** Do not assume the code is correct. Analyze each component, interface, and class looking for encapsulation violations or unnecessary couplings.
-2. **GOVERNANCE PRIORITY:** If a SOLID principle or a Layer 5 rule conflicts with a quick implementation, governance takes absolute priority.
+2. **CONFLICT ESCALATION (COD Governance vs Product Governance):** If the agent detects a conflict between product governance rules and COD governance rules defined in [clean-onion-documentation.md](clean-onion-documentation.md), the agent must abort the task and return: `CRITICAL ERROR: conflict between COD Governance and Product Governance`. The agent must explain the conflicting rules and why a Product Owner decision is required before continuing.
 3. **CONSTRUCTIVE CRITICISM:** Identify which specific principle (S, O, L, I, D) or COD rule is violated and propose a technical alternative aligned with the layered architecture.
+
+No automatic precedence is allowed between COD Governance and Product Governance when a direct conflict is detected.
 
 For **non-commit** audits (ad-hoc review), respond in chat with:
 
@@ -93,6 +95,24 @@ Normative rules: [clean-onion-documentation.md](clean-onion-documentation.md) §
 | **Catalog bijection** | Each `index.md` file catalog row maps to exactly one **git-tracked** same-level `.md` (excluding `index.md`); no row without a tracked file; no tracked same-level `.md` omitted; no subdirectory paths in the catalog table |
 
 Record violations under **Findings** with `COD`, `COD-FORMAT`, `COD-INDEX`, `COD-HISTORY`, or affected paths.
+
+### §4.6 RP to PP traceability in Layer 3 (hard gate)
+
+Normative rules: [clean-onion-documentation.md](clean-onion-documentation.md) §3.1 and §4.
+
+Apply when staged paths include any:
+
+- `3-implementation/**/RP-*.md`
+- `3-implementation/**/rp-to-pp-matrix.md`
+- `3-implementation/platform-policies/**/PP-*.md`
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **RP mapped to PP** | Every staged effective `RP-XXX` must appear exactly once in the nearest technology-folder `rp-to-pp-matrix.md` with a valid `PP-XX.YY` reference | `**STATUS:** KO` |
+| **Matrix locality** | `rp-to-pp-matrix.md` must live in the same technology folder that groups the referenced `RP-XXX` artifacts (no cross-folder central matrix) | `**STATUS:** KO` |
+| **PP origin path** | Every `PP-XX.YY` referenced by a matrix row must resolve to `3-implementation/platform-policies/**/PP-XX.YY-*.md` | `**STATUS:** KO` |
+
+Record violations under **Findings** with tag `COD-RP-PP` and affected paths.
 
 ### §4.3 File catalog bijection (hard gate)
 
