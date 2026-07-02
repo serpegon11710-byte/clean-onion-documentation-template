@@ -50,6 +50,18 @@ For **non-commit** audits (ad-hoc review), respond in chat with:
 3. **REFACTOR PROPOSAL:** How to decouple or improve the design (no code unless explicitly requested).
 4. **GOVERNANCE LINK:** Reference to the specific `5-governance/` file that justifies the audit.
 
+### 2.1 Finding record contract (mandatory)
+
+Every reported finding (chat or report) must include all fields below. Findings missing any field are invalid and must be rewritten.
+
+1. **Rule clause:** Exact clause identifier (section/check name) that is being enforced.
+2. **Evidence:** Verbatim excerpt or exact path + snippet that triggers the finding.
+3. **Qualification:** Why the evidence violates the clause.
+4. **Boundary check:** Why this is a real violation and not an allowed contextual reference.
+5. **Impact:** Enforcement result (`KO` or non-blocking note) according to the applicable section.
+
+For `See D-` / `See doubt-` findings, the boundary check is mandatory: the auditor must explicitly state whether the case is normative delegation to doubt records (violation) or same-layer contextual linkage with self-contained SSOT behavior (allowed).
+
 ---
 
 ## 3. Regeneration Workflow
@@ -78,7 +90,7 @@ Normative rules: [clean-onion-documentation.md](clean-onion-documentation.md) §
 | **Fractal index** | Every `index.md` uses the same-level file catalog table per `clean-onion-documentation.md` §2 |
 | **Catalog bijection** | Each `index.md` file catalog row maps to exactly one **git-tracked** same-level `.md` (excluding `index.md`); no row without a tracked file; no tracked same-level `.md` omitted; no subdirectory paths in the catalog table |
 
-Record violations under **Findings** with `COD`, `COD-FORMAT`, `COD-INDEX`, or affected paths.
+Record violations under **Findings** with `COD`, `COD-FORMAT`, `COD-INDEX`, `COD-HISTORY`, or affected paths.
 
 ### §4.3 File catalog bijection (hard gate)
 
@@ -108,6 +120,12 @@ Apply when staged paths include any of:
 - `**/logical-domain/business-rules/**`
 - `**/use-cases/**`
 - `**/decision-matrix.md`
+
+Scope boundary for this gate:
+
+- `See D-` / `See doubt-` checks target **normative delegation to doubt records only**.
+- Contextual references between SSOT artifacts in the same layer are **allowed** when the current artifact keeps implementable behavior locally.
+- Cross-block same-layer links do **not** violate COD by themselves and must not be flagged as a substitution for doubt-delegation checks.
 
 | Check | Rule | On failure |
 |-------|------|------------|
@@ -175,6 +193,21 @@ Apply when staged paths include any `**/index.md` or `**/decision-matrix.md`.
 **Dashboard path:** For `…/doubts-and-decisions/decision-matrix.md` (or legacy `doubts-and-resolutions` / `doubts_and_resolutions`), humanize the directory **above** the doubts folder.
 
 Record violations under **Findings** with tag `COD-CATALOG-H1` or `COD-DASHBOARD-H1` and affected paths.
+
+### §4.5 History entry format and decision references (hard gate)
+
+Normative rules: [clean-onion-documentation.md](clean-onion-documentation.md) §2 (`history/` bullets).
+
+Apply when staged paths include any `**/history/*.md` excluding `**/history/README.md` and `**/history/index.md`.
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **Entry format** | Each history entry must use `YYYY-MM-DD - <registrable description> - <optional Decision Id reference>` | `COD-HISTORY` |
+| **Date required** | Every logged entry must include `YYYY-MM-DD` day stamp at the start of the entry | `COD-HISTORY` |
+| **Local Decision Id format** | If the referenced doubt belongs to the same block, use bare `D-XXX` (no markdown link) | `COD-HISTORY` |
+| **Cross-block Decision Id format** | If the referenced doubt belongs to another block, use qualified markdown link display `{block}/D-XXX` targeting owning block `solved/doubt-XXX.md` | `COD-HISTORY` |
+
+Record violations under **Findings** with tag `COD-HISTORY` and affected paths.
 
 ---
 
@@ -270,6 +303,8 @@ Update [solid-principles-review-report.md](solid-principles-review-report.md) pe
 ### Findings
 
 <S, O, L, I, D + COD notes; or "No violations.">
+
+Each finding line in this section must follow the §2.1 finding record contract (Rule clause, Evidence, Qualification, Boundary check, Impact).
 
 ### COD cross-check
 
