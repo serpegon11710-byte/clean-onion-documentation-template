@@ -47,6 +47,9 @@ Every block or main folder within the layers must replicate this exact scheme:
 - **`index.md` catalog bijection (Mandatory):** Each catalog row **must** name a `.md` file **tracked in git** at the same path level. Every tracked same-level `.md` except `index.md` **must** appear exactly once. Rows for missing, gitignored, or deleted files are **forbidden**. Subdirectory paths (e.g. `logical-domain/`) are **forbidden** in the file catalog table. On add/remove/rename of a same-level `.md`, update `index.md` in the **same commit**.
 
 - **`history/`:** Records modifications chronologically in fragmented files. The past is frozen and does not contaminate the active chat context.
+- **History time granularity (Mandatory):** Keep one file per week (`YYYY-Www-changes.md`), but every documented finding or change inside that weekly file **must** include its own day stamp (`YYYY-MM-DD`). Weekly fragmentation does not replace daily traceability.
+- **History entry format (Mandatory):** Register each entry as `YYYY-MM-DD - <registrable description> - <optional Decision Id reference>`.
+- **History Decision Id reference (Mandatory when present):** Use bare `D-XXX` when the doubt belongs to the same block. Use a qualified markdown link `{block}/D-XXX` when the doubt belongs to another block, targeting the owning block's `solved/doubt-XXX.md` record.
 
 - **`doubts-and-decisions/`:** Doubt & Decision subsystem in atomic form (one file per id). Debate in progress in **`open/`**; closed Doubt & Decision records with operational value in **`solved/`**; fully superseded records in **`superseded/`** (forensic only — agents do not load without explicit human instruction). The **`index.md`** issue catalog tracks **`open/`** and **`solved/`** only (`Open Issues` / `Solved Issues` — **no** `Superseded Issues` table). Files must not move between `open/`, `solved/`, and `superseded/` without the matching index update (remove Solved row when archiving to `superseded/`). Physical filename stays **`doubt-XXX.md`** in all phases (phase is encoded by folder only).
 
@@ -147,6 +150,12 @@ Files that define **implementable** domain behavior (`logical-domain/entities/{e
 - Contain the full rule text required to implement or review behavior **without** opening doubt files.
 - **Must not** reference doubt IDs for normative delegation (patterns such as `See D-`, `See doubt-`, or equivalent).
 - **Must not** use pointer-only stubs as sole content.
+
+**Interpretation boundary (Permitido vs Prohibido):**
+
+- **Prohibido:** `See D-XXX` (or equivalent) when used to move normative behavior out of SSOT artifacts into doubt records.
+- **Permitido:** contextual references across blocks in the same layer (for example `logical-domain` <-> `use-cases`) when normative behavior remains self-contained in the current SSOT artifact.
+- **Permitido (and required when applicable):** cross-block decision traceability in `decision-matrix.md` using qualified ownership links (`{block}/D-XXX`).
 
 Decision history is **not** normative. It is indexed separately (see **Decision matrix** below).
 
