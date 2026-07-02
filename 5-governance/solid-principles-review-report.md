@@ -7,16 +7,16 @@
 
 ## Current audit
 
-**Audit completed:** 2026-07-02T21:25:59
+**Audit completed:** 2026-07-03T00:11:06
 **STATUS:** PASS
 
 ### Scope of last audit
 
-Sprint-Epic SSOT governance and directional consistency updates:
+History README SSOT template governance and guardrail rollout:
 
-- Updated sprint-layer governance in `4-sprints/README.md` to keep Sprint-only responsibilities and defer epic rules to epic SSOT.
-- Updated epic-layer wording in `2-epics/README.md` to remain sprint-agnostic and structurally focused.
-- Added hard-gate rule `§4.7 Epic layer sprint-awareness prohibition` in `5-governance/pre-commit-validation-rules.md`.
+- Added `history/README.md` profile and H1 archetype rule (`# History : {path-readable-for-human}` on owning block) in `5-governance/clean-onion-documentation.md`.
+- Added pre-commit hard-gate `§4.8 History README template and H1 archetype` in `5-governance/pre-commit-validation-rules.md`.
+- Normalized all `**/history/README.md` files to the canonical template body and owning-block H1 title contract.
 
 ### Findings
 
@@ -26,15 +26,15 @@ No violations.
 
 - **File integrity policy (§1.1):** Approved methods used; no prohibited OS-native persistent write cmdlets used.
 - **File integrity output:** Staged text files remain UTF-8 + LF compliant.
-- **Inward-only / stack leakage:** Governance and layer docs keep inward dependency directionality; no stack leakage introduced.
+- **Inward-only / stack leakage:** History rules remain cross-cutting governance; no stack leakage introduced.
 - **Fractal index / catalog bijection:** Not impacted by this changeset.
-- **§4.1 / §4.2 / §4.4 / §4.5 / §4.6:** Not directly impacted.
-- **§4.7 Epic layer sprint-awareness prohibition:** PASS — epic-layer wording remains sprint-agnostic.
+- **§4.1 / §4.2 / §4.4 / §4.5 / §4.6 / §4.7:** Not directly impacted.
+- **§4.8 History README template and H1 archetype:** PASS — template parity and owning-block title archetype are enforced.
 
 ### SOLID cross-check
 
-- **S:** Sprint-side and epic-side responsibilities are separated without SSOT duplication.
-- **D:** Sprint references epic contracts without inverting COD directionality.
+- **S:** History operational guidance is centralized as one template and replicated consistently across blocks.
+- **D:** Validation contract depends on the template SSOT and enforces fail-closed behavior.
 
 ### L4 ZC pseudocode mirror cross-check
 

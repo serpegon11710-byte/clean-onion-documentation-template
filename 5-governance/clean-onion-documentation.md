@@ -1,6 +1,6 @@
 # Clean Onion Documentation (COD) Standard
 
-**Last updated:** 2026-07-02
+**Last updated:** 2026-07-03
 
 This cross-cutting policy defines the **directionality**, **isolation**, and **internal fractal structure** of all documentation layers within the repository. It complements the Agent Governance rules defined in `AGENTS.md`.
 
@@ -115,6 +115,36 @@ Adopter repos may use `-` or `_` in custom folder names; humanize **must** accep
 
 The Dashboard title identifies the **Decision Id index** for the owning block (§2.1). Matrix structure (`## {element-id}` sections, `Decision Id` column) remains normative in §2.1 — the H1 does not replace that body contract.
 
+### §2.6 `history/README.md` profile and title contract
+
+History operational rules are intentionally duplicated in each `history/README.md` so operators can work locally without leaving the block. The canonical template lives at `5-governance/history/README.md` and every other `history/README.md` must replicate the same body profile.
+
+Every `history/README.md` **must** use:
+
+```markdown
+# History : {path-readable-for-human}
+```
+
+`{path-readable-for-human}` is derived from the **owning block path** (the directory above `history/`), humanized with the same algorithm defined in §2.2.
+
+Examples:
+
+```text
+1-product-documentation/history/README.md
+  → # History : Product Documentation
+
+1-product-documentation/use-cases/history/README.md
+  → # History : Product Documentation - Use Cases
+```
+
+Mandatory body profile (same order and meaning in every `history/README.md`):
+
+1. Intro line with folder scope.
+2. `## Practice` section containing weekly fragmentation + daily traceability rules and Decision Id conventions.
+3. `## Navigation` section pointing to local `index.md`.
+
+The `history/README.md` profile is validated by pre-commit rules (see `pre-commit-validation-rules.md` §4.8).
+
 ### §2.3 `doubts-and-decisions/README.md` profiles
 
 Two profiles are allowed. Operational how-to **must not** appear without `## Decision matrix` and §2.1 propagation rules (anti-pattern: file-move workflow only).
@@ -170,7 +200,7 @@ Files that define **implementable** domain behavior (`logical-domain/entities/{e
 **Interpretation boundary (Allowed vs Forbidden):**
 
 - **Forbidden:** `See D-XXX` (or equivalent) when used to move normative behavior out of SSOT artifacts into doubt records.
-- **Allowed:** contextual references across blocks in the same layer (for example `logical-domain` <-> `use-cases`) when normative behavior remains self-contained in the current SSOT artifact and cross-block ownership is expressed with qualified ownership links.
+- **Allowed:** contextual references across blocks in the same layer (for example `logical-domain` <-> `use-cases`) when normative behavior remains self-contained in the current SSOT artifact and cross-block ownership is expressed with qualified ownership links (`{block}/D-XXX`).
 - **Allowed (and required when applicable):** cross-block decision traceability in `decision-matrix.md` using qualified ownership links (`{block}/D-XXX`).
 
 Decision history is **not** normative. It is indexed separately (see **Decision matrix** below).
