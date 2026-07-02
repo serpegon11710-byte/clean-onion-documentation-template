@@ -65,7 +65,7 @@ Run every check below. Record pass/fail per item.
 
 | # | Check | Tag on fail |
 |---|-------|-------------|
-| 1 | Doubt file is self-contained: problem, options, decision, impact — no `See D-XXX` for context expansion | `DOUBT-CONTEXT-CHAIN` |
+| 1 | Doubt file is self-contained: problem, options, decision, impact — no inter-doubt context expansion; any `D-XXX` in doubt body is forbidden outside `## Matrix impact` and top-level `**Superseded by:**` | `DOUBT-CONTEXT-CHAIN` |
 | 2 | Resolution section exists and is unambiguous | `DOUBT-INCOMPLETE` |
 | 3 | `## Propagated to` exists and lists at least one SSOT or `decision-matrix.md` path when the decision is normative | `PROPAGATED-MISSING` |
 | 4 | Every path under `Propagated to` exists on disk | `PROPAGATED-INVALID-PATH` |
@@ -79,6 +79,13 @@ Run every check below. Record pass/fail per item.
 | 12 | **Archive (same session):** when D-XXX has no `Effective` rows left in `Matrix impact`, file is in `superseded/`, removed from Solved dashboard, and **effective inverse** holds: for every row, that block's `decision-matrix.md` cell resolves to a doubt **≠ D-XXX** | `ARCHIVE-INCOMPLETE` |
 
 **Check 5 (normative content):** Verify the propagated files contain implementable rule text aligned with the doubt resolution — not only headings or links. This is a **semantic** check allowed here because the human requested closure verification.
+
+**Allowed contexts for `D-XXX` references in doubt records:**
+
+- `## Matrix impact` rows (including `Status: Superseded by {block}/D-YYY`).
+- Top-level `**Superseded by:** {block}/D-YYY` header.
+
+Any `D-XXX` reference outside those contexts is `KO` for Check 1.
 
 **Check 11:** Apply when closing a doubt that supersedes another.
 

@@ -148,7 +148,7 @@ Operational modes live in `skills/`. Load the file when invoked; do not infer ru
 | implement | [skills/implement.md](skills/implement.md) | Atomic code changes on approved tasks |
 | product-owner | [skills/product-owner.md](skills/product-owner.md) | PO debate and doubt resolution |
 | refactor-doubts | [skills/refactor-doubts.md](skills/refactor-doubts.md) | Audit overlapping open doubts before PO closure |
-| check-solve-doubt | [skills/check-solve-doubt.md](skills/check-solve-doubt.md) | Human-triggered closure audit for one doubt before commit |
+| check-solve-doubt | [skills/check-solve-doubt.md](skills/check-solve-doubt.md) | Closure audit for one doubt before commit (mandatory when staged doubt records are present) |
 | solid | [skills/solid.md](skills/solid.md) | SOLID and Layer 5 decoupling audit |
 
 ---
@@ -159,9 +159,10 @@ Operational modes live in `skills/`. Load the file when invoked; do not infer ru
 
 Before any commit:
 
-1. Invoke [solid](skills/solid.md), which loads and executes **all** criteria in `pre-commit-validation-rules.md` (COD, SOLID, L4 ZC pseudocode mirror when applicable) **and** the skill-only propagation coherence check in that skill.
-2. Regenerate `## Current audit` in [solid-principles-review-report.md](5-governance/solid-principles-review-report.md) per that document.
-3. Abort the commit on `**STATUS:** KO` or any unresolved violation.
+1. If staged paths include `**/doubts-and-decisions/**`, run [check-solve-doubt](skills/check-solve-doubt.md) for each touched solved/superseded doubt; any `KO` result blocks commit.
+2. Invoke [solid](skills/solid.md), which loads and executes **all** criteria in `pre-commit-validation-rules.md` (COD, SOLID, L4 ZC pseudocode mirror when applicable) **and** the skill-only propagation coherence check in that skill.
+3. Regenerate `## Current audit` in [solid-principles-review-report.md](5-governance/solid-principles-review-report.md) per that document.
+4. Abort the commit on `**STATUS:** KO` or any unresolved violation.
 
 Hook enforcement for the **audit report artifact** is documented in §8. L4 pseudocode mirror validation has **no automated hook** in this template — see §9.
 
