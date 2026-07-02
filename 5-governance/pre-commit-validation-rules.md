@@ -1,6 +1,6 @@
 # Pre-Commit Validation Rules
 
-**Last updated:** 2026-07-01
+**Last updated:** 2026-07-02
 
 **Source of truth** for the pre-commit integrity contract (`AGENTS.md` §9), auditor behavior ([skills/solid.md](../skills/solid.md)), and all validation criteria executed before `git commit`.
 
@@ -113,6 +113,20 @@ Apply when staged paths include any:
 | **PP origin path** | Every `PP-XX.YY` referenced by a matrix row must resolve to `3-implementation/platform-policies/**/PP-XX.YY-*.md` | `**STATUS:** KO` |
 
 Record violations under **Findings** with tag `COD-RP-PP` and affected paths.
+
+### §4.7 Epic layer sprint-awareness prohibition (hard gate)
+
+Normative rules: [clean-onion-documentation.md](clean-onion-documentation.md) §4 (inward-only dependency model).
+
+Apply when staged paths include any `2-epics/**` file.
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **Epic sprint-agnostic wording** | Staged epic-layer files must not encode assumptions about sprint existence, sprint timing, or sprint-driven motivation as part of epic normative rules | `**STATUS:** KO` |
+
+**Scope note:** Mentioning this prohibition inside governance/audit files is allowed. The check targets epic-layer artifacts only (`2-epics/**`).
+
+Record violations under **Findings** with tag `COD-DIRECTIONALITY` and affected paths.
 
 ### §4.3 File catalog bijection (hard gate)
 
