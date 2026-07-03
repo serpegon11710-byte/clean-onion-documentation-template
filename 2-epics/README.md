@@ -21,4 +21,4 @@ When a subdivision is agreed, the epic layer records only epic-structure informa
 ## Navigation
 
 - [index.md](index.md) — Live directory of all files in this layer.
-- [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open and closed doubts.
+- [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open, deferred, and closed doubts.

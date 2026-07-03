@@ -43,4 +43,4 @@ Technology-agnostic C4 architecture diagrams and Critical Zones (ZC) live under 
 - [logical-domain/](logical-domain/) — Core domain model: entities, business rules, and domain diagrams.
 - [use-cases/](use-cases/) — Primary use cases with Mermaid diagrams.
 - [diagrams-c4/](diagrams-c4/) — C4 conceptual diagrams.
-- [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open and closed doubts.
+- [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open, deferred, and closed doubts.

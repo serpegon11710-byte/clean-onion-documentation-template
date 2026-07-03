@@ -7,7 +7,7 @@ Layer 5 governs **how COD operates** (structure, validation, and agent behavior)
 ## Navigation
 
 - [index.md](index.md) — Live directory of all files in this layer.
-- [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open and closed doubts.
+- [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open, deferred, and closed doubts.
 
 ## Scope boundary (mandatory)
 

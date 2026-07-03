@@ -12,9 +12,11 @@ The optional Git hook (§8) validates only the audit **report artifact**. **L4 p
 
 ## 1. Pre-Commit Integrity Contract
 
-**Mandatory guardrail:** Any agent (Cursor, Claude Code, Aider, GitHub Copilot, or equivalent) that reads `AGENTS.md` **must** adopt this contract as a pre-commit gate. **No commit may proceed** until this audit completes successfully.
+**Mandatory guardrail:** Any agent (Cursor, Claude Code, Aider, GitHub Copilot, or equivalent) that reads `AGENTS.md` **must** adopt this contract as a pre-commit gate. **No commit with staged changes may proceed** until this audit completes successfully.
 
 Before any commit, perform an architectural audit of all **staged** changes. Invoke [skills/solid.md](../skills/solid.md) and validate every criterion in this document.
+
+If the staged set is empty (for example, message-only amend), skip audit report regeneration and allow the commit.
 
 ### 1.2 Anti-evasion and execution evidence (hard gate)
 
@@ -77,15 +79,18 @@ For `See D-` / `See doubt-` findings, the boundary check is mandatory: the audit
 ## 3. Regeneration Workflow
 
 1. Review **staged** changes (`git diff --cached`).
-2. Validate **file integrity policy** per §1.1 (write method compliance + UTF-8/LF post-write verification evidence when applicable).
-3. If staged paths include `**/doubts-and-decisions/**`, run [check-solve-doubt.md](../skills/check-solve-doubt.md) for each touched solved/superseded record before `solid`; if any result is `KO`, abort pre-commit and do not continue to report regeneration.
-4. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4, and §2.6 (see §4, §4.1, §4.2, §4.3, §4.4, and §4.8 below).
-5. Validate **SOLID** — at minimum **S** and **D** on staged changes (see §5 below).
-6. Validate **L4 ZC pseudocode mirror** when staged changes touch Critical Zones or their Layer 3 projections (see §6 below).
-7. Produce execution evidence before report write: staged scope summary, checks executed, and result per check (`PASS`/`KO`/`N/A`) with blockers if any.
-8. Run `Get-Date -Format "yyyy-MM-ddTHH:mm:ss"` **once**, immediately before writing report headers.
-9. Overwrite **only** `## Current audit` to EOF in [solid-principles-review-report.md](solid-principles-review-report.md).
-10. Set `**STATUS:** PASS` only if **all** checks pass; otherwise `**STATUS:** KO` and **abort the commit**.
+2. If staged set is empty, allow commit and skip steps 3-13.
+3. Validate **file integrity policy** per §1.1 (write method compliance + UTF-8/LF post-write verification evidence when applicable).
+4. If staged paths include `**/doubts-and-decisions/**`, run [check-solve-doubt.md](../skills/check-solve-doubt.md) for each touched solved/superseded record before `solid`; if any result is `KO`, abort pre-commit and do not continue to report regeneration.
+5. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4, and §2.6 (see §4, §4.1, §4.2, §4.3, §4.4, and §4.8 below).
+6. Validate **SOLID** — at minimum **S** and **D** on staged changes (see §5 below).
+7. Validate **L4 ZC pseudocode mirror** when staged changes touch Critical Zones or their Layer 3 projections (see §6 below).
+8. If steps 3-7 are `PASS`, evaluate **unstaged invalidation risk**: inspect unstaged changes and return `KO` only when unstaged content invalidates staged audit conclusions (for example, staged content requires same-session companion documentation that exists only in working tree).
+9. Do not fail on unrelated unstaged files that do not invalidate staged conclusions.
+10. Produce execution evidence before report write: staged scope summary, checks executed, and result per check (`PASS`/`KO`/`N/A`) with blockers if any.
+11. Run `Get-Date -Format "yyyy-MM-ddTHH:mm:ss"` **once**, immediately before writing report headers.
+12. Overwrite **only** `## Current audit` to EOF in [solid-principles-review-report.md](solid-principles-review-report.md).
+13. Set `**STATUS:** PASS` only if **all** checks pass; otherwise `**STATUS:** KO` and **abort the commit**.
 
 ---
 
@@ -207,9 +212,10 @@ Apply when staged paths include any:
 
 | Check | Rule | On failure |
 |-------|------|------------|
-| **Issue catalog sections** | Staged `doubts-and-decisions/index.md` includes `## Open Issues` and `## Solved Issues` with column headers per §2.4 | `COD-DOUBTS-BODY` |
-| **Issue catalog footer** | Staged index footer matches the canonical footer in §2.4 (all three instruction lines, verbatim) | `COD-DOUBTS-BODY` |
-| **Issue catalog bijection** | Every doubt listed in **Solved Issues** has a file in `solved/`; no Solved row for a file in `superseded/`; no `## Superseded Issues` section | `COD-DOUBTS-BODY` |
+| **Issue catalog sections** | Staged `doubts-and-decisions/index.md` includes `## Open Issues`, `## Deferred Issues`, and `## Solved Issues` with column headers per §2.4 | `COD-DOUBTS-BODY` |
+| **Issue catalog footer** | Staged index footer matches the canonical footer in §2.4 (all four instruction lines, verbatim) | `COD-DOUBTS-BODY` |
+| **Issue catalog bijection** | Every doubt listed in **Solved Issues** has a file in `solved/`; every doubt listed in **Deferred Issues** has a file in `open/`; no Solved row for a file in `superseded/`; no `## Superseded Issues` section | `COD-DOUBTS-BODY` |
+| **Deferred uniqueness** | A doubt ID cannot be listed simultaneously in `Open Issues` and `Deferred Issues` | `COD-DOUBTS-BODY` |
 | **Footer parity** | When any staged `doubts-and-decisions/index.md` is modified, **every** `**/doubts-and-decisions/index.md` in the repo must carry the same canonical footer (prevents arbitrary template copy drift) | `COD-DOUBTS-BODY` |
 | **How-to requires matrix** | Staged `doubts-and-decisions/README.md` with `## How to manage` (any casing) **must** also contain `## Decision matrix` | `COD-README` |
 | **L1 sub-block minimal** | Staged README under `1-product-documentation/*/doubts-and-decisions/README.md` or `1-product-documentation/*/*/doubts-and-decisions/README.md` (any depth under Layer 1, excluding `1-product-documentation/doubts-and-decisions/`) **must not** contain `## How to manage`, `## Folders`, or `## Status` | `COD-README` |
@@ -277,6 +283,20 @@ Template source of truth:
 **Fail-closed policy:** If the template cannot be parsed, is missing required sections, or is semantically incomplete for the checks above, return `KO`.
 
 Record violations under **Findings** with tag `COD-HISTORY-README` and affected paths.
+
+### §4.9 Sprint deferred coherence (hard gate)
+
+Normative rules: [4-sprints/README.md](../4-sprints/README.md) and [clean-onion-documentation.md](clean-onion-documentation.md) §2.4.
+
+Apply when staged paths include any `4-sprints/**` file.
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **No sprint close with pending doubts** | A staged sprint closure action is forbidden while that sprint scope still has rows in `Open Issues` or `Deferred Issues` | `**STATUS:** KO` |
+| **Transfer to closed sprint requires reopen** | If staged changes defer or transfer a doubt to a previously closed sprint, the same staged session must include reopening evidence for the target sprint | `**STATUS:** KO` |
+| **Deferred traceability in sprint scope** | Staged deferred records in sprint scope must include origin and target traceability in the doubt body when transfer is involved | `**STATUS:** KO` |
+
+Record violations under **Findings** with tag `COD-SPRINT-DEFERRED` and affected paths.
 
 ---
 
@@ -397,7 +417,9 @@ Each finding line in this section must follow the §2.1 finding record contract 
 
 The template ships [validate-integrity-report.ps1](../.githooks/validate-integrity-report.ps1) for teams that choose to activate it (`git config core.hooksPath .githooks`). **Activation is optional** per [GETTING_STARTED.md](../GETTING_STARTED.md) §2.
 
-When active, `.githooks/pre-commit` and `.cursor/hooks.json` block `git commit` unless:
+When active, `.githooks/pre-commit` and `.cursor/hooks.json` block `git commit` with staged changes unless:
+
+If staged content is empty (for example, message-only amend), hook validation is skipped and commit is allowed.
 
 1. `5-governance/solid-principles-review-report.md` **exists**.
 2. `**STATUS:** PASS` in `## Current audit`.

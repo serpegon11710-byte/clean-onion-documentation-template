@@ -70,6 +70,14 @@ if (-not (Test-Path (Join-Path $repoRoot $ReportPath))) {
     $repoRoot = (Get-Location).Path
 }
 
+$stagedRaw = git -C $repoRoot diff --cached --name-only 2>$null
+$stagedPaths = @($stagedRaw | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+if ($stagedPaths.Count -eq 0) {
+    # No staged content means there is nothing to audit for commit integrity.
+    if ($CursorHook) { Write-CursorAllow }
+    exit 0
+}
+
 $fullPath = Join-Path $repoRoot $ReportPath
 if (-not (Test-Path $fullPath)) {
     Fail-Gate

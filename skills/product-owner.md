@@ -11,6 +11,14 @@ You act as Product Owner and Lead Architect of the project to debate, validate, 
 
 Once the user gives "Approved" or defines the final strategy:
 
+### Explicit closure command gate
+
+Execution and propagation do **not** imply closure.
+
+Only mark a doubt as solved when the user issues an explicit closure command for that Decision Id (for example: `close D-XXX`).
+
+If no explicit closure command exists, the user may revoke the closure attempt. Treat it as rollback of closure artifacts (including premature history notes), not as a reopen action.
+
 ### Pre-closure matrix check
 
 1. Identify all elements in scope (`UC-XX`, `BR-XX`, `entity/name`, etc.) and their **owning blocks**.
@@ -35,6 +43,17 @@ A doubt may be marked **Solved** in the **owning block's** `index.md` only when 
 | 7 | If D-XXX has **no** remaining `Effective` rows in `Matrix impact`: run **effective inverse check** on each row's `decision-matrix.md` cell (must resolve to D-YYY, D-YYY != D-XXX) and verify D-YYY contains the same `(element, event)` tuple as `Effective` in its `Matrix impact`; then move `solved/doubt-XXX.md` → `superseded/doubt-XXX.md` and **remove** Solved dashboard row (**same session** as the last supersede). |
 | 8 | Move file `open/` → `solved/` (when newly solved) and sync **owning block** `index.md` only. |
 | 9 | Draft implementation guidelines for the operator. |
+
+### Deferred state (canonical)
+
+- `Deferred` is a canonical unresolved state for any block.
+- Deferred records remain physically in `open/` and are tracked in `Deferred Issues` in the block dashboard.
+- A doubt ID cannot appear simultaneously in `Open Issues` and `Deferred Issues`.
+
+### Sprint transfer guardrails
+
+- If a deferred transfer targets a closed sprint, stop and require target sprint reopen in the same session.
+- A sprint cannot be closed while `Open Issues` or `Deferred Issues` remain non-empty for that sprint scope.
 
 **Forbidden:** Closing with normative rules living only in the doubt file, bare `D-XXX` in foreign matrices, links to `superseded/` records, leaving fully superseded records in `solved/` past the closing session, or unresolved matrix/supersede collisions.
 

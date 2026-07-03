@@ -21,5 +21,5 @@ This folder orchestrates all **technology-agnostic C4 diagrams** for the product
 ## Navigation
 
 - [index.md](index.md) — Live directory of this folder.
-- [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open and closed doubts.
+- [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open, deferred, and closed doubts.
 - [history/](history/) — Chronological modification log.

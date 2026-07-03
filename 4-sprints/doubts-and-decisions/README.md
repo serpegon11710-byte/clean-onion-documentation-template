@@ -9,6 +9,7 @@ Consult [index.md](index.md) in this folder to view the current status of all do
 ## Folders
 
 - **`open/`** — Active work. Place doubt files here while they are under discussion or pending resolution.
+- **`deferred` status** — Deferred doubts remain physically in `open/` and are tracked in the `Deferred Issues` dashboard section.
 - **`solved/`** — Closed records with operational value.
 - **`superseded/`** — Fully superseded records (forensic only; archive from `solved/` per §2.1).
 
@@ -18,7 +19,15 @@ Consult [index.md](index.md) in this folder to view the current status of all do
 
 **Register it:** Add a new row to the "Open Issues" table in `index.md`.
 
-**Solving:** Once resolved, move the file to `/solved/`, update the status in `index.md`, and move the row to the "Solved Issues" table.
+**Deferring:** Keep the file in `/open/`, move the row from "Open Issues" to "Deferred Issues", and register deferred metadata.
+
+**Solving:** Once resolved and explicitly closed by the user command for that Decision Id, move the file to `/solved/`, update the status in `index.md`, and move the row to the "Solved Issues" table.
+
+**Revocation rule:** If no explicit closure command was issued, reverting closure artifacts is rollback, not reopening.
+
+**Sprint transfer rule:** If a deferred doubt is transferred to a closed sprint, reopen that sprint in the same session.
+
+**Sprint closure rule:** Do not close a sprint while "Open Issues" or "Deferred Issues" contains pending doubts.
 
 **Keep it clean:** Do not move files across these folders manually without updating the `index.md` dashboard.
 
