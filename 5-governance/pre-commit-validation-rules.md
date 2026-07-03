@@ -92,6 +92,15 @@ For `See D-` / `See doubt-` findings, the boundary check is mandatory: the audit
 12. Overwrite **only** `## Current audit` to EOF in [solid-principles-review-report.md](solid-principles-review-report.md).
 13. Set `**STATUS:** PASS` only if **all** checks pass; otherwise `**STATUS:** KO` and **abort the commit**.
 
+### 3.1 Unstaged antirule (intersection is not the criterion)
+
+For workflow §3.8, **path intersection between staged and unstaged is not a KO criterion by itself**.
+
+- **PASS case:** A file may exist in both staged and unstaged sets, and still be valid when unstaged deltas do not invalidate audited staged conclusions (for example, a non-normative comment added after staging).
+- **KO case:** A file may exist only in unstaged (no intersection) and still invalidate the audit when it carries required companion updates not present in staged (for example, fixing an `index.md` after audit but leaving that fix unstaged).
+
+Decision rule: evaluate **invalidation impact**, not overlap shape.
+
 ---
 
 ## 4. COD Validation Criteria
@@ -298,6 +307,30 @@ Apply when staged paths include any `4-sprints/**` file.
 
 Record violations under **Findings** with tag `COD-SPRINT-DEFERRED` and affected paths.
 
+### §4.10 Subdivision governance invariants (hard gate)
+
+Normative rules:
+
+- [1-product-documentation/use-cases/README.md](../1-product-documentation/use-cases/README.md) (`## UC Subdivision Governance`)
+- [2-epics/README.md](../2-epics/README.md) (`## Epic Subdivision Governance`)
+- [4-sprints/README.md](../4-sprints/README.md) (`## Sprint Subtasks Governance`)
+
+Apply when staged paths include any of:
+
+- `1-product-documentation/use-cases/README.md`
+- `2-epics/README.md`
+- `4-sprints/README.md`
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **Parent orchestrator invariant** | The staged policy text keeps the parent node as orchestrator only (parent must not become leaf-behavior SSOT) | `**STATUS:** KO` |
+| **Leaf SSOT invariant** | The staged policy text keeps leaf nodes/subtasks as SSOT for actionable/implementable scope slices | `**STATUS:** KO` |
+| **No transversal links invariant** | The staged policy text keeps the direct-children-only rule (no cross-branch/sibling transversal links) | `**STATUS:** KO` |
+| **Full coverage invariant** | The staged policy text keeps explicit 100% child coverage of the parent scope | `**STATUS:** KO` |
+| **Parent closure checklist invariant** | The staged policy text keeps closure gated by checklist completion of direct children/subtasks | `**STATUS:** KO` |
+
+Record violations under **Findings** with tag `COD-SUBDIVISION` and affected paths.
+
 ---
 
 ## 5. SOLID Validation Criteria
@@ -397,7 +430,11 @@ Each finding line in this section must follow the §2.1 finding record contract 
 
 ### COD cross-check
 
-<file integrity policy §1.1 + inward-only + stack leakage + fractal index + catalog bijection §4.3 + §4.1 self-containment/matrix + §4.2 doubts issue catalog/README + §4.4 Catalog/Dashboard H1 when applicable per clean-onion-documentation.md §4>
+<file integrity policy §1.1 + inward-only + stack leakage + fractal index + catalog bijection §4.3 + §4.1 self-containment/matrix + §4.2 doubts issue catalog/README + §4.4 Catalog/Dashboard H1 + §4.10 subdivision invariants when applicable per clean-onion-documentation.md §4>
+
+Mandatory lines in this section:
+
+- `- **Unstaged invalidation risk (workflow §3.8):** PASS|KO|N/A`
 
 ### SOLID cross-check
 
@@ -424,6 +461,7 @@ If staged content is empty (for example, message-only amend), hook validation is
 1. `5-governance/solid-principles-review-report.md` **exists**.
 2. `**STATUS:** PASS` in `## Current audit`.
 3. `**Audit completed:**` is **≤ 60 seconds** old.
+4. The report includes `**Unstaged invalidation risk (workflow §3.8):** PASS` or `N/A`.
 
 On failure:
 

@@ -9,6 +9,9 @@ When a sprint is decomposed into subtasks, subtasks must be treated as independe
 - Subtasks do not reference each other.
 - No predefined sequential execution order is assumed between subtasks.
 - The parent sprint acts as the orchestrator and source of closure control.
+- The parent sprint may reference only its direct subtasks; transversal links across sibling subtasks are forbidden.
+- Subtasks are the SSOT for execution-level detail inside their own scope slice.
+- In any approved subdivision, the set of subtasks must cover 100% of the parent sprint scope.
 - The parent sprint must maintain a closure checklist that verifies all subtasks are completed before the sprint can be closed.
 
 ## Sprint-Epic Partial Coverage Rule
