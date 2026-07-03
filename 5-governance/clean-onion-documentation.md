@@ -51,7 +51,7 @@ Every block or main folder within the layers must replicate this exact scheme:
 - **History entry format (Mandatory):** Register each entry as `YYYY-MM-DD - <registrable description> - <optional Decision Id reference>`.
 - **History Decision Id reference (Mandatory when present):** Use bare `D-XXX` when the doubt belongs to the same block. Use a qualified markdown link `{block}/D-XXX` when the doubt belongs to another block, targeting the owning block's `solved/doubt-XXX.md` record.
 
-- **`doubts-and-decisions/`:** Doubt & Decision subsystem in atomic form (one file per id). Debate in progress in **`open/`**; closed Doubt & Decision records with operational value in **`solved/`**; fully superseded records in **`superseded/`** (forensic only — agents do not load without explicit human instruction). The **`index.md`** issue catalog tracks **`open/`** and **`solved/`** only (`Open Issues` / `Solved Issues` — **no** `Superseded Issues` table). Files must not move between `open/`, `solved/`, and `superseded/` without the matching index update (remove Solved row when archiving to `superseded/`). Physical filename stays **`doubt-XXX.md`** in all phases (phase is encoded by folder only).
+- **`doubts-and-decisions/`:** Doubt & Decision subsystem in atomic form (one file per id). Debate in progress in **`open/`**; unresolved postponed decisions are tracked as **Deferred** in the issue catalog but remain physically in `open/`; closed Doubt & Decision records with operational value in **`solved/`**; fully superseded records in **`superseded/`** (forensic only — agents do not load without explicit human instruction). The **`index.md`** issue catalog tracks **`Open Issues`**, **`Deferred Issues`**, and **`Solved Issues`** (**no** `Superseded Issues` table). Files must not move between `open/`, `solved/`, and `superseded/` without the matching index update (remove Solved row when archiving to `superseded/`). Physical filename stays **`doubt-XXX.md`** in all phases (phase is encoded by folder only).
 
 - **`decision-matrix.md`:** Dashboard of **Decision Id** (`D-XXX`) per `(element, event)` for the owning block. Updated on every normative closure. See §2.1.
 
@@ -171,6 +171,7 @@ Beyond the Catalog H1 (§2.2), every `doubts-and-decisions/index.md` **must** in
 | Section | Contract |
 |---------|----------|
 | `## Open Issues` | Table header: `\| ID \| Title \| Priority \| Date Created \|` |
+| `## Deferred Issues` | Table header: `\| ID \| Title \| Deferred Date \| Deferred Target (optional) \|` |
 | `## Solved Issues` | Table header: `\| ID \| Title \| Resolution Date \|` |
 | Footer | Static canonical text below (identical in every doubts issue catalog; not duplicated in COD governance prose) |
 
@@ -179,6 +180,7 @@ Beyond the Catalog H1 (§2.2), every `doubts-and-decisions/index.md` **must** in
 ```markdown
 ---
 *Instructions: To add a new doubt, create a file in open/ named doubt-XXX.md and append a row to the Open Issues table.*
+*To defer a doubt, keep the file in open/, move the row to Deferred Issues, and set Deferred Date plus Deferred Target when applicable.*
 *Once a doubt is solved, move the file to solved/ and move the row to the Solved Issues table.*
 *When every row in ## Matrix impact is Superseded by … and no decision-matrix cell for those rows points at this doubt, move solved/doubt-XXX.md to superseded/ and remove its Solved Issues row in the same session as the last supersede (no Superseded Issues table).*
 ```
@@ -298,6 +300,10 @@ Operational map of **which matrix rows** this doubt touches — used for closure
 **Dashboard rule:** Cross-block impact does **not** add rows to foreign blocks' `index.md` dashboards. Traceability is via matrix + `Matrix impact` only.
 
 #### Doubt closure propagation contract
+
+Execution and propagation do **not** close a doubt by themselves. A doubt closes only after an explicit human command for that Decision Id (for example: `close D-XXX`).
+
+If no explicit closure command was issued, the human may revoke the tentative closure flow; this is a rollback of closure artifacts, not a reopen action.
 
 A doubt is **not fully closed** until all of the following complete in the **same work session**:
 

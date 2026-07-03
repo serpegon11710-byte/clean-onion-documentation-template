@@ -18,6 +18,8 @@ chmod +x .githooks/pre-commit
 
 ## Checks (all required)
 
+If the staged set is empty (for example, `git commit --amend` message-only), the hook allows the commit and skips report checks.
+
 1. Report file **exists**.
 2. `**STATUS:** PASS` (exact value).
 3. `**Audit completed:**` timestamp is **≤ 60 seconds** old (`yyyy-MM-ddTHH:mm:ss`).

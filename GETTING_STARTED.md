@@ -64,6 +64,8 @@ git config core.hooksPath .githooks
 
 Before each `git commit` or `git commit --amend`, [validate-integrity-report.ps1](.githooks/validate-integrity-report.ps1) checks [5-governance/solid-principles-review-report.md](5-governance/solid-principles-review-report.md):
 
+If staged content is empty (for example a message-only amend), the hook allows the commit and skips report validation.
+
 1. The report file **exists**.
 2. `**STATUS:** PASS` inside `## Current audit` (exact token `PASS`).
 3. `**Audit completed:**` timestamp is **≤ 60 seconds** old (`yyyy-MM-ddTHH:mm:ss`).
@@ -91,7 +93,7 @@ Exit code `0` = gate would allow a commit; `1` = blocked.
 
 | Layer | Where | What it does |
 |-------|-------|--------------|
-| **1. Git hook (local)** | Your machine after §2 | Blocks `git commit` / `--amend` if the audit report is missing, stale, or `KO` |
+| **1. Git hook (local)** | Your machine after §2 | Blocks `git commit` / `--amend` with staged changes if the audit report is missing, stale, or `KO` |
 | **2. IDE shell hook clients** | Any present or future agent integration that launches commits from an IDE | Invoke the same `.githooks/validate-integrity-report.ps1` script when a commit is launched from an IDE |
 | **3. Agent contract** | [pre-commit-validation-rules.md](5-governance/pre-commit-validation-rules.md) | Requires the agent to run [skills/solid.md](skills/solid.md) and regenerate the report before committing |
 

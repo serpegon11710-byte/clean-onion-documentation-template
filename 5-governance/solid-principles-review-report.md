@@ -7,16 +7,17 @@
 
 ## Current audit
 
-**Audit completed:** 2026-07-03T11:57:05
+**Audit completed:** 2026-07-03T15:59:17
 **STATUS:** PASS
 
 ### Scope of last audit
 
-Governance and onboarding documentation update for canonical Git hook routing:
+Canonical Deferred governance rollout, pre-commit behavior hardening, and sprint closure constraints across 25 staged files:
 
-- Added the canonical `.githooks` transport path to `AGENTS.md` so any present or future agent can self-configure the same hook location.
-- Updated `GETTING_STARTED.md` to require `git config core.hooksPath` verification and to treat IDE integrations as clients of the same hook script.
-- Removed agent-specific hook naming from the getting-started flow and replaced it with a universal, route-agnostic contract.
+- Enabled hook early-exit when staged set is empty (message-only amend flow).
+- Moved unstaged invalidation risk evaluation into auditor workflow (not hook transport).
+- Added canonical `Deferred` issue state in doubts dashboards and governance contracts.
+- Enforced explicit doubt closure command semantics and sprint reopen/closure guardrails.
 
 ### Findings
 
@@ -24,23 +25,29 @@ No violations.
 
 Applicability evidence for this changeset:
 
-- `doubts-and-decisions`: N/A (no doubt records staged)
-- `index.md` / `decision-matrix.md`: N/A
+- `doubts-and-decisions`: PASS (dashboard contract updates only; no solved/superseded doubt records staged)
+- `index.md`: PASS (10 doubts dashboards updated with canonical `Deferred` section + footer parity)
+- `decision-matrix.md`: N/A
 - `history/README.md`: N/A
 - `RP/PP` traceability: N/A
-- `L4-critical-zones` mirror: N/A
+- `L4-critical-zones` mirror: N/A (no Critical Zone pseudocode/code mirror paths staged)
 
 ### COD cross-check
 
 - **File integrity policy (§1.1):** PASS — edits were performed with approved methods (`apply_patch` / git staging flow), no prohibited persistent shell write cmdlets.
 - **File integrity output:** PASS — all staged files report `i/lf` and `w/lf` via `git ls-files --eol`.
-- **Inward-only / stack leakage:** PASS — changes are limited to repository governance and onboarding documentation; no dependency-direction or stack-mention regression.
-- **§4.1 / §4.2 / §4.3 / §4.4 / §4.5 / §4.6 / §4.7 / §4.8:** N/A for this staged scope.
+- **Inward-only / stack leakage:** PASS — updates are governance/process contracts and do not introduce forbidden stack leakage in inner layers.
+- **§4.1 (self-containment/matrix):** PASS — no SSOT doubt-pointer violations introduced.
+- **§4.2 (doubts issue catalog):** PASS — `Open/Deferred/Solved` sections and canonical footer synchronized across all staged doubts indexes.
+- **§4.3 / §4.4:** PASS — staged `index.md` files preserve catalog structure and title contracts.
+- **§4.5 / §4.6 / §4.7 / §4.8:** N/A for this staged scope.
+- **§4.9 (sprint deferred coherence):** PASS — sprint rules now explicitly prevent closing with `Open`/`Deferred` and require reopen on transfer to a closed sprint.
+- **Unstaged invalidation risk (workflow §3.8):** PASS — unstaged set empty, no invalidation path.
 
 ### SOLID cross-check
 
-- **S:** PASS — each changed artifact has a single concern (canonical hook routing and bootstrap guidance).
-- **D:** PASS — repository policy remains anchored in `AGENTS.md` and `GETTING_STARTED.md`; agents depend on the abstract Git hook contract, not on a specific IDE implementation.
+- **S:** PASS — each modified artifact keeps single concern (hook transport, governance contract, sprint policy, or skill behavior).
+- **D:** PASS — hook remains transport-only while validation scope depends on governance SSOT (`pre-commit-validation-rules.md`, `clean-onion-documentation.md`, `skills/product-owner.md`).
 
 ### L4 ZC pseudocode mirror cross-check
 

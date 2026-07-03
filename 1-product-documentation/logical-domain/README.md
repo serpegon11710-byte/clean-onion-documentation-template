@@ -52,5 +52,5 @@ logical-domain/
 - [business-rules/](business-rules/) — Business rules repository.
 - [diagrams/](diagrams/) — Domain diagrams.
 - [diagrams/class-diagram.mmd](diagrams/class-diagram.mmd) — Domain class diagram.
-- [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open and closed doubts.
+- [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open, deferred, and closed doubts.
 - [history/](history/) — Chronological modification log.

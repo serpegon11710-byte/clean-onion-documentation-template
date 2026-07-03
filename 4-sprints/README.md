@@ -31,7 +31,15 @@ If the subdivision trigger is discovered in sprint planning or execution:
 - Traceability is one-way under COD: Sprint may reference Epic, but Epic remains sprint-agnostic.
 - Sprint records may enforce that epic records remain free of outer-layer rationale (for example sprint timing or temporal motivation).
 
+## Sprint Deferred Governance
+
+- `Deferred` is an allowed unresolved state for sprint doubts and follows the repository canonical doubts contract.
+- A sprint may continue with open work and commits while doubts are `Open` or `Deferred`, provided COD/SOLID audits remain consistent.
+- A sprint **cannot be closed** while any sprint-scoped doubt remains in `Open Issues` or `Deferred Issues`.
+- If a doubt is deferred to a sprint that is currently closed, the target sprint must be reopened in the same session as the transfer.
+- A reopened sprint cannot close again until transferred doubts are solved or superseded coherently.
+
 ## Navigation
 
 - [index.md](index.md) — Live directory of all files in this layer.
-- [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open and closed doubts.
+- [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open, deferred, and closed doubts.
