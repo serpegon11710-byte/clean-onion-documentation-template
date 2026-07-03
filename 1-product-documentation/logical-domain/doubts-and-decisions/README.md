@@ -20,6 +20,6 @@ This block maintains [decision-matrix.md](decision-matrix.md): Decision Id index
 | `decision-matrix.md` | Decision Id per entity `(element, event)` — local `D-XXX` or cross-block `[block/D-XXX](…/solved/…)` |
 | `history/` | Supersede/merge chain — forensic only; not loaded by default |
 
-On solve: propagate to SSOT + `## Matrix impact` + update matrices per [clean-onion-documentation.md](../../../5-governance/clean-onion-documentation.md) §2.1. Foreign doubts use qualified matrix links only (no dashboard row here).
+On solve: propagate to SSOT + `## Matrix impact` + update local/affected decision matrices according to the block closure contract. Foreign doubts use qualified matrix links only (no dashboard row here).
 
 **Forbidden:** `See D-XXX` to expand doubt context. Supersede via `**Superseded by:** {block}/D-YYY` and `Matrix impact` status updates; archive to `superseded/` when fully superseded (same session).

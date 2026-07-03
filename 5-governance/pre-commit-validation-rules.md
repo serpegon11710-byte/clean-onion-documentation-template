@@ -50,9 +50,10 @@ To preserve repository integrity across agents and operating systems, all automa
 
 1. **BLIND AUDIT:** Do not assume the code is correct. Analyze each component, interface, and class looking for encapsulation violations or unnecessary couplings.
 2. **CONFLICT ESCALATION (COD Governance vs Product Governance):** If the agent detects a conflict between product governance rules and COD governance rules defined in [clean-onion-documentation.md](clean-onion-documentation.md), the agent must abort the task and return: `CRITICAL ERROR: conflict between COD Governance and Product Governance`. The agent must explain the conflicting rules and why a Product Owner decision is required before continuing.
-3. **CONSTRUCTIVE CRITICISM:** Identify which specific principle (S, O, L, I, D) or COD rule is violated and propose a technical alternative aligned with the layered architecture.
+3. **INTER-LAYER NORMATIVE CONFLICT (CRITICAL):** If the agent detects inconsistent or mutually incompatible normative rules across different layers, the audit must return `**STATUS:** KO` and classify the finding as critical. No layer may be prioritized arbitrarily to force a PASS.
+4. **CONSTRUCTIVE CRITICISM:** Identify which specific principle (S, O, L, I, D) or COD rule is violated and propose a technical alternative aligned with the layered architecture.
 
-No automatic precedence is allowed between COD Governance and Product Governance when a direct conflict is detected.
+No automatic precedence is allowed between governance sources or layers when a direct conflict is detected.
 
 For **non-commit** audits (ad-hoc review), respond in chat with:
 
@@ -83,14 +84,15 @@ For `See D-` / `See doubt-` findings, the boundary check is mandatory: the audit
 3. Validate **file integrity policy** per §1.1 (write method compliance + UTF-8/LF post-write verification evidence when applicable).
 4. If staged paths include `**/doubts-and-decisions/**`, run [check-solve-doubt.md](../skills/check-solve-doubt.md) for each touched solved/superseded record before `solid`; if any result is `KO`, abort pre-commit and do not continue to report regeneration.
 5. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4, and §2.6 (see §4, §4.1, §4.2, §4.3, §4.4, and §4.8 below).
-6. Validate **SOLID** — at minimum **S** and **D** on staged changes (see §5 below).
-7. Validate **L4 ZC pseudocode mirror** when staged changes touch Critical Zones or their Layer 3 projections (see §6 below).
-8. If steps 3-7 are `PASS`, evaluate **unstaged invalidation risk**: inspect unstaged changes and return `KO` only when unstaged content invalidates staged audit conclusions (for example, staged content requires same-session companion documentation that exists only in working tree).
-9. Do not fail on unrelated unstaged files that do not invalidate staged conclusions.
-10. Produce execution evidence before report write: staged scope summary, checks executed, and result per check (`PASS`/`KO`/`N/A`) with blockers if any.
-11. Run `Get-Date -Format "yyyy-MM-ddTHH:mm:ss"` **once**, immediately before writing report headers.
-12. Overwrite **only** `## Current audit` to EOF in [solid-principles-review-report.md](solid-principles-review-report.md).
-13. Set `**STATUS:** PASS` only if **all** checks pass; otherwise `**STATUS:** KO` and **abort the commit**.
+6. If staged paths include `5-governance/**`, execute downstream compatibility checks against affected lower-layer normative artifacts and fail with `KO` on any conflict (see §4.13).
+7. Validate **SOLID** — at minimum **S** and **D** on staged changes (see §5 below).
+8. Validate **L4 ZC pseudocode mirror** when staged changes touch Critical Zones or their Layer 3 projections (see §6 below).
+9. If steps 3-8 are `PASS`, evaluate **unstaged invalidation risk**: inspect unstaged changes and return `KO` only when unstaged content invalidates staged audit conclusions (for example, staged content requires same-session companion documentation that exists only in working tree).
+10. Do not fail on unrelated unstaged files that do not invalidate staged conclusions.
+11. Produce execution evidence before report write: staged scope summary, checks executed, and result per check (`PASS`/`KO`/`N/A`) with blockers if any.
+12. Run `Get-Date -Format "yyyy-MM-ddTHH:mm:ss"` **once**, immediately before writing report headers.
+13. Overwrite **only** `## Current audit` to EOF in [solid-principles-review-report.md](solid-principles-review-report.md).
+14. Set `**STATUS:** PASS` only if **all** checks pass; otherwise `**STATUS:** KO` and **abort the commit**.
 
 ### 3.1 Unstaged antirule (intersection is not the criterion)
 
@@ -330,6 +332,67 @@ Apply when staged paths include any of:
 | **Parent closure checklist invariant** | The staged policy text keeps closure gated by checklist completion of direct children/subtasks | `**STATUS:** KO` |
 
 Record violations under **Findings** with tag `COD-SUBDIVISION` and affected paths.
+
+### §4.11 Index anti-aggregation (hard gate)
+
+Normative rules:
+
+- [clean-onion-documentation.md](clean-onion-documentation.md) §2 (fractal `index.md` locality and `index.md` anti-aggregation)
+
+Apply when staged paths include any of:
+
+- `**/index.md`
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **No persistent global/cross-scope index inventory** | Staged `index.md` files must not add or maintain sections whose purpose is to enumerate artifacts from child branches or multiple blocks as a consolidated persistent inventory | `**STATUS:** KO` |
+| **Index locality invariant** | Staged `index.md` files must remain local catalogs of their own directory scope (except mandatory doubts issue-catalog sections defined in §4.2) | `**STATUS:** KO` |
+
+Record violations under **Findings** with tag `COD-INDEX-AGGREGATION` and affected paths.
+
+### §4.12 Layer outbound-reference prohibition (hard gate)
+
+Normative rules:
+
+- [clean-onion-documentation.md](clean-onion-documentation.md) §1 (Strict Dependency Rule)
+- [clean-onion-documentation.md](clean-onion-documentation.md) §4 (inward-only dependency matrix)
+
+Apply when staged paths include any of:
+
+- `1-product-documentation/**`
+- `2-epics/**`
+- `3-implementation/**`
+- `4-sprints/**`
+- `5-governance/**`
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **No outer-layer references from inner layers** | For any staged layer `N`, files must not add markdown links or textual references targeting layers with index `> N` (evaluate against COD dependency matrix) | `**STATUS:** KO` |
+| **No operational dependency on outer governance** | Staged files in layers 1-4 must remain executable within allowed inward dependencies and must not require outer-layer governance links to operate | `**STATUS:** KO` |
+| **No matrix inversion in staged links** | Any staged cross-layer reference that violates inward-only directionality (inner -> outer) is forbidden, regardless of path overlap or file type | `**STATUS:** KO` |
+
+Record violations under **Findings** with tag `COD-DIRECTIONALITY` and affected paths.
+
+### §4.13 Layer 5 downstream-compatibility and inter-layer consistency (hard gate)
+
+Normative rules:
+
+- [clean-onion-documentation.md](clean-onion-documentation.md) §1 (Strict Dependency Rule)
+- [clean-onion-documentation.md](clean-onion-documentation.md) §4 (dependency matrix)
+- This file §2 (`INTER-LAYER NORMATIVE CONFLICT`) and §3 workflow step 6
+
+Apply when staged paths include any of:
+
+- `5-governance/**`
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **Layer 5 compatibility sweep required** | Any staged change in Layer 5 that alters normative behavior, constraints, or validation semantics must be checked against affected lower-layer contracts (Layers 1-4) for compatibility | `**STATUS:** KO` |
+| **No contradictory obligations across layers** | If Layer 5 staged rules impose, permit, or forbid behavior that conflicts with existing lower-layer normative contracts, the audit is a critical inconsistency | `**STATUS:** KO` |
+| **No arbitrary precedence resolution** | Conflict resolution by unilateral precedence selection (for example "Layer 5 wins" without explicit PO decision and synchronized lower-layer updates) is forbidden | `**STATUS:** KO` |
+| **Synchronized remediation requirement** | To pass, either (a) staged Layer 5 change must be shown compatible with lower layers, or (b) the same staged set must include synchronized lower-layer updates removing the inconsistency | `**STATUS:** KO` |
+
+Record violations under **Findings** with tag `COD-CONFLICT-CRITICAL` and affected paths.
 
 ---
 
