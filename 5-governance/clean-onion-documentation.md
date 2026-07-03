@@ -22,7 +22,7 @@ Every block or main folder within the layers must replicate this exact scheme:
 ├── 📄 index.md                  <-- Live directory/Map of all files in this section.
 │
 ├── 📁 history/                  <-- Chronological modification log (Traceability).
-│   ├── 📄 2026-W26-changes.md   <-- One file per period Week of Year.
+│   ├── 📄 yyyy-Wnn-changes.md   <-- One file per period Week of Year.
 │   └── 📄 2026-W27-changes.md
 │
 └── 📁 doubts-and-decisions/   <-- Doubt & Decision subsystem (debate + effective index).
@@ -47,7 +47,7 @@ Every block or main folder within the layers must replicate this exact scheme:
 - **`index.md` catalog bijection (Mandatory):** Each catalog row **must** name a `.md` file **tracked in git** at the same path level. Every tracked same-level `.md` except `index.md` **must** appear exactly once. Rows for missing, gitignored, or deleted files are **forbidden**. Subdirectory paths (e.g. `logical-domain/`) are **forbidden** in the file catalog table. On add/remove/rename of a same-level `.md`, update `index.md` in the **same commit**.
 
 - **`history/`:** Records modifications chronologically in fragmented files. The past is frozen and does not contaminate the active chat context.
-- **History time granularity (Mandatory):** Keep one file per week (`YYYY-Www-changes.md`), but every documented finding or change inside that weekly file **must** include its own day stamp (`YYYY-MM-DD`). Weekly fragmentation does not replace daily traceability.
+- **History time granularity (Mandatory):** Keep one file per week (`yyyy-Wnn-changes.md`), but every documented finding or change inside that weekly file **must** include its own day stamp (`YYYY-MM-DD`). Weekly fragmentation does not replace daily traceability.
 - **History entry format (Mandatory):** Register each entry as `YYYY-MM-DD - <registrable description> - <optional Decision Id reference>`.
 - **History Decision Id reference (Mandatory when present):** Use bare `D-XXX` when the doubt belongs to the same block. Use a qualified markdown link `{block}/D-XXX` when the doubt belongs to another block, targeting the owning block's `solved/doubt-XXX.md` record.
 
