@@ -87,6 +87,7 @@ All authoritative content lives in **one place per concern**. Adapters (`CLAUDE.
 | **Human getting started** | `GETTING_STARTED.md` | Clone, hooks, first commit — see §2 |
 | **Git hook transport path** | `.githooks` | Set and verify `git config core.hooksPath .githooks`; do not introduce alternate hook directories |
 | **Contributing** | `CONTRIBUTING.md` | External PR workflow and pre-commit gates |
+| **Product overlay** | `AGENTS.custom.md` → `5-governance/customized/README.md` → `skills/customized/README.md` | Optional product-specific rules and command overlays; load after `AGENTS.md` when present |
 | **Cross-cutting policies** | `5-governance/index.md` → linked `*.md` | Open index; load **only** policies cited by the task |
 | **COD fractal standard** | `5-governance/clean-onion-documentation.md` | Load when creating/editing layer structure |
 | **Layer dependency matrix & stack leakage (SSOT)** | `5-governance/clean-onion-documentation.md` **§4** | Pre-commit and structural audits — see §9 |
@@ -123,6 +124,7 @@ When starting work, read files in this order — stop as soon as the task scope 
 
 ```text
 1. AGENTS.md                    (this file — already loaded)
+1b. AGENTS.custom.md             (if present, product-specific overlay for the repository)
 2. README.md                    (if task scope touches repository structure)
 2b. GETTING_STARTED.md            (if human setup: clone, core.hooksPath, first commit)
 3. 5-governance/index.md     (if policy or architecture is involved)

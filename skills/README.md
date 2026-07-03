@@ -12,6 +12,8 @@ For architecture rationale, see [5-governance/multi-agent-governance.md](../5-go
 - **Body** = `skills/<name>.md` (source of truth for rules).
 - **Discovery** = `AGENTS.md` §8 Skills catalog + agent stubs (redirect only).
 
+Product-specific overlay notes may live under `skills/customized/` as documentation for custom commands or workflows. Those files are overlays, not registered skill bodies, unless they are promoted through the standard skill contract.
+
 ---
 
 ## Triple Contract
