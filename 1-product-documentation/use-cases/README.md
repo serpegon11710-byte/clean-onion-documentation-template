@@ -8,6 +8,16 @@
    - The `README.md` of the parent folder must reference this diagram.
 5. **Autonomy:** Each UC folder must be self-contained: it must not rely on files outside its immediate path for basic understanding.
 
+## UC Subdivision Governance
+
+When a UC is subdivided into child UCs/sub-UCs:
+
+- The parent UC remains an orchestrator node only; it must not hold executable leaf-level behavior.
+- Leaf UC nodes are the normative SSOT for implementable behavior in their covered scope slice.
+- The parent UC may reference only its direct children (and the local hierarchy map). Cross-branch or transversal child links are forbidden.
+- The set of child nodes must preserve 100% of the parent scope; no functional remainder may stay undefined.
+- A parent UC can be closed only after a closure checklist confirms all direct children are complete and parent scope coverage is total.
+
 ## Business Rule Integration Standard
 
 Any entity or use case that consumes a Business Rule must adhere to the following:

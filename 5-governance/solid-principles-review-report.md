@@ -7,17 +7,17 @@
 
 ## Current audit
 
-**Audit completed:** 2026-07-03T18:22:10
+**Audit completed:** 2026-07-03T18:42:01
 **STATUS:** PASS
 
 ### Scope of last audit
 
-Product overlay documentation for custom governance and skills across 6 staged files:
+Subdivision-governance hardening across 5 policy files plus audit report regeneration:
 
-- Added `AGENTS.custom.md` as the product-specific overlay entry point.
-- Added `5-governance/customized/README.md` as the governance overlay placeholder.
-- Added `skills/customized/README.md` as the skills overlay placeholder.
-- Registered the overlay load order and discovery path in `AGENTS.md`, `5-governance/README.md`, and `skills/README.md`.
+- Updated `1-product-documentation/use-cases/README.md` with explicit UC subdivision governance invariants.
+- Updated `2-epics/README.md` to align epic subdivision with leaf SSOT and no-transversal-link rules.
+- Updated `4-sprints/README.md` to align sprint subdivision invariants and full-scope coverage.
+- Updated `5-governance/pre-commit-validation-rules.md` with unstaged antirule clarification and §4.10 subdivision hard gate.
 
 ### Findings
 
@@ -29,22 +29,23 @@ Applicability evidence for this changeset:
 - `index.md`: N/A
 - `decision-matrix.md`: N/A
 - `history/README.md`: N/A
-- `RP/PP` traceability: N/A
+- `RP/PP` traceability (§4.6): N/A
+- `subdivision invariants (§4.10)`: PASS (UC/Epic/Sprint policy clauses preserved and explicit)
 - `L4-critical-zones` mirror: N/A
 
 ### COD cross-check
 
 - **File integrity policy (§1.1):** PASS — edits were performed with approved methods (`apply_patch` / git staging flow), no prohibited persistent shell write cmdlets.
-- **File integrity output:** PASS — all staged files report `i/lf` and `w/lf` via `git ls-files --eol`.
-- **Inward-only / stack leakage:** PASS — updates are governance overlay files only and do not introduce forbidden stack leakage in inner layers.
-- **§4.1 (self-containment/matrix):** PASS — no SSOT doubt-pointer violations introduced.
-- **§4.2 / §4.3 / §4.4 / §4.5 / §4.6 / §4.7 / §4.8 / §4.9:** N/A for this staged scope.
-- **Unstaged invalidation risk (workflow §3.8):** PASS — unstaged set empty, no invalidation path.
+- **File integrity output:** PASS — markdown policy files remain UTF-8 + LF compliant.
+- **Inward-only / stack leakage:** PASS — no forbidden stack references introduced in inner layers.
+- **§4.10 subdivision invariants:** PASS — parent orchestrator, leaf SSOT, no transversal links, full coverage, and closure checklist rules are present.
+- **§4.1 / §4.2 / §4.3 / §4.4 / §4.5 / §4.6 / §4.7 / §4.8 / §4.9:** N/A for this staged scope.
+- **Unstaged invalidation risk (workflow §3.8):** PASS — unstaged changes do not invalidate staged audit conclusions.
 
 ### SOLID cross-check
 
-- **S:** PASS — each modified artifact keeps a single concern (overlay entry point, governance overlay, skill overlay, or discovery pointer).
-- **D:** PASS — overlay discovery depends on `AGENTS.md` pointers rather than duplicating policy bodies.
+- **S:** PASS — each modified artifact keeps a single concern (subdivision policy and pre-commit criteria).
+- **D:** PASS — governance checks depend on declared policy artifacts rather than ad-hoc conventions.
 
 ### L4 ZC pseudocode mirror cross-check
 

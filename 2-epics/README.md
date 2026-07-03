@@ -7,6 +7,8 @@ This folder manages the **epics** layer.
 When an epic (or sub-epic) is only partially addressable by one delivery subtask, the epic scope must be subdivided into child epic nodes.
 
 - The parent epic/sub-epic remains an orchestrator node.
+- Leaf epic nodes are the normative SSOT for actionable scope.
+- The parent epic/sub-epic may reference only its direct child nodes; transversal links across sibling branches are forbidden.
 - The subdivision must create 2 or more child epic nodes that fully cover the parent scope.
 - The parent epic/sub-epic can be closed only after a closure checklist confirms all child nodes are complete.
 
