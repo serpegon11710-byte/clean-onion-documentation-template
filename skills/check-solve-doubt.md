@@ -65,7 +65,7 @@ Run every check below. Record pass/fail per item.
 
 | # | Check | Tag on fail |
 |---|-------|-------------|
-| 1 | Doubt file is self-contained: problem, options, decision, impact — no inter-doubt context expansion; any `D-XXX` in doubt body is forbidden outside `## Matrix impact` and top-level `**Superseded by:**` | `DOUBT-CONTEXT-CHAIN` |
+| 1 | Doubt file is self-contained: problem, options, decision, impact — no inter-doubt context expansion; any `D-XXX` in doubt body is forbidden outside `## Matrix impact` and top-level supersede status headers (`**Partially superseded by:**` / `**Superseded by:**`) | `DOUBT-CONTEXT-CHAIN` |
 | 2 | Resolution section exists and is unambiguous | `DOUBT-INCOMPLETE` |
 | 3 | `## Propagated to` exists and lists at least one SSOT or `decision-matrix.md` path when the decision is normative | `PROPAGATED-MISSING` |
 | 4 | Every path under `Propagated to` exists on disk | `PROPAGATED-INVALID-PATH` |
@@ -75,7 +75,7 @@ Run every check below. Record pass/fail per item.
 | 8 | Cross-block cells use qualified `[block/D-XXX](…)` links to `solved/` only, not bare `D-XXX`; record exists in owning block `solved/` | `MATRIX-CROSS-BLOCK-FORMAT` |
 | 9 | `## Matrix impact` exists with correct columns when this closure updated any matrix row | `MATRIX-IMPACT-MISSING` |
 | 10 | Owning-block `index.md` dashboard lists this doubt under **Solved Issues** when file is in `solved/`; **no** dashboard row when file is in `superseded/` | `DASHBOARD-SYNC` |
-| 11 | **Supersede closure:** `history/` records supersede; superseded record has `**Superseded by:**` or all-`Superseded by` `Matrix impact`; superseded rows appear as `Effective` in successor `Matrix impact` where required by §2.1 | `SUPERSEDE-INCOMPLETE` |
+| 11 | **Supersede closure:** `history/` records supersede; target record has coherent top-level supersede status (`**Partially superseded by:**` if any `Effective` row remains, else `**Superseded by:**`) enumerating all successor `D-XXX`; for foreign successors, header and `Matrix impact` status use qualified owner format `{owning-block}/D-XXX` (never bare `D-XXX`); superseded rows appear as `Effective` in successor `Matrix impact` where required by §2.1 | `SUPERSEDE-INCOMPLETE` |
 | 12 | **Archive (same session):** when D-XXX has no `Effective` rows left in `Matrix impact`, file is in `superseded/`, removed from Solved dashboard, and **effective inverse + successor tuple** hold per row: matrix Decision Id is not D-XXX and the resolved successor record includes the same `(element, event)` tuple in its `## Matrix impact` as `Effective` | `ARCHIVE-INCOMPLETE` |
 
 **Check 5 (normative content):** Verify the propagated files contain implementable rule text aligned with the doubt resolution — not only headings or links. This is a **semantic** check allowed here because the human requested closure verification.
@@ -83,7 +83,10 @@ Run every check below. Record pass/fail per item.
 **Allowed contexts for `D-XXX` references in doubt records:**
 
 - `## Matrix impact` rows (including `Status: Superseded by {block}/D-YYY`).
-- Top-level `**Superseded by:** {block}/D-YYY` header.
+- Top-level `**Partially superseded by:** {block}/D-YYY, ...` header.
+- Top-level `**Superseded by:** {block}/D-YYY, ...` header.
+
+Cross-block supersede format is mandatory in those contexts: use qualified `{owning-block}/D-XXX` for foreign successors (header and `Status`), never bare `D-XXX`.
 
 Any `D-XXX` reference outside those contexts is `KO` for Check 1.
 
@@ -134,7 +137,7 @@ Set `**STATUS:** KO` if **any** check fails.
 - Auto-committing or regenerating `solid-principles-review-report.md`.
 - Suggesting file touches only to refresh modification times.
 - Loading unrelated matrix sections, `superseded/`, or full repository scans (unless forensic scope declared).
-- Rewriting superseded record beyond `**Superseded by:**` header and `Matrix impact` status updates unless the human explicitly asks.
+- Rewriting superseded record beyond top-level supersede status headers (`**Partially superseded by:**` / `**Superseded by:**`) and `Matrix impact` status updates unless the human explicitly asks.
 
 ## Relationship to other skills
 

@@ -7,18 +7,16 @@
 
 ## Current audit
 
-**Audit completed:** 2026-07-03T02:59:59
+**Audit completed:** 2026-07-03T03:29:12
 **STATUS:** PASS
 
 ### Scope of last audit
 
-Pre-commit anti-evasion hardening and self-explanatory hook denial message:
+Supersede-header governance and checker alignment for partial/complete supersede and cross-block qualified ids:
 
-- Updated `.githooks/validate-integrity-report.ps1` KO output to include explicit required actions, anti-evasion warning, and normative source references.
-- Added explicit anti-evasion contract in `AGENTS.md` section 9 (forbidden metadata-only report updates; hook is not scope authority).
-- Added hard-gate anti-evasion and execution-evidence clauses in `5-governance/pre-commit-validation-rules.md` section 1.2 and workflow section 3.
-- Added mandatory anti-evasion behavior and evidence-before-report requirements in `skills/solid.md`.
-- Revalidated unified commit scope (8 governance/skill/hook/report files), applicability matrix, and LF integrity before this report regeneration.
+- Updated `5-governance/clean-onion-documentation.md` to require top-level supersede status headers (`Partially superseded by` / `Superseded by`) and explicit enumeration of all successor Decision Ids.
+- Added explicit cross-block rule in COD for supersede headers and `Matrix impact` status (`{owning-block}/D-XXX`, never bare `D-XXX` for foreign successors).
+- Updated `skills/check-solve-doubt.md` checks and allowed contexts to validate the new header model, successor enumeration, and cross-block qualified format.
 
 ### Findings
 
@@ -26,7 +24,7 @@ No violations.
 
 Applicability evidence for this changeset:
 
-- `doubts-and-decisions`: N/A
+- `doubts-and-decisions`: N/A (no doubt records staged)
 - `index.md` / `decision-matrix.md`: N/A
 - `history/README.md`: N/A
 - `RP/PP` traceability: N/A
@@ -34,18 +32,17 @@ Applicability evidence for this changeset:
 
 ### COD cross-check
 
-- **File integrity policy (§1.1):** Approved methods used; no prohibited OS-native persistent write cmdlets used.
-- **File integrity output:** Staged text files remain UTF-8 + LF compliant.
-- **Inward-only / stack leakage:** Governance/skills updates only; no layer-directionality or stack-leakage regressions introduced.
-- **Fractal index / catalog bijection:** Not impacted by this changeset.
-- **Workflow integrity:** PASS — audit workflow now states validate-first/report-second and blocks metadata-only freshness bypass.
-- **§4.1 / §4.2 / §4.4 / §4.5 / §4.6 / §4.7 / §4.8:** Not directly impacted by this changeset.
+- **File integrity policy (§1.1):** PASS — approved editing methods used.
+- **File integrity output:** PASS — staged files are LF-normalized (`i/lf`, `w/lf`): `5-governance/clean-onion-documentation.md`, `skills/check-solve-doubt.md`.
+- **Inward-only / stack leakage:** PASS — Layer 5 governance/skills wording update only; no directional regression.
+- **§4.1 Intra-layer matrix rules:** PASS — cross-block qualified-id wording tightened and consistent between governance and checker.
+- **§4.2 / §4.3 / §4.4 / §4.5 / §4.6 / §4.7 / §4.8:** N/A for this staged scope.
 
 ### SOLID cross-check
 
-- **S:** Responsibilities are explicitly separated (validation execution, evidence emission, report regeneration).
-- **D:** Agent behavior depends on SSOT governance documents rather than hook internals.
+- **S:** PASS — policy definition (`clean-onion-documentation.md`) and verification behavior (`check-solve-doubt.md`) remain separated.
+- **D:** PASS — checker rules depend on governance SSOT clauses, not ad-hoc hook text.
 
 ### L4 ZC pseudocode mirror cross-check
 
-Not applicable — no ZC paths staged.
+Not applicable — no L4 Critical Zone or mirrored Layer 3 projection paths staged.

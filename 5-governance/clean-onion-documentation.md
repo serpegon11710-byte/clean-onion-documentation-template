@@ -161,7 +161,7 @@ Two profiles are allowed. Operational how-to **must not** appear without `## Dec
 **Canonical `Forbidden` line (copy verbatim into every `doubts-and-decisions/README.md`):**
 
 ```markdown
-**Forbidden:** `See D-XXX` to expand doubt context. Supersede via `**Superseded by:** {block}/D-YYY` and `Matrix impact` status updates; archive to `superseded/` when fully superseded (same session).
+**Forbidden:** `See D-XXX` to expand doubt context. Supersede via top-level status headers (`**Partially superseded by:**` or `**Superseded by:**`) and `Matrix impact` status updates; archive to `superseded/` when fully superseded (same session).
 ```
 
 ### §2.4 Doubts issue catalog body (`doubts-and-decisions/index.md`)
@@ -338,8 +338,13 @@ When doubt **D-YYY** supersedes **D-XXX**, **D-XXX** loses operational value (fo
 **On closing D-YYY that supersedes D-XXX (same session, blocking):**
 
 1. Append **`history/`** entry: `{block}/D-XXX superseded (complete|partial) by {block}/D-YYY`.
-2. Add at the top of D-XXX's record: `**Superseded by:** {block}/D-YYY` (qualified ID only — no `See D-` chains).
+2. Add top-level supersede status in D-XXX's record (qualified IDs only — no `See D-` chains):
+  - `**Partially superseded by:** {block}/D-YYY, {block}/D-ZZZ` when D-XXX keeps at least one `Effective` row.
+  - `**Superseded by:** {block}/D-YYY, {block}/D-ZZZ` when D-XXX has no remaining `Effective` rows.
+  - The status message **must enumerate all** distinct successor Decision Ids that supersede D-XXX (partial or complete).
+  - Cross-block rule: when any successor record belongs to another block, the header **must** use the qualified owner format `{owning-block}/D-XXX` for that successor (never bare `D-XXX`).
 3. Update D-XXX's `## Matrix impact`: superseded rows → `Status: Superseded by {block}/D-YYY`.
+  - Cross-block rule: when the successor belongs to another block, `Status` must keep the same qualified owner format `{owning-block}/D-XXX`.
 4. D-YYY's `## Matrix impact` **must include** every row marked `Superseded by {block}/D-YYY` in D-XXX's `Matrix impact` (as `Effective`).
 5. Update all affected `decision-matrix.md` cells to point at D-YYY (qualified link in foreign blocks).
 6. D-YYY record is **self-contained** for its scope; a generic note that prior behavior was superseded is allowed — **without** referencing origin record paths for context expansion.
@@ -378,13 +383,14 @@ This check verifies operational matrix pointers and row-level successor coherenc
 
 | Allowed | Forbidden |
 |---------|-----------|
-| `**Superseded by:** {block}/D-YYY` at the top of a superseded record | `See D-XXX` to expand debate context |
+| `**Partially superseded by:** {block}/D-YYY, ...` or `**Superseded by:** {block}/D-YYY, ...` at top-level | `See D-XXX` to expand debate context |
 | `Status: Superseded by {block}/D-YYY` in `## Matrix impact` | Bare `D-XXX` in a foreign block's matrix when record is elsewhere |
+| Qualified owner format `{owning-block}/D-XXX` in supersede headers and `Matrix impact` status when successor is foreign | Bare `D-XXX` in supersede headers or `Matrix impact` status for foreign successors |
 | Full problem, options, decision, and impact inside each self-contained doubt file | Chains of doubt-to-doubt reading as substitute for self-contained record |
 
 **Zero-tolerance rule for doubt records (`open/`, `solved/`, `superseded/`):**
 
-- Any `D-XXX` reference is **forbidden** outside `## Matrix impact` and the top-level `**Superseded by:** {block}/D-YYY` header.
+- Any `D-XXX` reference is **forbidden** outside `## Matrix impact` and top-level supersede status headers (`**Partially superseded by:**` / `**Superseded by:**`).
 - There is **no** "contextual reference" exception for doubt bodies (problem, options, decision, impact, resolution, scope, rationale).
 - If understanding or implementing a doubt requires reading another doubt record, the record is non-compliant and must be rewritten to be self-contained.
 | Generic note in D-YYY that prior decisions were superseded (no origin links) | Normative `See D-` delegation in SSOT artifacts |
