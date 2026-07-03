@@ -76,7 +76,7 @@ Run every check below. Record pass/fail per item.
 | 9 | `## Matrix impact` exists with correct columns when this closure updated any matrix row | `MATRIX-IMPACT-MISSING` |
 | 10 | Owning-block `index.md` dashboard lists this doubt under **Solved Issues** when file is in `solved/`; **no** dashboard row when file is in `superseded/` | `DASHBOARD-SYNC` |
 | 11 | **Supersede closure:** `history/` records supersede; superseded record has `**Superseded by:**` or all-`Superseded by` `Matrix impact`; superseded rows appear as `Effective` in successor `Matrix impact` where required by §2.1 | `SUPERSEDE-INCOMPLETE` |
-| 12 | **Archive (same session):** when D-XXX has no `Effective` rows left in `Matrix impact`, file is in `superseded/`, removed from Solved dashboard, and **effective inverse** holds: for every row, that block's `decision-matrix.md` cell resolves to a doubt **≠ D-XXX** | `ARCHIVE-INCOMPLETE` |
+| 12 | **Archive (same session):** when D-XXX has no `Effective` rows left in `Matrix impact`, file is in `superseded/`, removed from Solved dashboard, and **effective inverse + successor tuple** hold per row: matrix Decision Id is not D-XXX and the resolved successor record includes the same `(element, event)` tuple in its `## Matrix impact` as `Effective` | `ARCHIVE-INCOMPLETE` |
 
 **Check 5 (normative content):** Verify the propagated files contain implementable rule text aligned with the doubt resolution — not only headings or links. This is a **semantic** check allowed here because the human requested closure verification.
 
@@ -87,9 +87,18 @@ Run every check below. Record pass/fail per item.
 
 Any `D-XXX` reference outside those contexts is `KO` for Check 1.
 
+**Scope note:** `DOUBT-CONTEXT-CHAIN` applies only to contextual chaining inside doubt-body narrative (problem/options/decision/impact/resolution). Matrix inverse and archive validation belong to Check 12 (`ARCHIVE-INCOMPLETE`), not Check 1.
+
 **Check 11:** Apply when closing a doubt that supersedes another.
 
-**Check 12:** Apply when the target doubt D-XXX was fully superseded in this session (all `Matrix impact` rows `Superseded by …`). Run the **effective inverse check** (COD §2.1): for each row, the referenced `decision-matrix.md` cell must resolve to a doubt **≠ D-XXX**. This verifies the effective index only — do not require the matrix cell to match the `Superseded by` doubt named in the record.
+**Check 12:** Apply when the target doubt D-XXX was fully superseded in this session (all `Matrix impact` rows `Superseded by …`). Evaluate each row in D-XXX's `## Matrix impact` with this rule:
+
+- **KO:** the referenced `decision-matrix.md` cell for the same `(element, event)` resolves to D-XXX.
+- **PASS candidate:** the cell resolves to D-YYY (D-YYY != D-XXX).
+- **Final PASS condition:** that same `(element, event)` tuple exists in D-YYY's `## Matrix impact` as `Effective`.
+- **KO:** if the inverse points to D-YYY but D-YYY does not include that tuple as `Effective`.
+
+This check validates operational inverse plus minimal supersede coherence for archived rows.
 
 ## Response format
 

@@ -16,6 +16,13 @@ The optional Git hook (§8) validates only the audit **report artifact**. **L4 p
 
 Before any commit, perform an architectural audit of all **staged** changes. Invoke [skills/solid.md](../skills/solid.md) and validate every criterion in this document.
 
+### 1.2 Anti-evasion and execution evidence (hard gate)
+
+1. Editing only report metadata (`Audit completed`, `STATUS`, or equivalent) to satisfy hook freshness checks without executing required validations is forbidden.
+2. The report is an audit artifact, not the audit itself. It can be regenerated only after completing workflow §3.
+3. Hook denial messages are operational guidance and do not define validation scope. Scope remains governed by this document and [skills/solid.md](../skills/solid.md).
+4. If any required validation cannot be executed, set `**STATUS:** KO`, report blocker evidence, and abort commit.
+
 ### On failure
 
 - **Reject** the commit process immediately.
@@ -75,9 +82,10 @@ For `See D-` / `See doubt-` findings, the boundary check is mandatory: the audit
 4. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4, and §2.6 (see §4, §4.1, §4.2, §4.3, §4.4, and §4.8 below).
 5. Validate **SOLID** — at minimum **S** and **D** on staged changes (see §5 below).
 6. Validate **L4 ZC pseudocode mirror** when staged changes touch Critical Zones or their Layer 3 projections (see §6 below).
-7. Run `Get-Date -Format "yyyy-MM-ddTHH:mm:ss"` **once**, immediately before writing report headers.
-8. Overwrite **only** `## Current audit` to EOF in [solid-principles-review-report.md](solid-principles-review-report.md).
-9. Set `**STATUS:** PASS` only if **all** checks pass; otherwise `**STATUS:** KO` and **abort the commit**.
+7. Produce execution evidence before report write: staged scope summary, checks executed, and result per check (`PASS`/`KO`/`N/A`) with blockers if any.
+8. Run `Get-Date -Format "yyyy-MM-ddTHH:mm:ss"` **once**, immediately before writing report headers.
+9. Overwrite **only** `## Current audit` to EOF in [solid-principles-review-report.md](solid-principles-review-report.md).
+10. Set `**STATUS:** PASS` only if **all** checks pass; otherwise `**STATUS:** KO` and **abort the commit**.
 
 ---
 
@@ -172,7 +180,7 @@ Scope boundary for this gate:
 | **Matrix cross-block format** | In staged `decision-matrix.md`, a bare `D-XXX` Decision Id cell in block B requires `B/doubts-and-decisions/solved/doubt-XXX.md` to exist. Cross-block **must** use `[block/D-XXX](…)` with link target under the owning block's `solved/` (never `superseded/`) | `**STATUS:** KO` |
 | **Matrix uniqueness** | Within each `## {element}` section of a staged `decision-matrix.md`, no duplicate `Event (brief)` row and no duplicate `Decision Id` claiming the same event | `**STATUS:** KO` |
 | **Archive on full supersede** | When a staged supersede leaves a doubt with no `Effective` rows in `## Matrix impact`, the record **must** move to `superseded/` in the same staged changeset and its Solved issue catalog row **must** be removed | `**STATUS:** KO` |
-| **Effective inverse on archive** | For each row in a fully superseded doubt's `Matrix impact`, the referenced block's staged `decision-matrix.md` cell for that `(element, event)` must **not** resolve to the archived doubt ID | `**STATUS:** KO` |
+| **Effective inverse on archive** | For each row in a fully superseded doubt's `Matrix impact`, the referenced block's staged `decision-matrix.md` cell for that `(element, event)` must resolve to a successor ID (`!=` archived doubt ID), and that successor doubt's `Matrix impact` must include the same tuple as `Effective` | `**STATUS:** KO` |
 | **Supersede header** | Staged superseded record may add only `**Superseded by:** {block}/D-YYY` at the top plus `Matrix impact` status updates — no other rewrites of closed debate body | `**STATUS:** KO` if debate body was rewritten |
 | **Doubt context chains** | Staged doubt files **must not** add `See D-` patterns for context expansion (supersede declarations and `Matrix impact` status are allowed) | `**STATUS:** KO` |
 | **Doubt Decision-Id contexts** | In staged doubt files (`open/`, `solved/`, `superseded/`), any `D-XXX` reference outside `## Matrix impact` rows and the top-level `**Superseded by:** {block}/D-YYY` header is forbidden; there is no contextual-reference exception in doubt bodies | `**STATUS:** KO` |
@@ -398,7 +406,22 @@ When active, `.githooks/pre-commit` and `.cursor/hooks.json` block `git commit` 
 On failure:
 
 ```text
-Validaciones COD / SOLID KO, repita las validaciones
+PRECOMMIT BLOCKED: AUDIT-EVIDENCE-MISSING
+
+This repository requires real pre-commit audit execution before commit.
+Updating only report timestamp/STATUS is forbidden.
+
+Required actions (in order):
+1) Run full workflow from AGENTS.md section 9 and 5-governance/pre-commit-validation-rules.md section 3.
+2) If staged paths include doubts-and-decisions, run skills/check-solve-doubt.md for each touched solved/superseded record.
+3) Run SOLID/COD/L4 audit on staged changes via skills/solid.md.
+4) Regenerate only "## Current audit" in 5-governance/solid-principles-review-report.md with actual results.
+5) Set STATUS: PASS only if all checks pass; otherwise STATUS: KO and abort commit.
+
+Normative sources:
+- AGENTS.md section 9
+- 5-governance/pre-commit-validation-rules.md section 1 and section 3
+- skills/solid.md
 ```
 
 One-time setup per clone: [GETTING_STARTED.md](../GETTING_STARTED.md) §2.

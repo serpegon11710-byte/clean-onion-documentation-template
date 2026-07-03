@@ -351,7 +351,14 @@ When doubt **D-YYY** supersedes **D-XXX**, **D-XXX** loses operational value (fo
 
 When the **last** `Effective` row in D-XXX's `## Matrix impact` becomes `Superseded by …` in the **same work session**, archive D-XXX immediately after the superseding closure completes.
 
-**Effective inverse check:** For each row in D-XXX's `## Matrix impact`, read that block's `decision-matrix.md` at the matching `(element, event)`. The **Decision Id** cell **must resolve to an id other than D-XXX**. This verifies the operational matrix pointers only — it confirms no matrix cell still indexes D-XXX. It is **not** a full supersede-coherence or `history/` traceability audit (see [check-solve-doubt.md](../skills/check-solve-doubt.md) checks 11–12).
+**Effective inverse check:** For each row in D-XXX's `## Matrix impact`, read that block's `decision-matrix.md` at the matching `(element, event)`.
+
+- **KO:** the **Decision Id** cell resolves to D-XXX.
+- **PASS candidate:** the cell resolves to D-YYY (D-YYY != D-XXX).
+- **Final PASS condition:** D-YYY includes the same `(element, event)` tuple in its `## Matrix impact` as `Effective`.
+- **KO:** if inverse points to D-YYY but D-YYY does not carry that tuple as `Effective`.
+
+This check verifies operational matrix pointers and row-level successor coherence required for archive safety (see [check-solve-doubt.md](../skills/check-solve-doubt.md) checks 11–12).
 
 | Step | Action |
 |------|--------|

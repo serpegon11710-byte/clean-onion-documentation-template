@@ -163,6 +163,8 @@ Before any commit:
 2. Invoke [solid](skills/solid.md), which loads and executes **all** criteria in `pre-commit-validation-rules.md` (COD, SOLID, L4 ZC pseudocode mirror when applicable) **and** the skill-only propagation coherence check in that skill.
 3. Regenerate `## Current audit` in [solid-principles-review-report.md](5-governance/solid-principles-review-report.md) per that document.
 4. Abort the commit on `**STATUS:** KO` or any unresolved violation.
+5. **Anti-evasion (hard rule):** It is forbidden to update only `Audit completed`, `STATUS`, or other report metadata to satisfy the hook without executing the required audits.
+6. **Source-of-truth discipline:** Hook scripts are transport gates only; they never define validation scope. Validation scope is defined exclusively by `pre-commit-validation-rules.md` and `skills/solid.md`.
 
 Hook enforcement for the **audit report artifact** is documented in §8. L4 pseudocode mirror validation has **no automated hook** in this template — see §9.
 

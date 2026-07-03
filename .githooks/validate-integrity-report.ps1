@@ -9,7 +9,24 @@ $ErrorActionPreference = 'Stop'
 
 $ReportPath = '5-governance/solid-principles-review-report.md'
 $MaxAgeSeconds = 60
-$FailMessage = 'Validaciones COD / SOLID KO, repita las validaciones'
+$FailMessage = @'
+PRECOMMIT BLOCKED: AUDIT-EVIDENCE-MISSING
+
+This repository requires real pre-commit audit execution before commit.
+Updating only report timestamp/STATUS is forbidden.
+
+Required actions (in order):
+1) Run full workflow from AGENTS.md section 9 and 5-governance/pre-commit-validation-rules.md section 3.
+2) If staged paths include doubts-and-decisions, run skills/check-solve-doubt.md for each touched solved/superseded record.
+3) Run SOLID/COD/L4 audit on staged changes via skills/solid.md.
+4) Regenerate only "## Current audit" in 5-governance/solid-principles-review-report.md with actual results.
+5) Set STATUS: PASS only if all checks pass; otherwise STATUS: KO and abort commit.
+
+Normative sources:
+- AGENTS.md section 9
+- 5-governance/pre-commit-validation-rules.md section 1 and section 3
+- skills/solid.md
+'@
 
 function Write-CursorAllow {
     Write-Output '{"permission":"allow"}'

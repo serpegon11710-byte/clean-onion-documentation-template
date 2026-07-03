@@ -32,7 +32,7 @@ A doubt may be marked **Solved** in the **owning block's** `index.md` only when 
 | 4 | Add `## Matrix impact` (all touched matrix rows; `Status: Effective`). |
 | 5 | Update `decision-matrix.md` in each affected block — bare `D-XXX` in owning block; `[block/D-XXX](…/solved/…)` qualified links in foreign blocks. |
 | 6 | If superseding D-XXX: update D-XXX `Matrix impact`, append `history/`, ensure successor `Matrix impact` absorbs superseded rows per §2.1. |
-| 7 | If D-XXX has **no** remaining `Effective` rows in `Matrix impact`: run **effective inverse check** on each row's `decision-matrix.md` cell (must resolve ≠ D-XXX), then move `solved/doubt-XXX.md` → `superseded/doubt-XXX.md` and **remove** Solved dashboard row (**same session** as the last supersede). |
+| 7 | If D-XXX has **no** remaining `Effective` rows in `Matrix impact`: run **effective inverse check** on each row's `decision-matrix.md` cell (must resolve to D-YYY, D-YYY != D-XXX) and verify D-YYY contains the same `(element, event)` tuple as `Effective` in its `Matrix impact`; then move `solved/doubt-XXX.md` → `superseded/doubt-XXX.md` and **remove** Solved dashboard row (**same session** as the last supersede). |
 | 8 | Move file `open/` → `solved/` (when newly solved) and sync **owning block** `index.md` only. |
 | 9 | Draft implementation guidelines for the operator. |
 
