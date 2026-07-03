@@ -54,6 +54,12 @@ Expected output:
 .githooks
 ```
 
+If the output is different, self-configure the repository before committing:
+
+```powershell
+git config core.hooksPath .githooks
+```
+
 ### What the hook validates
 
 Before each `git commit` or `git commit --amend`, [validate-integrity-report.ps1](.githooks/validate-integrity-report.ps1) checks [5-governance/solid-principles-review-report.md](5-governance/solid-principles-review-report.md):
@@ -86,19 +92,20 @@ Exit code `0` = gate would allow a commit; `1` = blocked.
 | Layer | Where | What it does |
 |-------|-------|--------------|
 | **1. Git hook (local)** | Your machine after §2 | Blocks `git commit` / `--amend` if the audit report is missing, stale, or `KO` |
-| **2. Cursor shell hook** | [`.cursor/hooks.json`](.cursor/hooks.json) | Blocks `git commit` launched from Cursor when layer 1 would fail |
+| **2. IDE shell hook clients** | Any present or future agent integration that launches commits from an IDE | Invoke the same `.githooks/validate-integrity-report.ps1` script when a commit is launched from an IDE |
 | **3. Agent contract** | [pre-commit-validation-rules.md](5-governance/pre-commit-validation-rules.md) | Requires the agent to run [skills/solid.md](skills/solid.md) and regenerate the report before committing |
 
-Layers 2 and 3 do **not** replace layer 1. Commits from an external terminal or another IDE only pass through the Git hook when `core.hooksPath` is set.
+Layers 2 and 3 do **not** replace layer 1. Any present or future agent integration that launches commits from an IDE is only a client of the same hook script; it does not define alternate hook directories. Commits from an external terminal or another IDE only pass through the Git hook when `core.hooksPath` is set to `.githooks`.
 
 ---
 
 ## 4. First compliant commit
 
 1. Stage your changes (`git add …`).
-2. Ask your AI agent to run the pre-commit audit (or invoke [skills/solid.md](skills/solid.md) yourself) per [pre-commit-validation-rules.md](5-governance/pre-commit-validation-rules.md).
-3. The agent regenerates **only** `## Current audit` in [solid-principles-review-report.md](5-governance/solid-principles-review-report.md) with a fresh `Get-Date` timestamp and `STATUS: PASS` if [clean-onion-documentation.md](5-governance/clean-onion-documentation.md) §4 and SOLID checks pass.
-4. Commit within **60 seconds** of that timestamp:
+2. Verify `git config core.hooksPath` returns `.githooks`; if not, run `git config core.hooksPath .githooks`.
+3. Ask your AI agent to run the pre-commit audit (or invoke [skills/solid.md](skills/solid.md) yourself) per [pre-commit-validation-rules.md](5-governance/pre-commit-validation-rules.md).
+4. The agent regenerates **only** `## Current audit` in [solid-principles-review-report.md](5-governance/solid-principles-review-report.md) with a fresh `Get-Date` timestamp and `STATUS: PASS` if [clean-onion-documentation.md](5-governance/clean-onion-documentation.md) §4 and SOLID checks pass.
+5. Commit within **60 seconds** of that timestamp:
 
 ```powershell
 git commit -m "Your message"

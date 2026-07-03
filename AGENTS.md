@@ -85,6 +85,7 @@ All authoritative content lives in **one place per concern**. Adapters (`CLAUDE.
 | **Constitution** (dates, shell, MD040, navigation law, pre-commit gate §9) | `AGENTS.md` | Loaded automatically (Cursor, Codex, Windsurf) or via `@AGENTS.md` (Claude) |
 | **Repository map & philosophy** | `README.md` | Read once per session if task touches structure |
 | **Human getting started** | `GETTING_STARTED.md` | Clone, hooks, first commit — see §2 |
+| **Git hook transport path** | `.githooks` | Set and verify `git config core.hooksPath .githooks`; do not introduce alternate hook directories |
 | **Contributing** | `CONTRIBUTING.md` | External PR workflow and pre-commit gates |
 | **Cross-cutting policies** | `5-governance/index.md` → linked `*.md` | Open index; load **only** policies cited by the task |
 | **COD fractal standard** | `5-governance/clean-onion-documentation.md` | Load when creating/editing layer structure |
@@ -156,6 +157,8 @@ Operational modes live in `skills/`. Load the file when invoked; do not infer ru
 ## 9. Pre-Commit Integrity Contract
 
 **Mandatory guardrail:** Any agent that reads this file **must** adopt the pre-commit gate defined in [5-governance/pre-commit-validation-rules.md](5-governance/pre-commit-validation-rules.md). **No commit may proceed** until that audit completes successfully.
+
+**Git hook path SSOT:** The only approved Git hook directory in this repository is `.githooks`. Before committing, any agent or human must verify that `git config core.hooksPath` resolves to `.githooks`. If the value differs, self-configure it with `git config core.hooksPath .githooks` and do not create agent-specific hook paths.
 
 Before any commit:
 
