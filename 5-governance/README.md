@@ -7,6 +7,7 @@ Layer 5 governs **how COD operates** (structure, validation, and agent behavior)
 ## Navigation
 
 - [index.md](index.md) — Live directory of all files in this layer.
+- [customized/](customized/) — Product-owned governance overlay for custom pre-commit and product rules.
 - [doubts-and-decisions/](doubts-and-decisions/) — Atomic management of open, deferred, and closed doubts.
 
 ## Scope boundary (mandatory)
