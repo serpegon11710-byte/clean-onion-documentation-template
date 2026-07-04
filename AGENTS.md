@@ -158,6 +158,7 @@ Operational modes live in `skills/`. Load the file when invoked; do not infer ru
 | product-owner | [skills/product-owner.md](skills/product-owner.md) | PO debate and doubt resolution |
 | refactor-doubts | [skills/refactor-doubts.md](skills/refactor-doubts.md) | Audit overlapping open doubts before PO closure |
 | check-solve-doubt | [skills/check-solve-doubt.md](skills/check-solve-doubt.md) | Closure audit for one doubt before commit (mandatory when staged doubt records are present) |
+| precommit-audit | [skills/precommit-audit.md](skills/precommit-audit.md) | Full ad-hoc pre-commit audit without commit and without fail-fast |
 | solid | [skills/solid.md](skills/solid.md) | SOLID and Layer 5 decoupling audit |
 
 ---

@@ -7,14 +7,17 @@
 
 ## Current audit
 
-**Audit completed:** 2026-07-04T03:17:34
+**Audit completed:** 2026-07-04T03:41:59
 **STATUS:** PASS
 
 ### Scope of this audit
 
 Staged files analyzed:
 
+- `.cursor/skills/precommit-audit/SKILL.md`
 - `AGENTS.md`
+- `skills/README.md`
+- `skills/precommit-audit.md`
 
 ### Findings
 
@@ -36,13 +39,13 @@ Applicability evidence for this changeset:
 
 ### Execution evidence (checks executed)
 
-- **Staged scope summary:** 1 protected file staged in repository root (`AGENTS.md`).
+- **Staged scope summary:** 4 documentation/governance files staged, including 1 protected constitutional artifact (`AGENTS.md`).
 - **File integrity method (§1.1):** PASS — report updated via `apply_patch` (approved method).
 - **File integrity output:** PASS — resulting file preserved as UTF-8 with LF (post-write verification via tooling).
 - **Protected-file gate (§4.16):** PASS — explicit user confirmation token received in latest user turn.
 - **Override evidence (§4.16):** `USER_CONFIRMS_PROTECTED_OVERRIDE: YES`; affected protected files: `AGENTS.md`.
-- **COD checks (selected):** PASS/N/A — no outward references introduced; index/doubts/history gates N/A for staged scope.
-- **SOLID (S, D) basic checks:** PASS — staged changes refine pre-commit governance obligations without adding implementation coupling.
+- **COD checks (selected):** PASS/N/A — new skill registration keeps source-of-truth linkage and does not introduce forbidden directional dependencies.
+- **SOLID (S, D) basic checks:** PASS — staged changes are governance/documentation-only and do not introduce implementation coupling.
 - **check-solve-doubt for staged doubts:** N/A — no `doubts-and-decisions` files staged.
 - **Unstaged invalidation risk (workflow §3.8):** PASS — no unstaged companion artifacts invalidate staged protected-file conclusions.
 
