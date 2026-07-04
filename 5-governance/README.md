@@ -4,6 +4,14 @@ This folder manages the **governance** layer (Layer 5): cross-cutting policies, 
 
 Layer 5 governs **how COD operates** (structure, validation, and agent behavior). It is not the normative source for product platform/runtime policy catalogs.
 
+## COD Inheritance And Liability Boundary
+
+- This README defines a COD-inherited governance profile for Layer 5.
+- The clause applies to Layer 5 files as a baseline governance protection, except `5-governance/customized/`.
+- Layer 5 files must not be modified unilaterally in ways that alter inherited normative semantics.
+- Any local modification not synchronized with the governing COD source invalidates COD conformance for affected artifacts until regularized.
+- Such unsynchronized modifications are outside COD responsibility coverage.
+
 ## Navigation
 
 - [index.md](index.md) — Live directory of all files in this layer.

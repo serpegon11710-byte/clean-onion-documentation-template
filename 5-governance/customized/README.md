@@ -6,6 +6,10 @@ This folder is a product-owned placeholder for custom governance rules.
 
 Define product-specific pre-commit rules, audit exceptions, or operational notes here without changing the template COD documents.
 
+## Exemption
+
+This folder is explicitly exempt from the layer-wide inheritance clause declared in `5-governance/README.md`. It remains product-owned and must stay COD-compatible.
+
 ## Constraints
 
 - Do not contradict [clean-onion-documentation.md](../clean-onion-documentation.md).

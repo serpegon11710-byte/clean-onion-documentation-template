@@ -3,6 +3,12 @@
 **Status:** Technical Standard  
 **Scope:** Application implementation (Domain, Adapter, Presentation layers)
 
+## COD Inheritance And Liability Boundary
+
+- This document is a COD-inherited contract profile and must not be modified unilaterally in ways that alter inherited normative semantics.
+- Any local modification not synchronized with the governing COD source invalidates COD conformance for this document until regularized.
+- Such unsynchronized modifications are outside COD responsibility coverage.
+
 ## Objective
 
 Decouple business logic from user-facing text to support multiple locales without modifying core logic.

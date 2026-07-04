@@ -24,6 +24,11 @@ If the staged set is empty (for example, message-only amend), skip audit report 
 2. The report is an audit artifact, not the audit itself. It can be regenerated only after completing workflow §3.
 3. Hook denial messages are operational guidance and do not define validation scope. Scope remains governed by this document and [skills/solid.md](../skills/solid.md).
 4. If any required validation cannot be executed, set `**STATUS:** KO`, report blocker evidence, and abort commit.
+5. If commit is blocked by audit/report freshness (for example `PRECOMMIT BLOCKED: AUDIT-EVIDENCE-MISSING`), the agent must automatically execute the required pre-commit validation workflow before any new commit attempt.
+6. Bypass flags are strictly forbidden: agents must never suggest or execute `git commit --no-verify` (or `-n`) under any circumstance.
+7. Unsafe amend shortcut is forbidden as a strategy: agents must not suggest `git commit --amend --no-edit` as a recovery path after hook/audit failures. Execution is allowed only when explicitly requested by the user and only after required validations are completed.
+8. Protected-file detection is mandatory and command-based: before any commit attempt, the agent must evaluate protected/exempt scope using `git diff --cached --name-only` and, for amend flows, also `git show --name-only --pretty="" HEAD`.
+9. If blocker is `AUDIT-EVIDENCE-MISSING`, asking user permission to run audits is forbidden; the agent must run the required validation workflow automatically.
 
 ### On failure
 
@@ -80,19 +85,21 @@ For `See D-` / `See doubt-` findings, the boundary check is mandatory: the audit
 ## 3. Regeneration Workflow
 
 1. Review **staged** changes (`git diff --cached`).
+1b. Build protected/exempt classification input from `git diff --cached --name-only`; if flow is amend, include `git show --name-only --pretty="" HEAD` in classification.
 2. If staged set is empty, allow commit and skip steps 3-13.
 3. Validate **file integrity policy** per §1.1 (write method compliance + UTF-8/LF post-write verification evidence when applicable).
-4. If staged paths include `**/doubts-and-decisions/**`, run [check-solve-doubt.md](../skills/check-solve-doubt.md) for each touched solved/superseded record before `solid`; if any result is `KO`, abort pre-commit and do not continue to report regeneration.
-5. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4, and §2.6 (see §4, §4.1, §4.2, §4.3, §4.4, and §4.8 below).
-6. If staged paths include `5-governance/**`, execute downstream compatibility checks against affected lower-layer normative artifacts and fail with `KO` on any conflict (see §4.13).
-7. Validate **SOLID** — at minimum **S** and **D** on staged changes (see §5 below).
-8. Validate **L4 ZC pseudocode mirror** when staged changes touch Critical Zones or their Layer 3 projections (see §6 below).
-9. If steps 3-8 are `PASS`, evaluate **unstaged invalidation risk**: inspect unstaged changes and return `KO` only when unstaged content invalidates staged audit conclusions (for example, staged content requires same-session companion documentation that exists only in working tree).
-10. Do not fail on unrelated unstaged files that do not invalidate staged conclusions.
-11. Produce execution evidence before report write: staged scope summary, checks executed, and result per check (`PASS`/`KO`/`N/A`) with blockers if any.
-12. Run `Get-Date -Format "yyyy-MM-ddTHH:mm:ss"` **once**, immediately before writing report headers.
-13. Overwrite **only** `## Current audit` to EOF in [solid-principles-review-report.md](solid-principles-review-report.md).
-14. Set `**STATUS:** PASS` only if **all** checks pass; otherwise `**STATUS:** KO` and **abort the commit**.
+4. If protected classification is positive per §4.16 (staged or amend-HEAD), abort by default and request explicit user confirmation with the required token in the user's latest explicit turn at commit-execution time. Without the token in that latest explicit turn, abort pre-commit.
+5. If staged paths include `**/doubts-and-decisions/**`, run [check-solve-doubt.md](../skills/check-solve-doubt.md) for each touched solved/superseded record before `solid`; if any result is `KO`, abort pre-commit and do not continue to report regeneration.
+6. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4, and §2.6 (see §4, §4.1, §4.2, §4.3, §4.4, §4.8, §4.14, §4.15, and §4.16 below).
+7. If staged paths include `5-governance/**`, execute downstream compatibility checks against affected lower-layer normative artifacts and fail with `KO` on any conflict (see §4.13).
+8. Validate **SOLID** — at minimum **S** and **D** on staged changes (see §5 below).
+9. Validate **L4 ZC pseudocode mirror** when staged changes touch Critical Zones or their Layer 3 projections (see §6 below).
+10. If steps 3-9 are `PASS`, evaluate **unstaged invalidation risk**: inspect unstaged changes and return `KO` only when unstaged content invalidates staged audit conclusions (for example, staged content requires same-session companion documentation that exists only in working tree).
+11. Do not fail on unrelated unstaged files that do not invalidate staged conclusions.
+12. Produce execution evidence before report write: staged scope summary, checks executed, and result per check (`PASS`/`KO`/`N/A`) with blockers if any.
+13. Run `Get-Date -Format "yyyy-MM-ddTHH:mm:ss"` **once**, immediately before writing report headers.
+14. Overwrite **only** `## Current audit` to EOF in [solid-principles-review-report.md](solid-principles-review-report.md).
+15. Set `**STATUS:** PASS` only if **all** checks pass; otherwise `**STATUS:** KO` and **abort the commit**.
 
 ### 3.1 Unstaged antirule (intersection is not the criterion)
 
@@ -393,6 +400,128 @@ Apply when staged paths include any of:
 | **Synchronized remediation requirement** | To pass, either (a) staged Layer 5 change must be shown compatible with lower layers, or (b) the same staged set must include synchronized lower-layer updates removing the inconsistency | `**STATUS:** KO` |
 
 Record violations under **Findings** with tag `COD-CONFLICT-CRITICAL` and affected paths.
+
+### §4.14 Business Rule Integration Contract enforcement (hard gate)
+
+Normative rules:
+
+- [1-product-documentation/business-rule-integration-contract.md](../1-product-documentation/business-rule-integration-contract.md)
+- [clean-onion-documentation.md](clean-onion-documentation.md) §1 (Strict Dependency Rule)
+
+Apply when staged paths include any of:
+
+- `1-product-documentation/business-rule-integration-contract.md`
+- `1-product-documentation/use-cases/**`
+- `1-product-documentation/logical-domain/business-rules/**`
+- `1-product-documentation/logical-domain/entities/**`
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **Contract isolation preserved** | Staged contract text must remain internal to Layer 1 and must not add dependencies on outer layers | `**STATUS:** KO` |
+| **Reference-only BR consumption** | Staged consumer artifacts (use cases and entities) must reference `BR-XX.YY` IDs and must not duplicate normative business-rule definitions owned by `logical-domain/business-rules/**` | `**STATUS:** KO` |
+| **Bidirectional traceability artifacts** | Staged business-rule folders must preserve the `README.md` + `reference-matrix.md` split, and staged consuming artifacts (use cases and entities) must keep/update BR dependency tables | `**STATUS:** KO` |
+| **Rule link target policy** | Staged cross-document links to business rules must target the rule `README.md`, never the rule folder path | `**STATUS:** KO` |
+
+Record violations under **Findings** with tag `COD-BR-CONTRACT` and affected paths.
+
+### §4.15 COD-inherited contract/policy clause enforcement (hard gate)
+
+Normative rules:
+
+- [clean-onion-documentation.md](clean-onion-documentation.md) §1 (Strict Dependency Rule)
+- This repository's COD-inherited contract/policy profiles in Layers 1-3
+
+Apply when staged paths include any of:
+
+- `1-product-documentation/business-rule-integration-contract.md`
+- `3-implementation/bootstrap-policy.md`
+- `3-implementation/component-decoupling-contracts.md`
+- `3-implementation/i18n-implementation-contract.md`
+- `3-implementation/platform-policies/01-governance-directionality/PP-01.01-platform-to-runtime-directionality.md`
+- `3-implementation/platform-policies/01-governance-directionality/rp-to-pp.runtime.md`
+
+Also apply when running `git commit --amend` if the commit being amended contains any protected file above, even when current staged scope does not include protected files.
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **Inheritance clause presence** | Each staged COD-inherited document must include a `## COD Inheritance And Liability Boundary` section | `**STATUS:** KO` |
+| **No unilateral semantic drift** | Staged changes in COD-inherited documents must not alter inherited normative semantics unilaterally; changes require synchronized governance alignment in the same staged set | `**STATUS:** KO` |
+| **Liability-boundary clause preserved** | The section must explicitly state that unsynchronized local modifications invalidate COD conformance and are outside COD responsibility coverage | `**STATUS:** KO` |
+
+Record violations under **Findings** with tag `COD-INHERITED-PROFILE` and affected paths.
+
+### §4.16 Protected COD-inherited files explicit-confirmation gate (hard gate)
+
+Normative rules:
+
+- This document §3 workflow step 4
+- COD-inherited protection clauses declared in protected files
+
+Apply when staged paths include any of:
+
+- `AGENTS.md`
+- `5-governance/README.md`
+- `skills/README.md`
+- `1-product-documentation/business-rule-integration-contract.md`
+- `3-implementation/bootstrap-policy.md`
+- `3-implementation/component-decoupling-contracts.md`
+- `3-implementation/i18n-implementation-contract.md`
+- `3-implementation/platform-policies/01-governance-directionality/PP-01.01-platform-to-runtime-directionality.md`
+- `3-implementation/platform-policies/01-governance-directionality/rp-to-pp.runtime.md`
+
+Exempt from this gate:
+
+- `AGENTS.custom.md`
+- `5-governance/customized/**`
+- `skills/customized/**`
+
+Classification guard (mandatory):
+
+1. Protected-file detection uses only this section's protected list (`Apply when staged...`) minus this section's exempt list.
+2. Exempt paths are never treated as protected, even if they contain COD-related wording.
+3. If staged scope contains only exempt paths, no token request is allowed.
+4. If staged scope contains both protected and exempt paths, token request applies only to protected paths, and the user-facing affected-files list must exclude exempt paths.
+5. Detection source of truth is command output, not text search over repository content. Searching for words like `protected` is non-authoritative and must not drive the decision.
+6. Fail-closed: if classification cannot be computed from the mandatory command outputs, result is `KO` and commit flow must stop.
+
+Confirmation protocol (mandatory):
+
+1. The agent must stop and show this exact user-facing request:
+
+```text
+Protected COD files are staged and commit is blocked by default.
+Reason: these files define inherited COD governance semantics.
+Affected files: <exact staged protected file list>
+If you want to proceed under your responsibility, reply exactly:
+USER_CONFIRMS_PROTECTED_OVERRIDE: YES
+```
+
+2. The only valid confirmation is the exact token line: `USER_CONFIRMS_PROTECTED_OVERRIDE: YES`.
+3. The token is valid only when it appears in the user's **latest explicit turn** at the moment the commit command is executed.
+4. If a newer user turn exists and does not include the token, any earlier token is expired and cannot be reused.
+5. Any other response is invalid (`ok`, `continue`, `haz commit`, `adelante`, or similar).
+6. Confirmation must never be inferred.
+7. Execution evidence must include the exact token and indicate it came from the most recent user turn before report write.
+
+User guidance when asked about clause meaning (mandatory):
+
+When the user asks what the clause means, the agent must offer exactly two options:
+
+1. **Revert protected-file changes** and use authorized customized routes:
+     - `AGENTS.custom.md`
+     - `5-governance/customized/`
+     - `skills/customized/`
+2. **Approve protected changes under user responsibility** by replying with the exact command/token:
+     - `USER_CONFIRMS_PROTECTED_OVERRIDE: YES`
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **Default KO on protected-file staged changes** | Any staged change touching protected files must be blocked by default until explicit user confirmation is obtained | `**STATUS:** KO` |
+| **Explicit token required** | The auditor must request explicit user confirmation and receive the exact token `USER_CONFIRMS_PROTECTED_OVERRIDE: YES`; silence or ambiguous answers are invalid | `**STATUS:** KO` |
+| **No inferred confirmation** | Generic commit intent or non-token approvals must not be interpreted as confirmation for protected override | `**STATUS:** KO` |
+| **Override evidence required** | Commit may proceed only if execution evidence includes exact line `USER_CONFIRMS_PROTECTED_OVERRIDE: YES` plus the confirmed file list and user-responsibility note | `**STATUS:** KO` |
+
+Record violations under **Findings** with tag `COD-PROTECTED-OVERRIDE` and affected paths.
 
 ---
 

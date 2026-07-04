@@ -21,12 +21,12 @@ Rules are defined atomically, one folder per rule:
 ## 3. Governance Constraints
 
 - **Atomic definition:** Each rule is defined once and reused by reference.
-- **Single source of truth:** If a rule changes, all consuming use cases must be reviewed.
+- **Single source of truth:** If a rule changes, all consuming use cases and entities must be reviewed.
 - **Context minimization:** Keep references out of `README.md`; place them in `reference-matrix.md`.
 
 ## 4. Implementation Traceability
 
-Every `UC-XX/README.md` must include a dependency section:
+Every business-rule consumer artifact must include a dependency section (use cases and entities when applicable):
 
 | Rule ID | Description | Impact |
 |---|---|---|
