@@ -4,6 +4,12 @@
 
 Implementation contract (Layer 3) ensuring that **changing the technology of a component** (React, NestJS, PostgreSQL, etc.) affects **only that component**, except when a shared **contract** is consciously modified.
 
+## COD Inheritance And Liability Boundary
+
+- This document is a COD-inherited contract profile and must not be modified unilaterally in ways that alter inherited normative semantics.
+- Any local modification not synchronized with the governing COD source invalidates COD conformance for this document until regularized.
+- Such unsynchronized modifications are outside COD responsibility coverage.
+
 > **Related contracts:** [i18n-implementation-contract.md](i18n-implementation-contract.md), [../1-product-documentation/business-rule-integration-contract.md](../1-product-documentation/business-rule-integration-contract.md).
 
 ---

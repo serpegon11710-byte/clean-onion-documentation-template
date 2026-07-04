@@ -2,6 +2,12 @@
 
 This document constitutes the unbreachable behavioral framework for any AI Agent (Cursor, Claude Code, GitHub Copilot) operating within this repository. You must read and comply with these rules upon initialization.
 
+## COD Inheritance And Liability Boundary
+
+- This file is a COD-inherited constitutional profile and must not be modified unilaterally in ways that alter inherited normative semantics.
+- Any local modification not synchronized with the governing COD source invalidates COD conformance for this file until regularized.
+- Such unsynchronized modifications are outside COD responsibility coverage.
+
 ---
 
 ## 1. Temporal & Runtime Anchor (The "System Truth" Protocol)
@@ -170,6 +176,10 @@ Before any commit:
 4. Abort the commit on `**STATUS:** KO` or any unresolved violation.
 5. **Anti-evasion (hard rule):** It is forbidden to update only `Audit completed`, `STATUS`, or other report metadata to satisfy the hook without executing the required audits.
 6. **Source-of-truth discipline:** Hook scripts are transport gates only; they never define validation scope. Validation scope is defined exclusively by `pre-commit-validation-rules.md` and `skills/solid.md`.
+7. **Bypass prohibition (absolute):** It is forbidden to suggest or execute `git commit --no-verify` (or `-n`) under any circumstance.
+8. **Unsafe amend shortcut prohibition:** It is forbidden to suggest `git commit --amend --no-edit` as a recovery path after hook/audit failures. Execution is allowed only under explicit user request and after required validations pass.
+9. **Automatic audit recovery:** If a commit is blocked by audit/report freshness, the agent must execute the required validation workflow automatically and must not ask permission to run it.
+10. **Protected-file detection discipline:** Protected/exempt decisions must be based on required git command outputs (`git diff --cached --name-only`; for amend also `git show --name-only --pretty="" HEAD`), never on repository text search.
 
 Hook enforcement for the **audit report artifact** is documented in §8. L4 pseudocode mirror validation has **no automated hook** in this template — see §9.
 

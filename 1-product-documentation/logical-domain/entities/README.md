@@ -25,6 +25,17 @@ entities/{entity}/
 - Keep [domain-entities.md](domain-entities.md) aligned with available entities and links.
 - Keep [../diagrams/class-diagram.mmd](../diagrams/class-diagram.mmd) aligned with entity definitions.
 
+## Business Rule Integration
+
+Entities that consume business rules must follow [../../business-rule-integration-contract.md](../../business-rule-integration-contract.md).
+
+- Consumption is by reference to `BR-XX.YY` only (no rule duplication inside entity artifacts).
+- If an entity consumes business rules, include a dependency table in `README.md` or `logic.md`:
+
+| Rule ID | Description | Impact |
+|---|---|---|
+| `BR-XX.YY` | Rule description | `Critical` / `Minor` |
+
 ## Navigation
 
 - [index.md](index.md) — Live directory of entities.

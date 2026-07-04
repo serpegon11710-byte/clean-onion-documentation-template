@@ -2,6 +2,13 @@
 
 This file defines product-owned operational overlays that extend the repository template without redefining the template's core COD rules.
 
+## Exemption
+
+This file is a product-owned overlay and is explicitly exempt from the protected-file confirmation clause.
+
+- It is the authorized place to define product-specific validation and operational rules.
+- It must remain compatible with repository COD and must not contradict mandatory governance source-of-truth files.
+
 ## Purpose
 
 Use this file as the product-specific entry point for custom governance, custom skills, and agent-facing rules that are not part of the template SSOT.

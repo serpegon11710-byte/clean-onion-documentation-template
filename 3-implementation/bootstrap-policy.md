@@ -1,5 +1,11 @@
 # Bootstrap & Initialization Policy
 
+## COD Inheritance And Liability Boundary
+
+- This document is a COD-inherited policy profile and must not be modified unilaterally in ways that alter inherited normative semantics.
+- Any local modification not synchronized with the governing COD source invalidates COD conformance for this document until regularized.
+- Such unsynchronized modifications are outside COD responsibility coverage.
+
 ## 1. Governance Definition
 Bootstrap refers to the technical procedures required to configure, initialize, and set up a component or the entire system for development or execution. This policy mandates a **decoupled, discovery-based initialization** strategy.
 

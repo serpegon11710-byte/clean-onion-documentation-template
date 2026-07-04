@@ -4,6 +4,14 @@ Operational modes for AI agents. **Skill bodies live only in `skills/<name>.md`.
 
 For architecture rationale, see [5-governance/multi-agent-governance.md](../5-governance/multi-agent-governance.md) §5 (maintainers only — do not load during normal agent work).
 
+## COD Inheritance And Liability Boundary
+
+- This README defines a COD-inherited governance profile for the registered skill system.
+- The clause applies to skill-system artifacts as baseline protection, except `skills/customized/`.
+- Skill-system artifacts must not be modified unilaterally in ways that alter inherited normative semantics.
+- Any local modification not synchronized with the governing COD source invalidates COD conformance for affected artifacts until regularized.
+- Such unsynchronized modifications are outside COD responsibility coverage.
+
 ---
 
 ## Purpose

@@ -6,6 +6,10 @@ This folder is a product-owned placeholder for custom commands and workflows.
 
 Use this namespace for product-specific command documentation that supplements the registered skills catalog.
 
+## Exemption
+
+This folder is explicitly exempt from the skill-system inheritance clause declared in `skills/README.md`. It remains product-owned and must stay COD-compatible.
+
 ## Constraints
 
 - Do not duplicate a registered skill body here.
