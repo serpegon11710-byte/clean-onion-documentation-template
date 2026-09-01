@@ -1,6 +1,6 @@
 # Clean Onion Documentation (COD) Standard
 
-**Last updated:** 2026-07-03
+**Last updated:** 2026-09-01
 
 This cross-cutting policy defines the **directionality**, **isolation**, and **internal fractal structure** of all documentation layers within the repository. It complements the Agent Governance rules defined in `AGENTS.md`.
 
@@ -520,3 +520,13 @@ Inner layers (Layer N) **must not** have knowledge, references, or dependencies 
 - **Clear boundaries:** any attempt by an inner layer to reference or "link-delegate" to an outer layer is considered a **grave architectural violation**.
 - **RP to PP mapping (Layer 3 only):** each technology folder that groups `RP-XXX` artifacts must maintain a dedicated mapping document linking every effective `RP-XXX` to its originating `PP-XX.YY`.
 - **Audit boundary:** Layer 3 compliance must be verifiable from Layer 3 artifacts only; Layer 5 cannot be a prerequisite evidence source for RP-to-PP compliance.
+
+### Inter-UC reference direction
+
+This policy applies to normative Use Case artifacts under `1-product-documentation/use-cases/`.
+
+**Allowed:** A Use Case may reference another Use Case only when the reference expresses an implementable dependency: inclusion, extension, invocation, or a declared precondition. The dependent, including, or extending Use Case owns the outbound reference.
+
+**Prohibited:** The base or consumed Use Case must not list, link, or describe inbound consumers or extensions in its normative `README.md` or local `use-case-map.md`. Cross-UC references used only for discovery, visibility, or reciprocal navigation are forbidden. A reference without an implementable dependency is forbidden.
+
+**Decision traceability:** Cross-UC decision traceability belongs in `decision-matrix.md` and `## Matrix impact` records under §2.1, not in reciprocal normative links.
