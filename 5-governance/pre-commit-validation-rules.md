@@ -332,11 +332,29 @@ Apply when staged paths include any of:
 
 | Check | Rule | On failure |
 |-------|------|------------|
-| **Parent orchestrator invariant** | The staged policy text keeps the parent node as orchestrator only (parent must not become leaf-behavior SSOT) | `**STATUS:** KO` |
-| **Leaf SSOT invariant** | The staged policy text keeps leaf nodes/subtasks as SSOT for actionable/implementable scope slices | `**STATUS:** KO` |
-| **No transversal links invariant** | The staged policy text keeps the direct-children-only rule (no cross-branch/sibling transversal links) | `**STATUS:** KO` |
-| **Full coverage invariant** | The staged policy text keeps explicit 100% child coverage of the parent scope | `**STATUS:** KO` |
-| **Parent closure checklist invariant** | The staged policy text keeps closure gated by checklist completion of direct children/subtasks | `**STATUS:** KO` |
+| **Parent orchestrator invariant** | The staged root policy text keeps the parent node as orchestrator only (parent must not become leaf-behavior SSOT) | `**STATUS:** KO` |
+| **Leaf SSOT invariant** | The staged root policy text keeps leaf nodes/subtasks as SSOT for actionable/implementable scope slices | `**STATUS:** KO` |
+| **No transversal links invariant** | The staged root policy text keeps the direct-children-only rule (no cross-branch/sibling transversal links) | `**STATUS:** KO` |
+| **Full coverage invariant** | The staged root policy text keeps explicit 100% child coverage of the parent scope | `**STATUS:** KO` |
+| **Parent closure checklist invariant** | The staged root policy text keeps closure gated by checklist completion of direct children/subtasks | `**STATUS:** KO` |
+
+Record violations under **Findings** with tag `COD-SUBDIVISION` and affected paths.
+
+### Subdivided artifact invariants
+
+Apply when staged paths include any of:
+
+- `1-product-documentation/use-cases/**/README.md`
+- `2-epics/**/README.md`
+- `4-sprints/**/README.md`
+
+For each staged Use Case, Epic, or Sprint README that declares child nodes, validate the physical subdivision and the local ownership of normative behavior:
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **Declared child structure invariant** | Each staged subdivided artifact README that declares child IDs has a corresponding child directory with a `README.md` for every declared direct child; child declarations must not exist only as headings or prose in the parent README | `**STATUS:** KO` |
+| **Parent SSOT invariant** | A staged subdivided artifact README contains orchestration and direct-child coverage only; implementable leaf behavior must be defined in the corresponding child artifact README | `**STATUS:** KO` |
+| **Direct-child locality invariant** | A staged subdivided artifact README references only its direct children and its local hierarchy map; nested descendants and sibling/cross-branch behavior must be owned by their nearer parent or leaf artifact | `**STATUS:** KO` |
 
 Record violations under **Findings** with tag `COD-SUBDIVISION` and affected paths.
 
