@@ -1,6 +1,6 @@
 # Pre-Commit Validation Rules
 
-**Last updated:** 2026-07-03
+**Last updated:** 2026-09-01
 
 **Source of truth** for the pre-commit integrity contract (`AGENTS.md` §9), auditor behavior ([skills/solid.md](../skills/solid.md)), and all validation criteria executed before `git commit`.
 
@@ -90,7 +90,7 @@ For `See D-` / `See doubt-` findings, the boundary check is mandatory: the audit
 3. Validate **file integrity policy** per §1.1 (write method compliance + UTF-8/LF post-write verification evidence when applicable).
 4. If protected classification is positive per §4.16 (staged or amend-HEAD), abort by default and request explicit user confirmation with the required token in the user's latest explicit turn at commit-execution time. Without the token in that latest explicit turn, abort pre-commit.
 5. If staged paths include `**/doubts-and-decisions/**`, run [check-solve-doubt.md](../skills/check-solve-doubt.md) for each touched solved/superseded record before `solid`; if any result is `KO`, abort pre-commit and do not continue to report regeneration.
-6. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4, and §2.6 (see §4, §4.1, §4.2, §4.3, §4.4, §4.8, §4.14, §4.15, and §4.16 below).
+6. Validate **COD** per [clean-onion-documentation.md](clean-onion-documentation.md) §4, §2.1, §2.2–§2.4, and §2.6 (see §4, §4.1, §4.2, §4.3, §4.4, §4.8, §4.14, §4.15, §4.16, and §4.17 below).
 7. If staged paths include `5-governance/**`, execute downstream compatibility checks against affected lower-layer normative artifacts and fail with `KO` on any conflict (see §4.13).
 8. Validate **SOLID** — at minimum **S** and **D** on staged changes (see §5 below).
 9. Validate **L4 ZC pseudocode mirror** when staged changes touch Critical Zones or their Layer 3 projections (see §6 below).
@@ -540,6 +540,22 @@ When the user asks what the clause means, the agent must offer exactly two optio
 | **Override evidence required** | Commit may proceed only if execution evidence includes exact line `USER_CONFIRMS_PROTECTED_OVERRIDE: YES` plus the confirmed file list and user-responsibility note | `**STATUS:** KO` |
 
 Record violations under **Findings** with tag `COD-PROTECTED-OVERRIDE` and affected paths.
+
+### §4.17 Inter-UC references (hard gate)
+
+Normative rules: [clean-onion-documentation.md](clean-onion-documentation.md) §4 (`### Inter-UC reference direction`). This clause is the sole source of truth for permitted and prohibited Inter-UC references.
+
+Apply when staged paths include any:
+
+- `1-product-documentation/use-cases/**`
+
+| Check | Rule | On failure |
+|-------|------|------------|
+| **Permitted Inter-UC references** | Assess each staged Inter-UC reference against the source clause's **Allowed** policy | `**STATUS:** KO` |
+| **Prohibited Inter-UC references** | Assess each staged Inter-UC reference against the source clause's **Prohibited** policy | `**STATUS:** KO` |
+| **Inter-UC decision traceability** | Assess staged cross-UC decision traceability against the source clause's **Decision traceability** policy | `**STATUS:** KO` |
+
+Record violations under **Findings** with tag `COD-INTER-UC` and affected paths.
 
 ---
 
