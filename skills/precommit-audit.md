@@ -30,6 +30,21 @@ Run a full pre-commit style audit before commit to detect all actionable violati
 3. Evaluate each applicable check and classify as `PASS`, `KO`, or `N/A`.
 4. Aggregate every KO with required finding fields from `pre-commit-validation-rules.md` section 2.1.
 5. Return concise remediation guidance per KO.
+6. When the requested scope is staged changes, inspect whether changes exist outside the staged set. Do not evaluate those changes as part of the staged audit unless they invalidate its conclusions under the pre-commit validation rules.
+
+## Optional Working-Tree Notice
+
+Add the following non-blocking notice only when all of these conditions are true:
+
+- The audit has no `KO` findings.
+- Changes exist in the working tree outside the staged set.
+- The user requested validation and did not explicitly request a commit.
+
+Do not add the notice when the user requested a full-workspace or working-tree audit, when the changes outside staged invalidate the staged audit conclusions, or when the audit has any `KO` finding.
+
+Use this exact notice:
+
+> Changes outside the staged set were detected. They do not affect this result because the audit was limited to the requested commit candidate. To review that scope in depth, run [skills/working-tree-validation.md](working-tree-validation.md).
 
 ## Output contract (ad-hoc)
 
@@ -44,6 +59,8 @@ Return only:
    - Impact
    - Action minimum to pass
 3. `PASS/N/A summary` in one compact block.
+
+The optional working-tree notice may follow the `PASS/N/A summary`; it is informational and does not change `STATUS`.
 
 ## Forbidden shortcuts
 

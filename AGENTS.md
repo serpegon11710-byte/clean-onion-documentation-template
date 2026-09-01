@@ -60,6 +60,17 @@ When writing automation scripts, scaffolding files, or updating documentation th
 
 Normative source: [5-governance/pre-commit-validation-rules.md](5-governance/pre-commit-validation-rules.md) §1.1.
 
+### PowerShell Literal Safety
+
+When the integrated terminal uses Windows PowerShell 5.1, apply the following literal-safety rules:
+
+- The backtick (`` ` ``) is an escape character and must never be placed unescaped inside a double-quoted command argument.
+- For literal searches containing shell-significant characters (including backticks, `$`, quotes, pipes, and wildcards), use a single-quoted PowerShell argument and the receiving tool's literal-search option when available. For example: `rg -n --fixed-strings '```' path/to/file.md`.
+- Escape a single quote inside a single-quoted literal by doubling it. For example: `rg -n --fixed-strings 'It''s literal text' path/to/file.md`.
+- Prefer IDE-native repository inspection tools available to the active agent. Use terminal commands only when those tools cannot perform the required check.
+- Before executing a PowerShell command that includes shell-significant characters, verify its quoting against PowerShell 5.1 syntax. Do not use speculative shell probes to inspect Markdown or repository text.
+- When interpolating a variable immediately before a colon in a double-quoted PowerShell string, delimit the variable explicitly. Use `"${path}: CRLF"`; `$path:` is parsed as a scoped-variable expression rather than the intended variable followed by a literal colon.
+
 ---
 
 ## 4. Formatting & Syntax Enforcement
@@ -159,6 +170,7 @@ Operational modes live in `skills/`. Load the file when invoked; do not infer ru
 | refactor-doubts | [skills/refactor-doubts.md](skills/refactor-doubts.md) | Audit overlapping open doubts before PO closure |
 | check-solve-doubt | [skills/check-solve-doubt.md](skills/check-solve-doubt.md) | Closure audit for one doubt before commit (mandatory when staged doubt records are present) |
 | precommit-audit | [skills/precommit-audit.md](skills/precommit-audit.md) | Full ad-hoc pre-commit audit without commit and without fail-fast |
+| working-tree-validation | [skills/working-tree-validation.md](skills/working-tree-validation.md) | Validate the full working-tree candidate before `git add` |
 | solid | [skills/solid.md](skills/solid.md) | SOLID and Layer 5 decoupling audit |
 
 ---
